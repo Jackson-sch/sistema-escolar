@@ -1,0 +1,12 @@
+import { getMatriculas } from "@/action/matricula/matricula";
+import MatriculaTable from "@/components/matricula/table/matricula-table";
+
+export default async function MatriculasPage() {
+  const matriculas = await getMatriculas();
+
+  return (
+    <div className="container mx-auto py-6">
+      <MatriculaTable data={matriculas} />
+    </div>
+  );
+}

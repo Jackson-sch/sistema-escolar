@@ -1,0 +1,713 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./src/generated/prisma/client"
+}
+
+enum Role {
+  estudiante
+  profesor
+  administrativo
+  director
+  padre
+}
+
+enum Cargo {
+  administrador
+  asistente
+  auxiliar
+  director
+  secretaria
+  contador
+  coordinador
+  mantenimiento
+  subdirector
+  coordinador_academico
+  coordinador_tutoria
+  psicologia
+  enfermeria
+}
+
+enum EstadoUsuario {
+  activo
+  inactivo
+  suspendido
+  eliminado
+  retirado // Para estudiantes que abandonaron la institución
+  egresado // Para estudiantes que completaron sus estudios
+  licencia // Para profesores o administrativos en permiso temporal
+  vacaciones // Para personal en periodo de descanso
+  trasladado // Para estudiantes que cambiaron de institución
+  graduado // Alternativa específica para finalización con ceremonia
+  condicional // Para estudiantes con problemas académicos/disciplinarios
+  practicante // Para profesores en formación o periodo de prueba
+  jubilado // Para personal que ha terminado su vida laboral
+  expulsado // Diferente de "eliminado", implica sanción disciplinaria
+}
+
+enum TipoGestion {
+  PUBLICA
+  PRIVADA
+  PARROQUIAL
+  CONVENIO
+}
+
+enum Modalidad {
+  PRESENCIAL
+  DISTANCIA
+  SEMIPRESENCIAL
+}
+
+enum Turno {
+  MANANA
+  TARDE
+  NOCHE
+  CONTINUO
+}
+
+enum Nivel {
+  INICIAL
+  PRIMARIA
+  SECUNDARIA
+  SUPERIOR_TECNOLOGICA
+  SUPERIOR_PEDAGOGICA
+}
+
+enum Grado {
+  // Inicial
+  CUNA_0_2
+  JARDIN_3
+  JARDIN_4
+  JARDIN_5
+
+  // Primaria
+  PRIMERO_PRIMARIA
+  SEGUNDO_PRIMARIA
+  TERCERO_PRIMARIA
+  CUARTO_PRIMARIA
+  QUINTO_PRIMARIA
+  SEXTO_PRIMARIA
+
+  // Secundaria
+  PRIMERO_SECUNDARIA
+  SEGUNDO_SECUNDARIA
+  TERCERO_SECUNDARIA
+  CUARTO_SECUNDARIA
+  QUINTO_SECUNDARIA
+
+  // Superior
+  PRIMER_CICLO
+  SEGUNDO_CICLO
+  TERCER_CICLO
+  CUARTO_CICLO
+  QUINTO_CICLO
+  SEXTO_CICLO
+}
+
+enum EscalaCalificacion {
+  VIGESIMAL // 0-20 (secundaria y superior)
+  LITERAL // AD, A, B, C (primaria)
+  DESCRIPTIVA // inicial - logro destacado, logro esperado, en proceso, en inicio
+}
+
+enum TipoPeriodo {
+  BIMESTRE
+  TRIMESTRE
+  SEMESTRE
+  ANUAL
+}
+
+enum TipoDocumento {
+  CERTIFICADO_ESTUDIOS
+  CONSTANCIA_MATRICULA
+  CONSTANCIA_VACANTE
+  TRASLADO
+  BOLETA_NOTAS
+  ACTA_NOTAS
+  FICHA_MATRICULA
+  RECORD_ACADEMICO
+  CONSTANCIA_EGRESADO
+  DIPLOMA_TITULO
+  PARTIDA_NACIMIENTO
+  DNI_COPIA
+  FOTO
+  FICHA_SOCIOECONOMICA
+}
+
+enum TipoEvaluacion {
+  DIAGNOSTICA
+  FORMATIVA
+  SUMATIVA
+  RECUPERACION
+  EXAMEN_FINAL
+  TRABAJO_PRACTICO
+  PROYECTO
+  EXPOSICION
+}
+
+model InstitucionEducativa {
+  id                 String      @id @default(cuid())
+  codigoModular      String      @unique // Código oficial MINEDU
+  nombreInstitucion  String
+  nombreComercial    String?
+  tipoGestion        TipoGestion
+  modalidad          Modalidad
+  niveles            Nivel[]
+  ugel               String // UGEL de jurisdicción
+  dre                String // DRE correspondiente
+  ubigeo             String // Código de ubigeo peruano
+  direccion          String
+  distrito           String
+  provincia          String
+  departamento       String
+  telefono           String?
+  email              String?
+  sitioWeb           String?
+  resolucionCreacion String?
+  fechaCreacion      DateTime?
+  resolucionActual   String?
+  logo               String? // Ruta al logo
+
+  // Información administrativa
+  directorId String? @unique
+  director   User?   @relation("DirectorInstitucion", fields: [directorId], references: [id])
+
+  // Configuración académica
+  cicloEscolarActual Int      @default(2025)
+  fechaInicioClases  DateTime
+  fechaFinClases     DateTime
+
+  // Relaciones
+  users             User[]
+  nivelesAcademicos NivelAcademico[]
+  periodos          PeriodoAcademico[]
+  areasCurriculares AreaCurricular[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  password      String?
+  emailVerified DateTime?
+  image         String?
+  role          Role      @default(estudiante)
+
+  // Información personal básica
+  apellidoPaterno String?
+  apellidoMaterno String?
+  dni             String?   @unique
+  fechaNacimiento DateTime?
+  sexo            String? // M/F
+  estadoCivil     String?
+  nacionalidad    String?   @default("PERUANA")
+
+  // Información de contacto
+  direccion          String?
+  ubigeo             String? // Código de ubigeo peruano
+  distrito           String?
+  provincia          String?
+  departamento       String?
+  telefono           String?
+  telefonoEmergencia String?
+
+  // Códigos oficiales
+  codigoEstudiante String? @unique // Código único interno
+  codigoSiagie     String? @unique // Código SIAGIE del MINEDU
+  codigoModular    String? @unique // Para profesores
+  numeroExpediente String? // Para trámites oficiales
+
+  // Información médica básica
+  tipoSangre         String?
+  alergias           String?
+  condicionesMedicas String?
+  contactoEmergencia String?
+
+  // Campos específicos para administrativos y directores
+  cargo          Cargo?    @default(auxiliar)
+  area           String?
+  fechaIngreso   DateTime?
+  fechaSalida    DateTime?
+  numeroContrato String?
+
+  // Campos específicos para estudiantes
+  nivelAcademicoId String?
+  nivelAcademico   NivelAcademico? @relation(fields: [nivelAcademicoId], references: [id])
+  turno            Turno?
+
+  // Información socioeconómica (para estudiantes)
+  viveConPadres     Boolean?
+  tipoVivienda      String?
+  serviciosBasicos  String?
+  transporteEscolar Boolean? @default(false)
+  becario           Boolean? @default(false)
+  tipoBeca          String?
+  programaSocial    String? // Qali Warma, Juntos, etc.
+
+  // Campos específicos para profesores
+  especialidad      String?
+  titulo            String?
+  colegioProfesor   String? // Colegio de Profesores del Perú
+  fechaContratacion DateTime?
+  tipoContrato      String? // Nombrado, contratado, etc.
+  escalaMagisterial String? // Para profesores del sector público
+
+  // Relaciones para padres/tutores
+  ocupacion        String?
+  lugarTrabajo     String?
+  ingresoFamiliar  String?
+  gradoInstruccion String?
+  hijosDeTutor     RelacionFamiliar[] @relation("PadreTutor")
+  padresTutores    RelacionFamiliar[] @relation("Hijo")
+
+  // Relaciones institucionales
+  institucionId       String?
+  institucion         InstitucionEducativa? @relation(fields: [institucionId], references: [id])
+  institucionDirector InstitucionEducativa? @relation("DirectorInstitucion")
+
+  accounts Account[]
+
+  // Relaciones para el sistema académico
+  cursosImpartidos Curso[]          @relation("ProfesorCursos")
+  cursosInscritos  MatriculaCurso[]
+  notas            Nota[]
+  asistencias      Asistencia[]
+  matriculas       Matricula[]
+
+  // Documentos asociados al usuario
+  documentos Documento[]
+
+  // Pagos (para estudiantes)
+  pagos Pago[]
+
+  // Anuncios y eventos creados
+  anunciosCreados Anuncio[]
+  eventosCreados  Evento[]
+
+  estado EstadoUsuario @default(activo)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model RelacionFamiliar {
+  id                String  @id @default(cuid())
+  padreTutor        User    @relation("PadreTutor", fields: [padreTutorId], references: [id])
+  padreTutorId      String
+  hijo              User    @relation("Hijo", fields: [hijoId], references: [id])
+  hijoId            String
+  parentesco        String // padre, madre, tutor legal, abuelo, tio, etc.
+  contactoPrimario  Boolean @default(false)
+  autorizadoRecoger Boolean @default(true)
+  viveCon           Boolean @default(true)
+  orden             Int? // Para ordenar contactos
+
+  @@unique([padreTutorId, hijoId])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model NivelAcademico {
+  id      String  @id @default(cuid())
+  nivel   Nivel
+  grado   Grado
+  seccion String?
+  turno   Turno   @default(MANANA)
+
+  // Gestión de aulas y capacidad
+  capacidadMaxima Int?
+  aulaAsignada    String?
+  descripcion     String?
+
+  // Tutor de aula
+  tutorId String?
+
+  // Año académico
+  anioAcademico Int     @default(2025)
+  activo        Boolean @default(true)
+
+  // Relaciones
+  students      User[]
+  institucionId String
+  institucion   InstitucionEducativa @relation(fields: [institucionId], references: [id])
+  cursos        Curso[]
+  matriculas    Matricula[]
+
+  @@unique([nivel, grado, seccion, anioAcademico, institucionId])
+}
+
+model PeriodoAcademico {
+  id          String      @id @default(cuid())
+  nombre      String // "I Bimestre 2025", "II Trimestre 2025"
+  tipo        TipoPeriodo
+  numero      Int // 1, 2, 3, 4
+  fechaInicio DateTime
+  fechaFin    DateTime
+  anioEscolar Int
+  activo      Boolean     @default(true)
+
+  // Relaciones
+  institucionId String
+  institucion   InstitucionEducativa @relation(fields: [institucionId], references: [id])
+  evaluaciones  Evaluacion[]
+
+  @@unique([tipo, numero, anioEscolar, institucionId])
+}
+
+model AreaCurricular {
+  id          String  @id @default(cuid())
+  nombre      String // Matemática, Comunicación, etc.
+  codigo      String // MAT, COM, etc.
+  descripcion String?
+  nivel       Nivel
+  orden       Int? // Para ordenar en el currículo
+  color       String? // Para UI
+  activa      Boolean @default(true)
+
+  // Competencias y capacidades según Currículo Nacional
+  competencias String? // JSON con competencias
+
+  // Relaciones
+  institucionId String
+  institucion   InstitucionEducativa @relation(fields: [institucionId], references: [id])
+  cursos        Curso[]
+
+  @@unique([codigo, nivel, institucionId])
+}
+
+model Curso {
+  id             String  @id @default(cuid())
+  nombre         String
+  codigo         String
+  descripcion    String?
+  nivel          Nivel
+  grado          Grado?
+  anioAcademico  Int
+  horasSemanales Int?
+  creditos       Int? // Para nivel superior
+
+  // Área curricular
+  areaCurricularId String
+  areaCurricular   AreaCurricular @relation(fields: [areaCurricularId], references: [id])
+
+  // Nivel académico
+  nivelAcademicoId String?
+  nivelAcademico   NivelAcademico? @relation(fields: [nivelAcademicoId], references: [id])
+
+  // Profesor que imparte el curso
+  profesor   User   @relation("ProfesorCursos", fields: [profesorId], references: [id])
+  profesorId String
+
+  // Relaciones académicas
+  estudiantes  MatriculaCurso[]
+  evaluaciones Evaluacion[]
+  notas        Nota[]
+  asistencias  Asistencia[]
+
+  // Horarios de clase
+  horarios Horario[]
+
+  // Estado del curso
+  activo Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([codigo, anioAcademico, nivelAcademicoId])
+}
+
+model Horario {
+  id         String  @id @default(cuid())
+  curso      Curso   @relation(fields: [cursoId], references: [id])
+  cursoId    String
+  diaSemana  Int // 1=Lunes, 2=Martes, etc.
+  horaInicio String // Formato HH:MM
+  horaFin    String // Formato HH:MM
+  aula       String?
+
+  @@unique([cursoId, diaSemana, horaInicio])
+}
+
+model Matricula {
+  id               String         @id @default(cuid())
+  numeroMatricula  String         @unique
+  estudiante       User           @relation(fields: [estudianteId], references: [id])
+  estudianteId     String
+  nivelAcademico   NivelAcademico @relation(fields: [nivelAcademicoId], references: [id])
+  nivelAcademicoId String
+  anioAcademico    Int
+  fechaMatricula   DateTime       @default(now())
+  estado           String         @default("activo") // activo, retirado, suspendido, trasladado
+
+  // Información adicional de matrícula
+  esPrimeraVez  Boolean @default(false)
+  esRepitente   Boolean @default(false)
+  procedencia   String? // IE de procedencia
+  observaciones String?
+
+  // Relaciones
+  cursos MatriculaCurso[]
+
+  @@unique([estudianteId, anioAcademico])
+}
+
+model MatriculaCurso {
+  id               String    @id @default(cuid())
+  matricula        Matricula @relation(fields: [matriculaId], references: [id])
+  matriculaId      String
+  curso            Curso     @relation(fields: [cursoId], references: [id])
+  cursoId          String
+  fechaInscripcion DateTime  @default(now())
+  estado           String    @default("activo") // activo, retirado, trasladado
+
+  User   User?   @relation(fields: [userId], references: [id])
+  userId String?
+
+  @@unique([matriculaId, cursoId])
+}
+
+model Evaluacion {
+  id                 String             @id @default(cuid())
+  nombre             String
+  descripcion        String?
+  tipo               TipoEvaluacion
+  fecha              DateTime
+  fechaLimite        DateTime? // Para tareas y proyectos
+  peso               Float // Peso en la nota final del periodo
+  notaMinima         Float? // Nota mínima aprobatoria
+  escalaCalificacion EscalaCalificacion @default(VIGESIMAL)
+
+  // Relaciones
+  curso     Curso            @relation(fields: [cursoId], references: [id])
+  cursoId   String
+  periodo   PeriodoAcademico @relation(fields: [periodoId], references: [id])
+  periodoId String
+  notas     Nota[]
+
+  // Configuración
+  activa      Boolean @default(true)
+  recuperable Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Nota {
+  id               String  @id @default(cuid())
+  valor            Float
+  valorLiteral     String? // Para escala literal (AD, A, B, C)
+  valorDescriptivo String? // Para escala descriptiva
+  comentario       String?
+
+  // Relaciones
+  estudiante   User       @relation(fields: [estudianteId], references: [id])
+  estudianteId String
+  curso        Curso      @relation(fields: [cursoId], references: [id])
+  cursoId      String
+  evaluacion   Evaluacion @relation(fields: [evaluacionId], references: [id])
+  evaluacionId String
+
+  // Auditoría
+  registradoPor String? // ID del usuario que registró
+  fechaRegistro DateTime @default(now())
+  modificadoPor String? // ID del último usuario que modificó
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([estudianteId, evaluacionId])
+}
+
+model Asistencia {
+  id            String   @id @default(cuid())
+  fecha         DateTime
+  presente      Boolean
+  tardanza      Boolean  @default(false)
+  horaLlegada   String? // Para registrar tardanzas
+  justificada   Boolean  @default(false)
+  justificacion String?
+
+  // Relaciones
+  estudiante   User   @relation(fields: [estudianteId], references: [id])
+  estudianteId String
+  curso        Curso  @relation(fields: [cursoId], references: [id])
+  cursoId      String
+
+  // Auditoría
+  registradoPor String? // ID del profesor que registró
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([estudianteId, cursoId, fecha])
+}
+
+model Documento {
+  id        String        @id @default(cuid())
+  nombre    String
+  tipo      TipoDocumento
+  ruta      String // Ruta del archivo en el sistema
+  tamaño   Int? // Tamaño en bytes
+  extension String? // pdf, jpg, png, etc.
+
+  // Relaciones
+  usuario   User   @relation(fields: [usuarioId], references: [id])
+  usuarioId String
+
+  // Metadatos
+  fechaSubida       DateTime  @default(now())
+  fechaVencimiento  DateTime? // Para documentos con vigencia
+  descripcion       String?
+  verificado        Boolean   @default(false)
+  verificadoPor     String? // ID del usuario que verificó
+  fechaVerificacion DateTime?
+
+  // Configuración
+  publico     Boolean @default(false)
+  obligatorio Boolean @default(false)
+}
+
+model Pago {
+  id           String  @id @default(cuid())
+  numeroBoleta String? @unique
+  concepto     String
+  descripcion  String?
+  monto        Float
+  moneda       String  @default("PEN")
+
+  // Fechas
+  fechaVencimiento DateTime
+  fechaPago        DateTime?
+  fechaRegistro    DateTime  @default(now())
+
+  // Estado y seguimiento
+  estado          String  @default("pendiente") // pendiente, pagado, vencido, anulado
+  metodoPago      String? // efectivo, transferencia, tarjeta, etc.
+  referenciaPago  String?
+  numeroOperacion String?
+  entidadBancaria String?
+
+  // Documentos
+  comprobante String? // Ruta al comprobante de pago
+  recibo      String? // Ruta al recibo generado
+
+  // Relaciones
+  estudiante   User   @relation(fields: [estudianteId], references: [id])
+  estudianteId String
+
+  // Información adicional
+  observaciones String?
+  descuento     Float?  @default(0)
+  mora          Float?  @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Anuncio {
+  id        String  @id @default(cuid())
+  titulo    String
+  contenido String
+  resumen   String? // Resumen corto para listados
+  imagen    String? // Imagen del anuncio
+
+  // Configuración de publicación
+  fechaPublicacion DateTime  @default(now())
+  fechaExpiracion  DateTime?
+  activo           Boolean   @default(true)
+
+  // Audiencia
+  dirigidoA String // todos, profesores, estudiantes, padres, administrativos
+  niveles   Nivel[] // Para anuncios específicos de niveles
+  grados    Grado[] // Para anuncios específicos de grados
+
+  // Importancia
+  importante Boolean @default(false)
+  urgente    Boolean @default(false)
+  fijado     Boolean @default(false) // Fijar en la parte superior
+
+  // Relaciones
+  autor   User   @relation(fields: [autorId], references: [id])
+  autorId String
+
+  // Estadísticas
+  vistas Int @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Evento {
+  id          String  @id @default(cuid())
+  titulo      String
+  descripcion String?
+  imagen      String? // Imagen del evento
+
+  // Fechas y horarios
+  fechaInicio            DateTime
+  fechaFin               DateTime
+  horaInicio             String? // HH:MM
+  horaFin                String? // HH:MM
+  fechaLimiteInscripcion DateTime?
+
+  // Ubicación
+  ubicacion     String?
+  aula          String?
+  direccion     String?
+  modalidad     String? // presencial, virtual, mixto
+  enlaceVirtual String?
+
+  // Clasificación
+  tipo      String // academico, deportivo, cultural, administrativo, social
+  categoria String? // reunion, ceremonia, concurso, capacitacion, etc.
+
+  // Audiencia
+  publico             Boolean @default(true)
+  dirigidoA           String? // todos, profesores, estudiantes, padres
+  niveles             Nivel[]
+  grados              Grado[]
+  capacidadMaxima     Int?
+  requiereInscripcion Boolean @default(false)
+
+  // Relaciones
+  organizador   User   @relation(fields: [organizadorId], references: [id])
+  organizadorId String
+
+  // Estado
+  estado String @default("programado") // programado, en_curso, finalizado, cancelado
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

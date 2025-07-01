@@ -3,13 +3,13 @@
 import GenericModal from "@/components/reutilizables/GenericModal";
 import ProfesorFormulario from "@/components/usuarios/profesor/formulario";
 
-export default function ModalProfesor({ profesor, isOpen, onClose }) {
+export default function ModalProfesor({ profesor, isOpen, onClose, institucionId }) {
   return (
     <GenericModal
       entityName="profesor"
       entityData={profesor}
       FormComponent={(props) => (
-        <ProfesorFormulario {...props} profesorData={profesor} />
+        <ProfesorFormulario {...props} profesorData={profesor} institucionId={institucionId} />
       )}
       labels={{
         create: "Nuevo",

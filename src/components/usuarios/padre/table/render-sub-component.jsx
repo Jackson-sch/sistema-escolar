@@ -18,7 +18,6 @@ import {
   UserCheck,
 } from "lucide-react";
 import { useHijosDePadre } from "@/hooks/entidades";
-import { extraerGrado } from "@/lib/extraerGrado";
 import { formatPhone } from "@/lib/formatPhone";
 
 const getStateClass = (estado) => {
@@ -30,9 +29,50 @@ const getStateClass = (estado) => {
   return estados[estado] || "bg-gray-100 text-gray-800 border-gray-200";
 };
 
+// Función para formatear el nivel académico
+const formatNivelAcademico = (nivelAcademico) => {
+  if (!nivelAcademico) return "-";
+  
+  // Si es un array, tomar el primer elemento
+  const nivel = Array.isArray(nivelAcademico) ? nivelAcademico[0] : nivelAcademico;
+  
+  if (!nivel) return "-";
+  
+  const nivelTexto = nivel.nivel || "";
+  const grado = nivel.grado || "";
+  
+  // Si hay tanto nivel como grado, mostrar ambos
+  if (nivelTexto && grado) {
+    return `${nivelTexto} - ${grado}°`;
+  }
+  
+  // Si solo hay nivel
+  if (nivelTexto) {
+    return nivelTexto;
+  }
+  
+  // Si solo hay grado
+  if (grado) {
+    return `${grado}°`;
+  }
+  
+  return "-";
+};
+
+// Función para obtener la sección del nivel académico
+const getSeccionFromNivel = (nivelAcademico) => {
+  if (!nivelAcademico) return null;
+  
+  // Si es un array, tomar el primer elemento
+  const nivel = Array.isArray(nivelAcademico) ? nivelAcademico[0] : nivelAcademico;
+  
+  return nivel?.seccion || null;
+};
+
 export default function RenderSubComponent({ row }) {
   const padre = row.original;
   const hijos = useHijosDePadre(padre.id);
+  console.log("hijos", hijos);
   const estadoClass = getStateClass(padre.estado);
 
   return (
@@ -236,16 +276,16 @@ export default function RenderSubComponent({ row }) {
                       {hijo.name}
                     </span>
                     <span className="text-xs bg-blue-100 text-blue-800 px-1.5 py-0.5 rounded-full whitespace-nowrap">
-                      {hijo.nivelAcademico?.nivel || "-"}
+                      {formatNivelAcademico(hijo.nivelAcademico)}
                     </span>
                   </div>
-                  <div className="flex items-center gap-1 mt-0.5">
+                  <div className="flex items-center gap-2 mt-0.5">
                     <span className="text-xs text-muted-foreground truncate">
                       DNI: {hijo.dni || "-"}
                     </span>
-                    {hijo.nivelAcademico?.grado && (
-                      <span className="text-xs text-muted-foreground truncate">
-                        Grado: {extraerGrado(hijo.nivelAcademico.grado)}
+                    {getSeccionFromNivel(hijo.nivelAcademico) && (
+                      <span className="text-xs text-blue-600 bg-blue-50 px-1 py-0.5 rounded">
+                        Sec: {getSeccionFromNivel(hijo.nivelAcademico)}
                       </span>
                     )}
                   </div>

@@ -34,6 +34,7 @@ import { handleOnlyNumbers } from "@/lib/utils";
 import { registerPadre, updatePadre } from "@/action/padre/padre";
 
 export function PadreRegistrationForm({ padreData, institucionId, onSuccess }) {
+  console.log("padreData", padreData);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState({});
@@ -57,6 +58,7 @@ export function PadreRegistrationForm({ padreData, institucionId, onSuccess }) {
   });
 
   async function onSubmit(data) {
+    console.log("Datos del padre:", data);
     setIsLoading(true);
     setError("");
 
@@ -77,18 +79,18 @@ export function PadreRegistrationForm({ padreData, institucionId, onSuccess }) {
         });
 
         form.reset();
-        router.refresh();
         onSuccess();
+        router.refresh();
       } else {
-        if (response.errors) {
+        if (response.error) {
           const fieldErrors = {};
-          response.errors.forEach((error) => {
+          response.error.forEach((error) => {
             fieldErrors[error.field] = error.message;
           });
           setFieldErrors(fieldErrors);
-          if (response.errors.some((e) => e.field === "general")) {
+          if (response.error.some((e) => e.field === "general")) {
             setError(
-              response.errors.find((e) => e.field === "general")?.message
+              response.error.find((e) => e.field === "general")?.message
             );
           }
         }

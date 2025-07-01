@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -30,6 +31,8 @@ import {
   IdCard,
   User,
   Briefcase,
+  User2,
+  Info,
 } from "lucide-react";
 import AlertError from "@/components/reutilizables/Alerts";
 import { handleOnlyNumbers } from "@/lib/utils";
@@ -58,18 +61,18 @@ export default function ProfesorFormulario({ profesorData, institucionId, onSucc
       fechaNacimiento: undefined,
       direccion: "",
       telefono: "",
-      fechaIngreso: undefined,
       especialidad: "",
       titulo: "",
       fechaContratacion: undefined,
       estado: "activo",
+      sexo: "M",
+      tipoContrato: "NOMBRADO",
       role: "profesor",
       institucionId: institucionId || "",
     },
   });
 
   async function onSubmit(data) {
-    console.log("datos desde el formulario", data)
     setIsLoading(true);
     setError("");
     setFieldErrors({});
@@ -79,7 +82,6 @@ export default function ProfesorFormulario({ profesorData, institucionId, onSucc
         ...data,
         fechaNacimiento: data.fechaNacimiento ? data.fechaNacimiento.toISOString() : null,
         fechaContratacion: data.fechaContratacion ? data.fechaContratacion.toISOString() : null,
-        fechaIngreso: data.fechaIngreso ? data.fechaIngreso.toISOString() : null,
       };
 
       const response = profesorData
@@ -126,7 +128,7 @@ export default function ProfesorFormulario({ profesorData, institucionId, onSucc
       console.error("Error in onSubmit:", error);
       setError(
         error.message ||
-          "Hubo un error interno del servidor. Por favor, inténtelo nuevamente."
+        "Hubo un error interno del servidor. Por favor, inténtelo nuevamente."
       );
       toast({
         title: "Error",
@@ -173,6 +175,7 @@ export default function ProfesorFormulario({ profesorData, institucionId, onSucc
           )}
           <input type="hidden" {...form.register("role")} value="profesor" />
 
+          {/* Información personal */}
           <div className="space-y-6">
             <h3 className="text-lg font-semibold">Información Personal</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -252,15 +255,26 @@ export default function ProfesorFormulario({ profesorData, institucionId, onSucc
 
               <FormField
                 control={form.control}
-                name="direccion"
+                name="sexo"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="flex items-center gap-2">
-                      <MapPin className="h-4 w-4" />
-                      Dirección
+                      <User2 className="h-4 w-4" />
+                      Sexo
                     </FormLabel>
                     <FormControl>
-                      <Input placeholder="Av. Principal 123, Lima" {...field} />
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Seleccionar sexo" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="M">Masculino</SelectItem>
+                          <SelectItem value="F">Femenino</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -289,8 +303,27 @@ export default function ProfesorFormulario({ profesorData, institucionId, onSucc
                 )}
               />
             </div>
+            <div className="grid grid-cols-1 gap-4">
+              <FormField
+                control={form.control}
+                name="direccion"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="flex items-center gap-2">
+                      <MapPin className="h-4 w-4" />
+                      Dirección
+                    </FormLabel>
+                    <FormControl>
+                      <Input placeholder="Av. Principal 123, Lima" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
 
+          {/* Información profesional */}
           <div className="pt-6 space-y-4">
             <h3 className="text-lg font-semibold">Información Profesional</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -318,7 +351,7 @@ export default function ProfesorFormulario({ profesorData, institucionId, onSucc
                   <FormItem>
                     <FormLabel className="flex items-center gap-2">
                       <Award className="h-4 w-4" />
-                      Título
+                      Título profesional
                     </FormLabel>
                     <FormControl>
                       <Input placeholder="Licenciado en Educación" {...field} />
@@ -328,31 +361,40 @@ export default function ProfesorFormulario({ profesorData, institucionId, onSucc
                 )}
               />
 
-              <div>
-                <FormDatePicker
-                  form={form}
-                  name="fechaContratacion"
-                  label={
-                    <div className="flex items-center gap-2">
-                      <CalendarClock className="h-4 w-4" />
-                      Fecha de contratación
-                    </div>
-                  }
-                />
-              </div>
+              <FormDatePicker
+                form={form}
+                name="fechaContratacion"
+                label={
+                  <div className="flex items-center gap-2">
+                    <CalendarClock className="h-4 w-4" />
+                    Fecha de contratación
+                  </div>
+                }
+              />
 
-              <div>
-                <FormDatePicker
-                  form={form}
-                  name="fechaIngreso"
-                  label={
-                    <div className="flex items-center gap-2">
-                      <CalendarClock className="h-4 w-4" />
-                      Fecha de ingreso
-                    </div>
-                  }
-                />
-              </div>
+              <FormField
+                control={form.control}
+                name="tipoContrato"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Tipo de contrato</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Seleccione tipo de contrato" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="NOMBRADO">Nombrado</SelectItem>
+                        <SelectItem value="CONTRATADO">Contratado</SelectItem>
+                        <SelectItem value="PRATICANTE">Practicante</SelectItem>
+                        <SelectItem value="SUPLENTE">Suplente</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
               <FormField
                 control={form.control}
@@ -368,7 +410,7 @@ export default function ProfesorFormulario({ profesorData, institucionId, onSucc
                       defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger className="w-full">
                           <SelectValue placeholder="Seleccione el estado" />
                         </SelectTrigger>
                       </FormControl>
@@ -386,6 +428,48 @@ export default function ProfesorFormulario({ profesorData, institucionId, onSucc
               />
             </div>
           </div>
+
+          {/* Información para acceso al sistema - Solo mostrar cuando se crea un nuevo registro */}
+          {!profesorData && (
+            <div className="pt-6 space-y-4">
+              <h3 className="text-lg font-semibold">Información Para Acceso al Sistema</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Contraseña</FormLabel>
+                      <FormControl>
+                        <Input type="password" placeholder="********" {...field} />
+                      </FormControl>
+                      <FormDescription>
+                        Mínimo 6 caracteres
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="confirmPassword"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Confirmar Contraseña</FormLabel>
+                      <FormControl>
+                        <Input type="password" placeholder="********" {...field} />
+                      </FormControl>
+                      <FormDescription>
+                        Confirmar Contraseña
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
+          )}
 
           <div className="pt-4 flex justify-end">
             <Button variant="outline" className="mr-2" onClick={handleCancel}>

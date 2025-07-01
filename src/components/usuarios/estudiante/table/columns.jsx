@@ -149,7 +149,7 @@ export const columns = ({ niveles }) => [
     },
   },
   {
-    accessorKey: "nivelAcademico.nivel",
+    accessorKey: "nivelAcademico.nivel.nombre",
     header: ({ column }) => {
       return (
         <div className="flex items-center gap-2">
@@ -170,13 +170,13 @@ export const columns = ({ niveles }) => [
     },
     cell: ({ row }) => {
       const nivelAcademico = row.original.nivelAcademico;
-      return nivelAcademico ? (
-        <NivelBadge nivel={nivelAcademico.nivel} />
-      ) : null;
+      if (!nivelAcademico || !nivelAcademico.nivel) return null;
+      
+      return <NivelBadge nivel={nivelAcademico.nivel.nombre} />;
     },
   },
   {
-    accessorKey: "nivelAcademico.grado",
+    accessorKey: "nivelAcademico.grado.nombre",
     header: ({ column }) => {
       return (
         <div className="flex items-center gap-2">
@@ -192,16 +192,23 @@ export const columns = ({ niveles }) => [
     },
     cell: ({ row }) => {
       const nivelAcademico = row.original.nivelAcademico;
-      const { grado } = useNivelGradoAcademico(nivelAcademico);
+      if (!nivelAcademico || !nivelAcademico.grado) return null;
+      
       return (
         <div className="flex items-center gap-2">
-          <span className="text-sm">{grado}</span>
+          <span className="text-sm">{nivelAcademico.grado.nombre}</span>
         </div>
       );
     },
     sortingFn: (rowA, rowB) => {
-      const gradoA = rowA.original.nivelAcademico?.grado.split("_")[1]; // Extrae el grado (e.g., "PRIMERO")
-      const gradoB = rowB.original.nivelAcademico?.grado.split("_")[1];
+      // Acceder al código del grado, que ahora está en nivelAcademico.grado.codigo
+      const gradoCodigoA = rowA.original.nivelAcademico?.grado?.codigo || "";
+      const gradoCodigoB = rowB.original.nivelAcademico?.grado?.codigo || "";
+      
+      // Extraer la parte del grado (e.g., "PRIMERO" de "PRIMARIA_PRIMERO")
+      const gradoA = gradoCodigoA.split("_")[1] || gradoCodigoA;
+      const gradoB = gradoCodigoB.split("_")[1] || gradoCodigoB;
+      
       return gradoToNumber(gradoA) - gradoToNumber(gradoB); // Compara los valores numéricos
     },
   },

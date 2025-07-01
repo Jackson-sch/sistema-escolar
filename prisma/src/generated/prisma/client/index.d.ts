@@ -271,6 +271,30 @@ export const TipoEvaluacion: {
 export type TipoEvaluacion = (typeof TipoEvaluacion)[keyof typeof TipoEvaluacion]
 
 
+export const TipoContrato: {
+  NOMBRADO: 'NOMBRADO',
+  CONTRATADO: 'CONTRATADO',
+  PRATICANTE: 'PRATICANTE',
+  SUPLENTE: 'SUPLENTE'
+};
+
+export type TipoContrato = (typeof TipoContrato)[keyof typeof TipoContrato]
+
+
+export const EscalaMagisterial: {
+  I: 'I',
+  II: 'II',
+  III: 'III',
+  IV: 'IV',
+  V: 'V',
+  VI: 'VI',
+  VII: 'VII',
+  VIII: 'VIII'
+};
+
+export type EscalaMagisterial = (typeof EscalaMagisterial)[keyof typeof EscalaMagisterial]
+
+
 export const AlcanceCurso: {
   SECCION_ESPECIFICA: 'SECCION_ESPECIFICA',
   TODO_EL_GRADO: 'TODO_EL_GRADO',
@@ -321,6 +345,14 @@ export const TipoDocumento: typeof $Enums.TipoDocumento
 export type TipoEvaluacion = $Enums.TipoEvaluacion
 
 export const TipoEvaluacion: typeof $Enums.TipoEvaluacion
+
+export type TipoContrato = $Enums.TipoContrato
+
+export const TipoContrato: typeof $Enums.TipoContrato
+
+export type EscalaMagisterial = $Enums.EscalaMagisterial
+
+export const EscalaMagisterial: typeof $Enums.EscalaMagisterial
 
 export type AlcanceCurso = $Enums.AlcanceCurso
 

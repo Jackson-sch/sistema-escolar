@@ -56,11 +56,12 @@ export async function getUsuariosByRol(institucionId, rol) {
 }
 
 /**
- * Obtiene todos los usuarios de una institución
+ * Obtiene los usuarios de una institución, excluyendo roles específicos
  * @param {string} institucionId - ID de la institución
+ * @param {boolean} soloUsuariosSistema - Si es true, excluye estudiantes y padres
  * @returns {Promise<{success: boolean, data: Array, error: string|null}>}
  */
-export async function getUsuarios(institucionId) {
+export async function getUsuarios(institucionId, soloUsuariosSistema = false) {
   try {
     if (!institucionId) {
       return {
@@ -70,10 +71,20 @@ export async function getUsuarios(institucionId) {
       };
     }
 
+    // Configurar filtro para excluir roles si es necesario
+    const whereClause = {
+      institucionId: institucionId
+    };
+    
+    // Si soloUsuariosSistema es true, excluir estudiantes y padres
+    if (soloUsuariosSistema) {
+      whereClause.NOT = {
+        role: { in: ["estudiante", "padre"] }
+      };
+    }
+
     const usuarios = await db.user.findMany({
-      where: {
-        institucionId: institucionId
-      },
+      where: whereClause,
       select: {
         id: true,
         name: true,

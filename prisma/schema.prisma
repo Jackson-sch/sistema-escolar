@@ -111,6 +111,24 @@ enum TipoEvaluacion {
   EXPOSICION
 }
 
+enum TipoContrato {
+  NOMBRADO
+  CONTRATADO
+  PRATICANTE
+  SUPLENTE
+}
+
+enum EscalaMagisterial {
+  I
+  II
+  III
+  IV
+  V
+  VI
+  VII
+  VIII
+}
+
 // Enum para definir el alcance del curso
 enum AlcanceCurso {
   SECCION_ESPECIFICA // Para una sección específica (1°A)
@@ -262,7 +280,7 @@ model User {
   // Campos específicos para estudiantes
   nivelAcademicoId String?
   nivelAcademico   NivelAcademico? @relation("StudentNivelAcademico", fields: [nivelAcademicoId], references: [id], onDelete: SetNull)
-  turno            Turno?
+  turno            Turno? 
 
   // Información socioeconómica (para estudiantes)
   viveConPadres     Boolean?

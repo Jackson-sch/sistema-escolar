@@ -93,14 +93,12 @@ export function UsuariosPermisosClient({ institucion, usuariosIniciales = [], pe
     refreshUsuarios();
   };
 
-  // Calcular conteos para las pestañas
+  // Calcular conteos para las pestañas (solo usuarios del sistema)
   const roleCounts = {
     todos: usuarios.length,
-    estudiante: usuarios.filter((u) => u.role === "estudiante").length,
     profesor: usuarios.filter((u) => u.role === "profesor").length,
     administrativo: usuarios.filter((u) => u.role === "administrativo").length,
     director: usuarios.filter((u) => u.role === "director").length,
-    padre: usuarios.filter((u) => u.role === "padre").length,
   };
 
   return (
@@ -108,7 +106,7 @@ export function UsuariosPermisosClient({ institucion, usuariosIniciales = [], pe
       <div className="flex flex-col md:flex-row justify-between gap-4">
         <div className="flex items-center gap-2">
           <Users className="h-5 w-5 text-muted-foreground" />
-          <h2 className="text-2xl font-bold tracking-tight">Usuarios y Permisos</h2>
+          <h2 className="text-2xl font-bold tracking-tight">Usuarios del Sistema y Permisos</h2>
         </div>
       </div>
 
@@ -161,9 +159,6 @@ export function UsuariosPermisosClient({ institucion, usuariosIniciales = [], pe
               <TabsTrigger value="todos">
                 Todos ({roleCounts.todos})
               </TabsTrigger>
-              <TabsTrigger value="estudiante">
-                Estudiantes ({roleCounts.estudiante})
-              </TabsTrigger>
               <TabsTrigger value="profesor">
                 Profesores ({roleCounts.profesor})
               </TabsTrigger>
@@ -173,18 +168,15 @@ export function UsuariosPermisosClient({ institucion, usuariosIniciales = [], pe
               <TabsTrigger value="director">
                 Directores ({roleCounts.director})
               </TabsTrigger>
-              <TabsTrigger value="padre">
-                Padres ({roleCounts.padre})
-              </TabsTrigger>
             </TabsList>
 
             <TabsContent value={activeTab} className="space-y-6">
               <Card>
                 <CardHeader className="pb-3">
-                  <CardTitle>Gestión de Usuarios</CardTitle>
+                  <CardTitle>Gestión de Usuarios del Sistema</CardTitle>
                   <CardDescription>
                     {activeTab === "todos"
-                      ? "Lista de todos los usuarios del sistema"
+                      ? "Lista de todos los usuarios administrativos del sistema"
                       : `Lista de usuarios con rol de ${activeTab}`}
                   </CardDescription>
                 </CardHeader>
@@ -195,26 +187,6 @@ export function UsuariosPermisosClient({ institucion, usuariosIniciales = [], pe
                     onEdit={handleEditUsuario}
                     onRefresh={refreshUsuarios}
                   />
-                </CardContent>
-              </Card>
-
-              <Card>
-                <CardHeader className="pb-3">
-                  <div className="flex items-center gap-2">
-                    <Shield className="h-5 w-5 text-muted-foreground" />
-                    <CardTitle>Permisos del Sistema</CardTitle>
-                  </div>
-                  <CardDescription>
-                    Configuración de permisos y accesos por roles
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="p-8 text-center text-muted-foreground">
-                    <p>La gestión avanzada de permisos está disponible en la pestaña Permisos.</p>
-                    <p className="text-sm mt-2">
-                      Puedes gestionar permisos por rol o asignar permisos específicos a usuarios.
-                    </p>
-                  </div>
                 </CardContent>
               </Card>
             </TabsContent>

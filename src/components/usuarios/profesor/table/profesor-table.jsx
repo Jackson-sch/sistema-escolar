@@ -7,7 +7,7 @@ import { renderSubComponent } from "@/components/usuarios/profesor/table/render-
 import TableHeaderActions from "@/components/DataTable/table-header-actions";
 import { camposBusqueda } from "@/components/usuarios/profesor/table/campos-busqueda";
 
-export function ProfesorTable({ data }) {
+export function ProfesorTable({ data, institucionId }) {
   
   return (
     <GenericDataTable
@@ -15,7 +15,7 @@ export function ProfesorTable({ data }) {
       columns={columns}
       title="Lista de Profesores"
       description="Listado de profesores."
-      ActionComponent={<ModalProfesor />}
+      ActionComponent={<ModalProfesor institucionId={institucionId} />}
       getRowCanExpand={() => true}
       renderSubComponent={renderSubComponent}
       TableHeaderComponent={

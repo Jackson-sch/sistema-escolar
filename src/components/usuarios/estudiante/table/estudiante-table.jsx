@@ -7,14 +7,14 @@ import RenderSubComponent from "@/components/usuarios/estudiante/table/render-su
 import TableHeaderActions from "@/components/DataTable/table-header-actions";
 import { camposBusqueda } from "@/components/usuarios/estudiante/table/campos-busqueda";
 
-export default function EstudianteTable({ data, niveles }) {
+export default function EstudianteTable({ data, niveles, institucionId }) {
   return (
     <GenericDataTable
       data={data}
       columns={columns({ niveles })}
       title="Lista de Estudiantes"
       description="Listado de estudiantes."
-      ActionComponent={<ModalEstudiante niveles={niveles} />}
+      ActionComponent={<ModalEstudiante niveles={niveles} institucionId={institucionId} />}
       getRowCanExpand={() => true}
       renderSubComponent={(props) => <RenderSubComponent {...props} />}
       TableHeaderComponent={

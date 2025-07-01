@@ -15,6 +15,10 @@ import { PermisosUsuario } from "./permisos-usuario";
 import { Plus, Search, RefreshCw, Settings } from "lucide-react";
 
 export function PermisosClient({ usuarios, selectedUsuario = null, permisosIniciales = [] }) {
+  // Filtrar usuarios para excluir estudiantes y padres
+  const usuariosFiltrados = usuarios.filter(usuario => 
+    usuario.role !== "estudiante" && usuario.role !== "padre"
+  );
   const [permisos, setPermisos] = useState(permisosIniciales);
   const [filteredPermisos, setFilteredPermisos] = useState(permisosIniciales);
   const [searchTerm, setSearchTerm] = useState("");
@@ -106,7 +110,7 @@ export function PermisosClient({ usuarios, selectedUsuario = null, permisosInici
               Usuarios
             </TabsTrigger>
           </TabsList>
-          
+
           {activeTab === "permisos" && (
             <div className="flex flex-col sm:flex-row w-full sm:w-auto gap-2">
               <div className="relative">
@@ -187,11 +191,11 @@ export function PermisosClient({ usuarios, selectedUsuario = null, permisosInici
                       />
                     </div>
                     <div className="space-y-2 max-h-[400px] overflow-y-auto">
-                      {usuarios.map((usuario) => (
+                      {usuariosFiltrados.map((usuario) => (
                         <Button
                           key={usuario.id}
                           variant={selectedUser?.id === usuario.id ? "default" : "outline"}
-                          className="w-full justify-start"
+                          className="w-full justify-start h-14"
                           onClick={() => setSelectedUser(usuario)}
                         >
                           <div className="flex items-center">
@@ -199,8 +203,15 @@ export function PermisosClient({ usuarios, selectedUsuario = null, permisosInici
                               {usuario.name.charAt(0).toUpperCase()}
                             </div>
                             <div className="text-left">
-                              <div className="font-medium">{usuario.name}</div>
-                              <div className="text-xs text-muted-foreground">{usuario.email}</div>
+                              <div className="font-medium capitalize">
+                                {usuario.name}
+                                <span className="ml-2 text-xs text-muted-foreground">
+                                  ({usuario.role})
+                                </span>
+                              </div>
+                              <div className="text-xs text-muted-foreground">
+                                {usuario.email}
+                              </div>
                             </div>
                           </div>
                         </Button>

@@ -7,14 +7,14 @@ import { camposBusqueda } from "@/components/usuarios/padre/table/campos-busqued
 import PadreModal from "@/components/usuarios/padre/padre-modal";
 import RenderSubComponent from "@/components/usuarios/padre/table/render-sub-component";
 
-export default function PadreTable({ data }) {
+export default function PadreTable({ data, institucionId }) {
   return (
     <GenericDataTable
       data={data}
       columns={columns}
       title="Lista de Padres/Tutores"
       description="Gestión de padres y tutores registrados en el sistema."
-      ActionComponent={<PadreModal />}
+      ActionComponent={<PadreModal institucionId={institucionId} />}
       getRowCanExpand={() => true}
       renderSubComponent={(props) => <RenderSubComponent {...props} />}
       TableHeaderComponent={

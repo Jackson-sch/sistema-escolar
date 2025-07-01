@@ -69,15 +69,13 @@ const FormDatePicker = ({ form, name, label, description }) => {
       control={form.control}
       name={name}
       render={({ field }) => (
-        <FormItem className="flex flex-col space-y-1.5">
+        <FormItem className="flex flex-col">
           <FormLabel className="font-medium text-sm flex items-center">
             {label}
-            {description ? (
+            {description && (
               <span className="text-muted-foreground italic text-xs ml-1">
                 {description}
               </span>
-            ) : (
-              <span className="text-red-500 ml-1">*</span>
             )}
           </FormLabel>
           <Popover>

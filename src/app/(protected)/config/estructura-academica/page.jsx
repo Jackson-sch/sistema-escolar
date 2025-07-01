@@ -13,12 +13,9 @@ export const metadata = {
 
 export default async function EstructuraAcademicaPage() {
   const { data: instituciones = [] } = await getInstituciones();
-  // getProfesores devuelve directamente un array, no un objeto con propiedad data
-  const profesoresData = await getProfesores();
   // Obtener la primera institución (esto podría cambiarse para permitir seleccionar la institución)
   const institucion = instituciones[0];
-
-
+  
   // Si no hay institución, mostrar mensaje de error
   if (!institucion) {
     return (
@@ -32,6 +29,10 @@ export default async function EstructuraAcademicaPage() {
       </div>
     );
   }
+  
+  // getProfesores devuelve directamente un array, no un objeto con propiedad data
+  const profesoresData = await getProfesores();
+
 
   // Obtener niveles académicos iniciales para la institución
   const { data: nivelesAcademicos = [] } = await getNivelesAcademicos(institucion.id);

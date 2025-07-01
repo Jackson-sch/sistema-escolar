@@ -20,9 +20,11 @@ import { formatDate } from "@/lib/dateUtils";
 import { calculateYearsOfService } from "@/lib/calculateYearsOfService";
 import { handlePrint } from "@/lib/printUtils";
 import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
 
 export const renderSubComponent = ({ row }) => {
   const profesor = row.original;
+  console.log("Datos del profesor", profesor)
 
   // Función para obtener iniciales
   const getInitials = (name) => {
@@ -219,10 +221,17 @@ export const renderSubComponent = ({ row }) => {
                 profesor.dni.substring(0, 4) + "-" + profesor.dni.substring(4)
               }
             />
-            <ListItem
-              label="Fecha de Nacimiento"
-              value={formatDate(profesor.fechaNacimiento)}
-            />
+            <div className="grid grid-cols-3 gap-2">
+              <ListItem
+                label="Sexo"
+                value={profesor.sexo}
+              />
+              <Separator orientation="vertical" />
+              <ListItem
+                label="Fecha de Nacimiento"
+                value={formatDate(profesor.fechaNacimiento)}
+              />
+            </div>
           </div>
         </BentoCard>
 
@@ -235,7 +244,7 @@ export const renderSubComponent = ({ row }) => {
                 <span className="text-xs text-muted-foreground">Registro</span>
               </div>
               <p className="text-sm font-medium text-foreground">
-                {formatDate(profesor.fechaIngreso)}
+                {formatDate(profesor.createdAt)}
               </p>
             </div>
             <div>
@@ -246,7 +255,7 @@ export const renderSubComponent = ({ row }) => {
                 </span>
               </div>
               <p className="text-sm font-medium text-foreground">
-                {formatDate(new Date())}
+                {formatDate(profesor.updatedAt)}
               </p>
             </div>
           </div>

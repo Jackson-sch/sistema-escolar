@@ -28,6 +28,8 @@ const estudianteSchema = z.object({
     .regex(/^\d+$/, {
       message: "El DNI solo debe contener números.",
     }),
+  
+  sexo: z.enum(["M", "F"]),
 
   fechaNacimiento: z.date({
     required_error: "La fecha de nacimiento es requerida.",
@@ -49,10 +51,6 @@ const estudianteSchema = z.object({
       message: "El teléfono solo debe contener números.",
     }).optional(),
 
-  nivelAcademicoId: z.string({
-    required_error: "Por favor seleccione un nivel académico.",
-  }),
-
   padreId: z.string({
     required_error: "Debe seleccionar un padre/tutor.",
   }),
@@ -66,9 +64,6 @@ const estudianteSchema = z.object({
   }).optional(),
 
   // Nuevos campos para información académica
-  nivel: z.string().optional(),
-  grado: z.string().optional(),
-  turno: z.string().optional(),
   procedencia: z.string().optional(),
   esPrimeraVez: z.boolean().optional().default(false),
   esRepitente: z.boolean().optional().default(false),

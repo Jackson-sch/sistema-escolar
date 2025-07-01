@@ -1,89 +1,151 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import { crearUsuario, actualizarUsuario } from "@/action/config/usuarios-action";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Loader2 } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
-// Definir esquema de validación con Zod
-const usuarioSchema = z.object({
-  name: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
-  email: z.string().email("Email inválido"),
-  password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres").optional(),
-  confirmPassword: z.string().optional(),
-  role: z.enum(["estudiante", "profesor", "administrativo", "director", "padre"]),
-  apellidoPaterno: z.string().min(2, "El apellido paterno debe tener al menos 2 caracteres"),
-  apellidoMaterno: z.string().min(2, "El apellido materno debe tener al menos 2 caracteres"),
-  dni: z.string().min(8, "El DNI debe tener 8 dígitos").max(8, "El DNI debe tener 8 dígitos").optional().or(z.literal('')),
-  estado: z.enum([
-    "activo", "inactivo", "suspendido", "eliminado", "retirado", 
-    "egresado", "licencia", "vacaciones", "trasladado", "graduado", 
-    "condicional", "practicante", "jubilado", "expulsado"
-  ]).default("activo"),
-  cargo: z.enum([
-    "administrador", "asistente", "auxiliar", "director", "secretaria",
-    "contador", "coordinador", "mantenimiento", "subdirector", "coordinador_academico",
-    "coordinador_tutoria", "psicologia", "enfermeria"
-  ]).optional().nullable()
-}).refine(data => {
-  // Si se proporciona password, confirmPassword debe coincidir
-  if (data.password && data.confirmPassword !== data.password) {
-    return false;
-  }
-  return true;
-}, {
-  message: "Las contraseñas no coinciden",
-  path: ["confirmPassword"]
-}).refine(data => {
-  // Si es un nuevo usuario (no hay id), password es obligatorio
-  if (!data.id && !data.password) {
-    return false;
-  }
-  return true;
-}, {
-  message: "La contraseña es obligatoria para nuevos usuarios",
-  path: ["password"]
-});
+// Importar los esquemas de validación
+import { getSchemaByRole } from "./usuario-schemas";
+
+// Importar componentes de formularios específicos
+import { CamposComunesForm } from "./campos-comunes-form";
+import { ProfesorForm } from "./profesor-form";
+import { AdministrativoForm } from "./administrativo-form";
+import { DirectorForm } from "./director-form";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export function UsuarioForm({ usuario = null, institucion, institucionId, onSuccess, onRoleSelect }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  console.log("institucion", institucionId)
-
-  // Configurar el formulario con React Hook Form
-  const form = useForm({
-    resolver: zodResolver(usuarioSchema),
-    defaultValues: usuario ? {
-      name: usuario.name || "",
-      email: usuario.email || "",
-      role: usuario.role || "estudiante",
-      apellidoPaterno: usuario.apellidoPaterno || "",
-      apellidoMaterno: usuario.apellidoMaterno || "",
-      dni: usuario.dni || "",
-      estado: usuario.estado || "activo",
-      cargo: usuario.cargo || null,
-      password: "",
-      confirmPassword: ""
-    } : {
+  const [selectedRole, setSelectedRole] = useState(usuario?.role || "profesor");
+  
+  // Obtener el esquema de validación según el rol seleccionado
+  const schema = getSchemaByRole(selectedRole);
+  
+  // Preparar valores por defecto según el tipo de usuario
+  const getDefaultValues = () => {
+    const baseValues = {
       name: "",
       email: "",
-      role: "estudiante",
+      role: selectedRole,
       apellidoPaterno: "",
       apellidoMaterno: "",
       dni: "",
+      fechaNacimiento: null,
+      sexo: null,
+      direccion: "",
+      telefono: "",
       estado: "activo",
-      cargo: null,
       password: "",
       confirmPassword: ""
+    };
+    
+    // Valores específicos según el rol
+    if (selectedRole === "profesor") {
+      return {
+        ...baseValues,
+        especialidad: "",
+        titulo: "",
+        colegioProfesor: "",
+        fechaContratacion: null,
+        tipoContrato: null,
+        escalaMagisterial: null
+      };
+    } else if (selectedRole === "administrativo") {
+      return {
+        ...baseValues,
+        cargo: null,
+        area: "",
+        fechaIngreso: null,
+        numeroContrato: ""
+      };
+    } else if (selectedRole === "director") {
+      return {
+        ...baseValues,
+        cargo: "director",
+        titulo: "",
+        colegioProfesor: "",
+        fechaContratacion: null,
+        numeroResolucion: "",
+        escalaMagisterial: null
+      };
     }
+    
+    return baseValues;
+  };
+  
+  // Mapear los valores del usuario existente al formulario
+  const mapUserToFormValues = (user) => {
+    const baseValues = {
+      name: user.name || "",
+      email: user.email || "",
+      role: user.role || "profesor",
+      apellidoPaterno: user.apellidoPaterno || "",
+      apellidoMaterno: user.apellidoMaterno || "",
+      dni: user.dni || "",
+      fechaNacimiento: user.fechaNacimiento ? new Date(user.fechaNacimiento) : null,
+      sexo: user.sexo || null,
+      direccion: user.direccion || "",
+      telefono: user.telefono || "",
+      estado: user.estado || "activo",
+      password: "",
+      confirmPassword: ""
+    };
+    
+    // Valores específicos según el rol
+    if (user.role === "profesor") {
+      return {
+        ...baseValues,
+        especialidad: user.especialidad || "",
+        titulo: user.titulo || "",
+        colegioProfesor: user.colegioProfesor || "",
+        fechaContratacion: user.fechaContratacion ? new Date(user.fechaContratacion) : null,
+        tipoContrato: user.tipoContrato || null,
+        escalaMagisterial: user.escalaMagisterial || null
+      };
+    } else if (user.role === "administrativo") {
+      return {
+        ...baseValues,
+        cargo: user.cargo || null,
+        area: user.area || "",
+        fechaIngreso: user.fechaIngreso ? new Date(user.fechaIngreso) : null,
+        numeroContrato: user.numeroContrato || ""
+      };
+    } else if (user.role === "director") {
+      return {
+        ...baseValues,
+        cargo: user.cargo || "director",
+        titulo: user.titulo || "",
+        colegioProfesor: user.colegioProfesor || "",
+        fechaContratacion: user.fechaContratacion ? new Date(user.fechaContratacion) : null,
+        numeroResolucion: user.numeroResolucion || "",
+        escalaMagisterial: user.escalaMagisterial || null
+      };
+    }
+    
+    return baseValues;
+  };
+
+  // Configurar el formulario con React Hook Form
+  const form = useForm({
+    resolver: zodResolver(schema),
+    defaultValues: usuario ? mapUserToFormValues(usuario) : getDefaultValues()
   });
+  
+  // Actualizar el formulario cuando cambia el rol
+  useEffect(() => {
+    if (!usuario) {
+      // Solo resetear el formulario si es un nuevo usuario
+      form.reset(getDefaultValues());
+    }
+  }, [selectedRole, form]);
 
   // Manejar envío del formulario
   const onSubmit = async (data) => {
@@ -101,7 +163,7 @@ export function UsuarioForm({ usuario = null, institucion, institucionId, onSucc
       // Agregar el ID de la institución a los datos
       const usuarioData = {
         ...data,
-        institucionId: institucion?.id || institucionId
+        institucionId: instId
       };
 
       // Eliminar confirmPassword ya que no se guarda en la base de datos
@@ -126,7 +188,7 @@ export function UsuarioForm({ usuario = null, institucion, institucionId, onSucc
 
         // Resetear el formulario si es una creación
         if (!usuario) {
-          form.reset();
+          form.reset(getDefaultValues());
         }
 
         // Llamar al callback de éxito si existe
@@ -147,245 +209,102 @@ export function UsuarioForm({ usuario = null, institucion, institucionId, onSucc
       setIsSubmitting(false);
     }
   };
-
-  // Determinar si mostrar el campo de cargo basado en el rol
-  const mostrarCargo = form.watch("role") === "administrativo" || form.watch("role") === "director";
+  
+  // Manejar cambio de rol
+  const handleRoleChange = (value) => {
+    setSelectedRole(value);
+    
+    // Si hay una función onRoleSelect proporcionada, llamarla con el nuevo valor
+    if (onRoleSelect && !usuario) {
+      onRoleSelect(value);
+    }
+  };
+  
+  // Determinar si es un nuevo usuario o una edición
+  const esNuevoUsuario = !usuario;
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Nombre */}
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nombre</FormLabel>
-                <FormControl>
-                  <Input placeholder="Nombre completo" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+        <Card className="h-[calc(100vh-200px)]">
+          <CardHeader>
+            <CardTitle>Información de Usuario</CardTitle>
+            <CardDescription>
+              Complete la información del usuario según su rol en el sistema.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ScrollArea className="h-[calc(100vh-200px)]">
 
-          {/* Email */}
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input type="email" placeholder="correo@ejemplo.com" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Apellido Paterno */}
-          <FormField
-            control={form.control}
-            name="apellidoPaterno"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Apellido Paterno</FormLabel>
-                <FormControl>
-                  <Input placeholder="Apellido paterno" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Apellido Materno */}
-          <FormField
-            control={form.control}
-            name="apellidoMaterno"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Apellido Materno</FormLabel>
-                <FormControl>
-                  <Input placeholder="Apellido materno" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* DNI */}
-          <FormField
-            control={form.control}
-            name="dni"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>DNI</FormLabel>
-                <FormControl>
-                  <Input placeholder="12345678" maxLength={8} {...field} />
-                </FormControl>
-                <FormDescription>
-                  Documento Nacional de Identidad (8 dígitos)
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Rol */}
-          <FormField
-            control={form.control}
-            name="role"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Rol</FormLabel>
-                <Select 
-                  onValueChange={(value) => {
-                    field.onChange(value);
-                    // Si hay una función onRoleSelect proporcionada, llamarla con el nuevo valor
-                    if (onRoleSelect && !usuario) {
-                      onRoleSelect(value);
-                    }
-                  }} 
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecciona un rol" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="estudiante">Estudiante</SelectItem>
-                    <SelectItem value="profesor">Profesor</SelectItem>
-                    <SelectItem value="administrativo">Administrativo</SelectItem>
-                    <SelectItem value="director">Director</SelectItem>
-                    <SelectItem value="padre">Padre/Tutor</SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormDescription>
-                  Rol principal del usuario en el sistema
-                  {!usuario && (
-                    <div className="text-xs text-muted-foreground mt-1">
-                      Al seleccionar un rol específico se mostrará un formulario con campos adicionales para ese tipo de usuario.
-                    </div>
-                  )}
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Estado */}
-          <FormField
-            control={form.control}
-            name="estado"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Estado</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecciona un estado" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="activo">Activo</SelectItem>
-                    <SelectItem value="inactivo">Inactivo</SelectItem>
-                    <SelectItem value="suspendido">Suspendido</SelectItem>
-                    <SelectItem value="licencia">En licencia</SelectItem>
-                    <SelectItem value="vacaciones">En vacaciones</SelectItem>
-                    <SelectItem value="retirado">Retirado</SelectItem>
-                    <SelectItem value="egresado">Egresado</SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormDescription>
-                  Estado actual del usuario en el sistema
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Cargo (solo para administrativos y directores) */}
-          {mostrarCargo && (
+            
+            {/* Campo de rol */}
             <FormField
               control={form.control}
-              name="cargo"
+              name="role"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Cargo</FormLabel>
-                  <Select 
-                    onValueChange={field.onChange} 
-                    defaultValue={field.value || undefined}
+                <FormItem className="mb-6">
+                  <FormLabel>Rol</FormLabel>
+                  <Select
+                    onValueChange={(value) => {
+                      field.onChange(value);
+                      handleRoleChange(value);
+                    }}
+                    value={field.value}
+                    disabled={!!usuario} // Deshabilitar cambio de rol en edición
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder="Selecciona un cargo" />
+                        <SelectValue placeholder="Seleccionar rol" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value="administrador">Administrador</SelectItem>
+                      <SelectItem value="profesor">Profesor</SelectItem>
+                      <SelectItem value="administrativo">Administrativo</SelectItem>
                       <SelectItem value="director">Director</SelectItem>
-                      <SelectItem value="subdirector">Subdirector</SelectItem>
-                      <SelectItem value="coordinador_academico">Coordinador Académico</SelectItem>
-                      <SelectItem value="coordinador_tutoria">Coordinador de Tutoría</SelectItem>
-                      <SelectItem value="secretaria">Secretaria</SelectItem>
-                      <SelectItem value="contador">Contador</SelectItem>
-                      <SelectItem value="asistente">Asistente</SelectItem>
-                      <SelectItem value="auxiliar">Auxiliar</SelectItem>
-                      <SelectItem value="psicologia">Psicología</SelectItem>
-                      <SelectItem value="enfermeria">Enfermería</SelectItem>
-                      <SelectItem value="mantenimiento">Mantenimiento</SelectItem>
-                      <SelectItem value="coordinador">Coordinador General</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormDescription>
-                    Cargo específico dentro de la institución
+                    El rol determina los permisos y funciones del usuario en el sistema.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            
+            <Tabs defaultValue="datos-personales" className="w-full">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="datos-personales">Datos Personales</TabsTrigger>
+                <TabsTrigger value="datos-especificos">Datos Específicos</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="datos-personales" className="space-y-4 pt-4">
+                {/* Componente de campos comunes */}
+                <CamposComunesForm form={form} esNuevoUsuario={esNuevoUsuario} />
+              </TabsContent>
+              
+              <TabsContent value="datos-especificos" className="space-y-4 pt-4">
+                {/* Renderizar el formulario específico según el rol */}
+                {selectedRole === "profesor" && <ProfesorForm form={form} />}
+                {selectedRole === "administrativo" && <AdministrativoForm form={form} />}
+                {selectedRole === "director" && <DirectorForm form={form} />}
+              </TabsContent>
+            </Tabs>
+            </ScrollArea>
+          </CardContent>
+        </Card>
+
+        {/* Botón de envío */}
+        <Button type="submit" disabled={isSubmitting} className="w-full">
+          {isSubmitting ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Guardando...
+            </>
+          ) : usuario ? (
+            "Actualizar Usuario"
+          ) : (
+            "Crear Usuario"
           )}
-
-          {/* Contraseña */}
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{usuario ? "Nueva Contraseña (opcional)" : "Contraseña"}</FormLabel>
-                <FormControl>
-                  <Input type="password" placeholder="********" {...field} />
-                </FormControl>
-                <FormDescription>
-                  {usuario ? "Dejar en blanco para mantener la actual" : "Mínimo 6 caracteres"}
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          {/* Confirmar Contraseña */}
-          <FormField
-            control={form.control}
-            name="confirmPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Confirmar Contraseña</FormLabel>
-                <FormControl>
-                  <Input type="password" placeholder="********" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          {usuario ? "Actualizar usuario" : "Crear usuario"}
         </Button>
       </form>
     </Form>

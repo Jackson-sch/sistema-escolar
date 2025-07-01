@@ -27,8 +27,6 @@ export async function getNivelesAcademicos(institucionId) {
       }
     });
 
-    console.log("Datos sin procesar:", nivelesAcademicos);
-
     // Ordenamos manualmente los resultados
     const nivelesOrdenados = [...nivelesAcademicos].sort((a, b) => {
       // Primero por nivel (usando el nombre del nivel)
@@ -54,7 +52,6 @@ export async function getNivelesAcademicos(institucionId) {
 
     // Transformamos los datos para que sean compatibles con React
     const nivelesTransformados = nivelesOrdenados.map((nivel) => {
-      console.log("Procesando nivel:", nivel);
       
       return {
         id: nivel.id,
@@ -88,8 +85,6 @@ export async function getNivelesAcademicos(institucionId) {
         nivel: nivel.nivel?.nombre || 'Sin nivel'
       };
     });
-
-    console.log("Niveles transformados:", nivelesTransformados);
     
     return {
       success: true,
@@ -737,6 +732,8 @@ export async function getCursos(institucionId, filters = {}) {
       areaCurricular: {
         institucionId
       },
+      // Solo traer cursos activos
+      activo: true,
       ...filters
     };
 

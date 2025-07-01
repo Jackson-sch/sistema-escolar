@@ -6,6 +6,16 @@ import { revalidatePath } from "next/cache";
 export async function registerProfesor(data) {
 
   try {
+    console.log("Datos recibidos en registerProfesor:", data);
+    
+    // Verificar que institucionId esté presente
+    if (!data.institucionId) {
+      return { 
+        success: false, 
+        errors: [{ field: "institucionId", message: "La institución es requerida." }]
+      };
+    }
+
     // Verificar email y DNI simultáneamente para optimizar las consultas
     const [existingUser, existingDNI] = await Promise.all([
       db.user.findUnique({
@@ -37,6 +47,8 @@ export async function registerProfesor(data) {
       data: {
         ...data,
         role: "profesor",
+        // Asegurarse de que institucionId sea un string válido
+        institucionId: data.institucionId,
       },
     });
     
@@ -88,22 +100,42 @@ export async function updateProfesor(data) {
       };
     }
     
+    // Extraer todos los campos relevantes para la actualización
+    const {
+      name,
+      email,
+      dni,
+      fechaNacimiento,
+      direccion,
+      telefono,
+      especialidad,
+      titulo,
+      fechaContratacion,
+      estado,
+      sexo,
+      tipoContrato,
+      institucionId
+    } = data;
+    
     const updateProfesor = await db.user.update({
       where: {
         id: data.id,
       },
       data: {
-        name: data.name,
-        email: data.email,
-        dni: data.dni,
-        fechaNacimiento: data.fechaNacimiento,
-        direccion: data.direccion,
-        telefono: data.telefono,
-        fechaIngreso: data.fechaIngreso,
-        especialidad: data.especialidad,
-        titulo: data.titulo,
-        fechaContratacion: data.fechaContratacion,
-        estado: data.estado,
+        name,
+        email,
+        dni,
+        fechaNacimiento,
+        direccion,
+        telefono,
+        especialidad,
+        titulo,
+        fechaContratacion,
+        estado,
+        sexo,
+        tipoContrato,
+        // Asegurarse de que institucionId sea un string válido si está presente
+        ...(institucionId ? { institucionId } : {})
       },
     });
 
@@ -133,7 +165,7 @@ export async function getProfesores() {
       fechaNacimiento: true,
       direccion: true,
       telefono: true,
-      fechaIngreso: true,
+      sexo: true,
       especialidad: true,
       titulo: true,
       fechaContratacion: true,
@@ -141,6 +173,7 @@ export async function getProfesores() {
       estado: true,
       createdAt: true,
       updatedAt: true,
+      institucionId: true,
     },
   });
 

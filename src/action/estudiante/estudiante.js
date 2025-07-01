@@ -4,7 +4,7 @@ import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 
 // Constantes
-const REQUIRED_FIELDS = ["name", "dni", "fechaNacimiento", "nivelAcademicoId", "padreId"];
+const REQUIRED_FIELDS = ["name", "dni", "fechaNacimiento", "padreId"];
 const STUDENT_ROLE = "estudiante";
 const DEFAULT_PARENTESCO = "padre";
 
@@ -119,7 +119,7 @@ async function upsertFamilyRelation(padreId, hijoId) {
 
 // Preparar datos para creación/actualización
 function prepareStudentData(data, isUpdate = false) {
-  const { nivelAcademicoId, padreId, institucionId, ...restData } = data;
+  const { padreId, institucionId, ...restData } = data;
 
   const studentData = {
     ...restData,
@@ -132,10 +132,6 @@ function prepareStudentData(data, isUpdate = false) {
     studentData.role = STUDENT_ROLE;
   }
 
-  // Conectar nivel académico
-  if (nivelAcademicoId) {
-    studentData.nivelAcademico = { connect: { id: nivelAcademicoId } };
-  }
 
   // Conectar institución
   if (institucionId) {
@@ -214,12 +210,6 @@ export async function updateStudent(data) {
     // Preparar datos para actualización
     const updateData = prepareStudentData(data, true);
 
-    // Remover campos que no deben estar en la actualización
-    delete updateData.nivelAcademico;
-    delete updateData.institucion;
-
-    // Asignar directamente los IDs
-    updateData.nivelAcademicoId = data.nivelAcademicoId;
 
     const updatedStudent = await db.user.update({
       where: { id: data.id },
@@ -249,7 +239,7 @@ export async function getStudents() {
         id: true,
         name: true,
         email: true,
-        
+
         // Información personal básica del estudiante
         apellidoPaterno: true,
         apellidoMaterno: true,
@@ -257,7 +247,7 @@ export async function getStudents() {
         fechaNacimiento: true,
         sexo: true,
         nacionalidad: true,
-        
+
         // Información de contacto
         direccion: true,
         ubigeo: true,
@@ -266,21 +256,21 @@ export async function getStudents() {
         departamento: true,
         telefono: true,
         telefonoEmergencia: true,
-        
+
         // Códigos oficiales del estudiante
         codigoEstudiante: true,
         codigoSiagie: true,
-        
+
         // Información médica básica
         tipoSangre: true,
         alergias: true,
         condicionesMedicas: true,
         contactoEmergencia: true,
-        
+
         // Campos académicos específicos
         nivelAcademicoId: true,
         turno: true,
-        
+
         // Información socioeconómica
         viveConPadres: true,
         tipoVivienda: true,
@@ -289,18 +279,29 @@ export async function getStudents() {
         becario: true,
         tipoBeca: true,
         programaSocial: true,
-        
+
         // Relaciones del estudiante
         nivelAcademico: {
           select: {
             id: true,
-            nivel: true,
-            grado: true,
             seccion: true,
+            nivel: {
+              select: {
+                id: true,
+                nombre: true
+              }
+            },
+            grado: {
+              select: {
+                id: true,
+                nombre: true,
+                codigo: true
+              }
+            }
             // Agrega otros campos del nivel académico que necesites
           }
         },
-        
+
         institucion: {
           select: {
             id: true,
@@ -309,7 +310,7 @@ export async function getStudents() {
             // Agrega otros campos de la institución que necesites
           }
         },
-        
+
         padresTutores: {
           select: {
             padreTutorId: true,
@@ -330,7 +331,7 @@ export async function getStudents() {
             }
           }
         },
-        
+
         // Campos de control
         estado: true,
         createdAt: true,

@@ -3,6 +3,7 @@ import { z } from "zod";
 
 // Definición del esquema de validación para User
 export const profesorSchema = z.object({
+  role: z.literal("profesor"),
   name: z
     .string()
     .min(2, {
@@ -29,6 +30,8 @@ export const profesorSchema = z.object({
     message: "La fecha de nacimiento es requerida.",
   }),
 
+  sexo: z.enum(["M", "F"]),
+
   direccion: z
     .string()
     .min(5, {
@@ -43,7 +46,6 @@ export const profesorSchema = z.object({
     .regex(/^\d+$/, {
       message: "El teléfono solo debe contener números.",
     }),
-  role: z.literal("profesor"),
   especialidad: z.string({
     message: "La especialidad es requerida.",
   }),
@@ -53,11 +55,25 @@ export const profesorSchema = z.object({
   fechaContratacion: z.date({
     message: "La fecha de contratación es requerida.",
   }).optional(),
-  fechaIngreso: z.date({
-    message: "La fecha de ingreso es requerida.",
-  }),
+  tipoContrato: z.enum(["NOMBRADO", "CONTRATADO", "PRATICANTE", "SUPLENTE"]).default("NOMBRADO"),
   estado: z.enum(EstadoProfesor).default("activo"),
   institucionId: z.string({
     required_error: "La institución es requerida",
   }),
+  
+  // Campos de contraseña opcionales (solo requeridos para nuevos registros)
+  password: z.string().min(6, {
+    message: "La contraseña debe tener al menos 6 caracteres.",
+  }).optional(),
+  
+  confirmPassword: z.string().optional(),
+}).refine((data) => {
+  // Si hay password, debe coincidir con confirmPassword
+  if (data.password) {
+    return data.password === data.confirmPassword;
+  }
+  return true;
+}, {
+  message: "Las contraseñas no coinciden",
+  path: ["confirmPassword"],
 });

@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { calculateAge } from "@/lib/calculateAge";
 import { calculateYearsOfService } from "@/lib/calculateYearsOfService";
 import { handlePrint } from "@/lib/printUtils";
-import { formatDate } from "@/lib/dateUtils";
+import { formatDate } from "@/lib/formatDate";
 
 export default function RenderSubComponent({ row }) {
   const administrativo = row.original;
@@ -34,9 +34,8 @@ export default function RenderSubComponent({ row }) {
   // Componente para tarjetas bento
   const BentoCard = ({ title, children, className = "", large = false }) => (
     <div
-      className={`relative rounded-lg border border-border/10 overflow-hidden bg-card/50 transition-all duration-300 hover:bg-card/60 hover:border-border/20 shadow-sm ${
-        large ? "col-span-2 row-span-2" : ""
-      } ${className}`}
+      className={`relative rounded-lg border border-border/10 overflow-hidden bg-card/50 transition-all duration-300 hover:bg-card/60 hover:border-border/20 shadow-sm ${large ? "col-span-2 row-span-2" : ""
+        } ${className}`}
     >
       <div className="p-3">
         {title && (
@@ -93,11 +92,10 @@ export default function RenderSubComponent({ row }) {
               {administrativo.name}
             </h2>
             <CheckCircleIcon
-              className={`h-3 w-3 ${
-                administrativo.estado?.toLowerCase() === "activo"
+              className={`h-3 w-3 ${administrativo.estado?.toLowerCase() === "activo"
                   ? "text-green-500"
                   : "text-red-500"
-              }`}
+                }`}
             />
           </div>
           <span className="text-xs rounded-full px-2 py-0 border border-border/30 bg-muted/30 capitalize">
@@ -144,11 +142,10 @@ export default function RenderSubComponent({ row }) {
             <span className="text-xs text-muted-foreground">Estado</span>
             <div className="flex items-center gap-1">
               <div
-                className={`w-1.5 h-1.5 rounded-full ${
-                  administrativo.estado?.toLowerCase() === "activo"
+                className={`w-1.5 h-1.5 rounded-full ${administrativo.estado?.toLowerCase() === "activo"
                     ? "bg-green-500"
                     : "bg-red-500"
-                }`}
+                  }`}
               ></div>
               <span className="text-xs text-foreground font-medium capitalize">
                 {administrativo.estado}
@@ -157,11 +154,10 @@ export default function RenderSubComponent({ row }) {
           </div>
           <div className="w-full bg-muted/30 h-1 rounded-full mt-3 overflow-hidden">
             <div
-              className={`h-full rounded-full ${
-                administrativo.estado?.toLowerCase() === "activo"
+              className={`h-full rounded-full ${administrativo.estado?.toLowerCase() === "activo"
                   ? "bg-primary"
                   : "bg-destructive"
-              }`}
+                }`}
               style={{ width: "100%" }}
             ></div>
           </div>
@@ -263,11 +259,10 @@ export default function RenderSubComponent({ row }) {
           <div className="mt-2 pt-2 border-t border-border/10">
             <div className="flex items-center gap-1.5">
               <CheckCircleIcon
-                className={`h-3 w-3 ${
-                  administrativo.estado?.toLowerCase() === "activo"
+                className={`h-3 w-3 ${administrativo.estado?.toLowerCase() === "activo"
                     ? "text-green-500"
                     : "text-red-500"
-                }`}
+                  }`}
               />
               <span className="text-xs text-muted-foreground">
                 Datos verificados

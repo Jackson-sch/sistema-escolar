@@ -29,6 +29,11 @@ export type RolPermiso = $Result.DefaultSelection<Prisma.$RolPermisoPayload>
  */
 export type UsuarioPermiso = $Result.DefaultSelection<Prisma.$UsuarioPermisoPayload>
 /**
+ * Model CargoPermiso
+ * 
+ */
+export type CargoPermiso = $Result.DefaultSelection<Prisma.$CargoPermisoPayload>
+/**
  * Model InstitucionEducativa
  * 
  */
@@ -53,6 +58,11 @@ export type Account = $Result.DefaultSelection<Prisma.$AccountPayload>
  * 
  */
 export type VerificationToken = $Result.DefaultSelection<Prisma.$VerificationTokenPayload>
+/**
+ * Model PasswordResetToken
+ * 
+ */
+export type PasswordResetToken = $Result.DefaultSelection<Prisma.$PasswordResetTokenPayload>
 /**
  * Model Nivel
  * 
@@ -142,7 +152,6 @@ export namespace $Enums {
   estudiante: 'estudiante',
   profesor: 'profesor',
   administrativo: 'administrativo',
-  director: 'director',
   padre: 'padre'
 };
 
@@ -514,6 +523,16 @@ export class PrismaClient<
   get usuarioPermiso(): Prisma.UsuarioPermisoDelegate<ExtArgs, ClientOptions>;
 
   /**
+   * `prisma.cargoPermiso`: Exposes CRUD operations for the **CargoPermiso** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CargoPermisos
+    * const cargoPermisos = await prisma.cargoPermiso.findMany()
+    * ```
+    */
+  get cargoPermiso(): Prisma.CargoPermisoDelegate<ExtArgs, ClientOptions>;
+
+  /**
    * `prisma.institucionEducativa`: Exposes CRUD operations for the **InstitucionEducativa** model.
     * Example usage:
     * ```ts
@@ -562,6 +581,16 @@ export class PrismaClient<
     * ```
     */
   get verificationToken(): Prisma.VerificationTokenDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.passwordResetToken`: Exposes CRUD operations for the **PasswordResetToken** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PasswordResetTokens
+    * const passwordResetTokens = await prisma.passwordResetToken.findMany()
+    * ```
+    */
+  get passwordResetToken(): Prisma.PasswordResetTokenDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.nivel`: Exposes CRUD operations for the **Nivel** model.
@@ -780,8 +809,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.10.1
-   * Query Engine version: 9b628578b3b7cae625e8c927178f15a170e74a9c
+   * Prisma Client JS version: 6.11.0
+   * Query Engine version: 9c30299f5a0ea26a96790e13f796dc6094db3173
    */
   export type PrismaVersion = {
     client: string
@@ -1165,11 +1194,13 @@ export namespace Prisma {
     Permiso: 'Permiso',
     RolPermiso: 'RolPermiso',
     UsuarioPermiso: 'UsuarioPermiso',
+    CargoPermiso: 'CargoPermiso',
     InstitucionEducativa: 'InstitucionEducativa',
     User: 'User',
     RelacionFamiliar: 'RelacionFamiliar',
     Account: 'Account',
     VerificationToken: 'VerificationToken',
+    PasswordResetToken: 'PasswordResetToken',
     Nivel: 'Nivel',
     Grado: 'Grado',
     NivelAcademico: 'NivelAcademico',
@@ -1204,7 +1235,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "permiso" | "rolPermiso" | "usuarioPermiso" | "institucionEducativa" | "user" | "relacionFamiliar" | "account" | "verificationToken" | "nivel" | "grado" | "nivelAcademico" | "periodoAcademico" | "areaCurricular" | "curso" | "horario" | "matricula" | "matriculaCurso" | "evaluacion" | "nota" | "asistencia" | "documento" | "pago" | "anuncio" | "evento"
+      modelProps: "permiso" | "rolPermiso" | "usuarioPermiso" | "cargoPermiso" | "institucionEducativa" | "user" | "relacionFamiliar" | "account" | "verificationToken" | "passwordResetToken" | "nivel" | "grado" | "nivelAcademico" | "periodoAcademico" | "areaCurricular" | "curso" | "horario" | "matricula" | "matriculaCurso" | "evaluacion" | "nota" | "asistencia" | "documento" | "pago" | "anuncio" | "evento"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1427,6 +1458,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UsuarioPermisoCountArgs<ExtArgs>
             result: $Utils.Optional<UsuarioPermisoCountAggregateOutputType> | number
+          }
+        }
+      }
+      CargoPermiso: {
+        payload: Prisma.$CargoPermisoPayload<ExtArgs>
+        fields: Prisma.CargoPermisoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CargoPermisoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CargoPermisoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CargoPermisoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CargoPermisoPayload>
+          }
+          findFirst: {
+            args: Prisma.CargoPermisoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CargoPermisoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CargoPermisoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CargoPermisoPayload>
+          }
+          findMany: {
+            args: Prisma.CargoPermisoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CargoPermisoPayload>[]
+          }
+          create: {
+            args: Prisma.CargoPermisoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CargoPermisoPayload>
+          }
+          createMany: {
+            args: Prisma.CargoPermisoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.CargoPermisoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CargoPermisoPayload>[]
+          }
+          delete: {
+            args: Prisma.CargoPermisoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CargoPermisoPayload>
+          }
+          update: {
+            args: Prisma.CargoPermisoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CargoPermisoPayload>
+          }
+          deleteMany: {
+            args: Prisma.CargoPermisoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CargoPermisoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.CargoPermisoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CargoPermisoPayload>[]
+          }
+          upsert: {
+            args: Prisma.CargoPermisoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$CargoPermisoPayload>
+          }
+          aggregate: {
+            args: Prisma.CargoPermisoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateCargoPermiso>
+          }
+          groupBy: {
+            args: Prisma.CargoPermisoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<CargoPermisoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CargoPermisoCountArgs<ExtArgs>
+            result: $Utils.Optional<CargoPermisoCountAggregateOutputType> | number
           }
         }
       }
@@ -1797,6 +1902,80 @@ export namespace Prisma {
           count: {
             args: Prisma.VerificationTokenCountArgs<ExtArgs>
             result: $Utils.Optional<VerificationTokenCountAggregateOutputType> | number
+          }
+        }
+      }
+      PasswordResetToken: {
+        payload: Prisma.$PasswordResetTokenPayload<ExtArgs>
+        fields: Prisma.PasswordResetTokenFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PasswordResetTokenFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PasswordResetTokenFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>
+          }
+          findFirst: {
+            args: Prisma.PasswordResetTokenFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PasswordResetTokenFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>
+          }
+          findMany: {
+            args: Prisma.PasswordResetTokenFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>[]
+          }
+          create: {
+            args: Prisma.PasswordResetTokenCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>
+          }
+          createMany: {
+            args: Prisma.PasswordResetTokenCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PasswordResetTokenCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>[]
+          }
+          delete: {
+            args: Prisma.PasswordResetTokenDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>
+          }
+          update: {
+            args: Prisma.PasswordResetTokenUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>
+          }
+          deleteMany: {
+            args: Prisma.PasswordResetTokenDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PasswordResetTokenUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PasswordResetTokenUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>[]
+          }
+          upsert: {
+            args: Prisma.PasswordResetTokenUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PasswordResetTokenPayload>
+          }
+          aggregate: {
+            args: Prisma.PasswordResetTokenAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePasswordResetToken>
+          }
+          groupBy: {
+            args: Prisma.PasswordResetTokenGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PasswordResetTokenGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PasswordResetTokenCountArgs<ExtArgs>
+            result: $Utils.Optional<PasswordResetTokenCountAggregateOutputType> | number
           }
         }
       }
@@ -3071,11 +3250,13 @@ export namespace Prisma {
     permiso?: PermisoOmit
     rolPermiso?: RolPermisoOmit
     usuarioPermiso?: UsuarioPermisoOmit
+    cargoPermiso?: CargoPermisoOmit
     institucionEducativa?: InstitucionEducativaOmit
     user?: UserOmit
     relacionFamiliar?: RelacionFamiliarOmit
     account?: AccountOmit
     verificationToken?: VerificationTokenOmit
+    passwordResetToken?: PasswordResetTokenOmit
     nivel?: NivelOmit
     grado?: GradoOmit
     nivelAcademico?: NivelAcademicoOmit
@@ -3188,11 +3369,13 @@ export namespace Prisma {
   export type PermisoCountOutputType = {
     roles: number
     usuarioPermisos: number
+    cargoPermisos: number
   }
 
   export type PermisoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     roles?: boolean | PermisoCountOutputTypeCountRolesArgs
     usuarioPermisos?: boolean | PermisoCountOutputTypeCountUsuarioPermisosArgs
+    cargoPermisos?: boolean | PermisoCountOutputTypeCountCargoPermisosArgs
   }
 
   // Custom InputTypes
@@ -3218,6 +3401,13 @@ export namespace Prisma {
    */
   export type PermisoCountOutputTypeCountUsuarioPermisosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UsuarioPermisoWhereInput
+  }
+
+  /**
+   * PermisoCountOutputType without action
+   */
+  export type PermisoCountOutputTypeCountCargoPermisosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CargoPermisoWhereInput
   }
 
 
@@ -4102,6 +4292,7 @@ export namespace Prisma {
     updatedAt?: boolean
     roles?: boolean | Permiso$rolesArgs<ExtArgs>
     usuarioPermisos?: boolean | Permiso$usuarioPermisosArgs<ExtArgs>
+    cargoPermisos?: boolean | Permiso$cargoPermisosArgs<ExtArgs>
     _count?: boolean | PermisoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["permiso"]>
 
@@ -4142,6 +4333,7 @@ export namespace Prisma {
   export type PermisoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     roles?: boolean | Permiso$rolesArgs<ExtArgs>
     usuarioPermisos?: boolean | Permiso$usuarioPermisosArgs<ExtArgs>
+    cargoPermisos?: boolean | Permiso$cargoPermisosArgs<ExtArgs>
     _count?: boolean | PermisoCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PermisoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -4152,6 +4344,7 @@ export namespace Prisma {
     objects: {
       roles: Prisma.$RolPermisoPayload<ExtArgs>[]
       usuarioPermisos: Prisma.$UsuarioPermisoPayload<ExtArgs>[]
+      cargoPermisos: Prisma.$CargoPermisoPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4558,6 +4751,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     roles<T extends Permiso$rolesArgs<ExtArgs> = {}>(args?: Subset<T, Permiso$rolesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RolPermisoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     usuarioPermisos<T extends Permiso$usuarioPermisosArgs<ExtArgs> = {}>(args?: Subset<T, Permiso$usuarioPermisosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UsuarioPermisoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    cargoPermisos<T extends Permiso$cargoPermisosArgs<ExtArgs> = {}>(args?: Subset<T, Permiso$cargoPermisosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CargoPermisoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5028,6 +5222,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: UsuarioPermisoScalarFieldEnum | UsuarioPermisoScalarFieldEnum[]
+  }
+
+  /**
+   * Permiso.cargoPermisos
+   */
+  export type Permiso$cargoPermisosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CargoPermiso
+     */
+    select?: CargoPermisoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CargoPermiso
+     */
+    omit?: CargoPermisoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CargoPermisoInclude<ExtArgs> | null
+    where?: CargoPermisoWhereInput
+    orderBy?: CargoPermisoOrderByWithRelationInput | CargoPermisoOrderByWithRelationInput[]
+    cursor?: CargoPermisoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: CargoPermisoScalarFieldEnum | CargoPermisoScalarFieldEnum[]
   }
 
   /**
@@ -7170,6 +7388,1051 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UsuarioPermisoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model CargoPermiso
+   */
+
+  export type AggregateCargoPermiso = {
+    _count: CargoPermisoCountAggregateOutputType | null
+    _min: CargoPermisoMinAggregateOutputType | null
+    _max: CargoPermisoMaxAggregateOutputType | null
+  }
+
+  export type CargoPermisoMinAggregateOutputType = {
+    id: string | null
+    cargo: string | null
+    permisoId: string | null
+    createdAt: Date | null
+  }
+
+  export type CargoPermisoMaxAggregateOutputType = {
+    id: string | null
+    cargo: string | null
+    permisoId: string | null
+    createdAt: Date | null
+  }
+
+  export type CargoPermisoCountAggregateOutputType = {
+    id: number
+    cargo: number
+    permisoId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type CargoPermisoMinAggregateInputType = {
+    id?: true
+    cargo?: true
+    permisoId?: true
+    createdAt?: true
+  }
+
+  export type CargoPermisoMaxAggregateInputType = {
+    id?: true
+    cargo?: true
+    permisoId?: true
+    createdAt?: true
+  }
+
+  export type CargoPermisoCountAggregateInputType = {
+    id?: true
+    cargo?: true
+    permisoId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type CargoPermisoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CargoPermiso to aggregate.
+     */
+    where?: CargoPermisoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CargoPermisos to fetch.
+     */
+    orderBy?: CargoPermisoOrderByWithRelationInput | CargoPermisoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CargoPermisoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CargoPermisos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CargoPermisos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CargoPermisos
+    **/
+    _count?: true | CargoPermisoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CargoPermisoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CargoPermisoMaxAggregateInputType
+  }
+
+  export type GetCargoPermisoAggregateType<T extends CargoPermisoAggregateArgs> = {
+        [P in keyof T & keyof AggregateCargoPermiso]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCargoPermiso[P]>
+      : GetScalarType<T[P], AggregateCargoPermiso[P]>
+  }
+
+
+
+
+  export type CargoPermisoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CargoPermisoWhereInput
+    orderBy?: CargoPermisoOrderByWithAggregationInput | CargoPermisoOrderByWithAggregationInput[]
+    by: CargoPermisoScalarFieldEnum[] | CargoPermisoScalarFieldEnum
+    having?: CargoPermisoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CargoPermisoCountAggregateInputType | true
+    _min?: CargoPermisoMinAggregateInputType
+    _max?: CargoPermisoMaxAggregateInputType
+  }
+
+  export type CargoPermisoGroupByOutputType = {
+    id: string
+    cargo: string
+    permisoId: string
+    createdAt: Date
+    _count: CargoPermisoCountAggregateOutputType | null
+    _min: CargoPermisoMinAggregateOutputType | null
+    _max: CargoPermisoMaxAggregateOutputType | null
+  }
+
+  type GetCargoPermisoGroupByPayload<T extends CargoPermisoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CargoPermisoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CargoPermisoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CargoPermisoGroupByOutputType[P]>
+            : GetScalarType<T[P], CargoPermisoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CargoPermisoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    cargo?: boolean
+    permisoId?: boolean
+    createdAt?: boolean
+    permiso?: boolean | PermisoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cargoPermiso"]>
+
+  export type CargoPermisoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    cargo?: boolean
+    permisoId?: boolean
+    createdAt?: boolean
+    permiso?: boolean | PermisoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cargoPermiso"]>
+
+  export type CargoPermisoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    cargo?: boolean
+    permisoId?: boolean
+    createdAt?: boolean
+    permiso?: boolean | PermisoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["cargoPermiso"]>
+
+  export type CargoPermisoSelectScalar = {
+    id?: boolean
+    cargo?: boolean
+    permisoId?: boolean
+    createdAt?: boolean
+  }
+
+  export type CargoPermisoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "cargo" | "permisoId" | "createdAt", ExtArgs["result"]["cargoPermiso"]>
+  export type CargoPermisoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    permiso?: boolean | PermisoDefaultArgs<ExtArgs>
+  }
+  export type CargoPermisoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    permiso?: boolean | PermisoDefaultArgs<ExtArgs>
+  }
+  export type CargoPermisoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    permiso?: boolean | PermisoDefaultArgs<ExtArgs>
+  }
+
+  export type $CargoPermisoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CargoPermiso"
+    objects: {
+      permiso: Prisma.$PermisoPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      cargo: string
+      permisoId: string
+      createdAt: Date
+    }, ExtArgs["result"]["cargoPermiso"]>
+    composites: {}
+  }
+
+  type CargoPermisoGetPayload<S extends boolean | null | undefined | CargoPermisoDefaultArgs> = $Result.GetResult<Prisma.$CargoPermisoPayload, S>
+
+  type CargoPermisoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<CargoPermisoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: CargoPermisoCountAggregateInputType | true
+    }
+
+  export interface CargoPermisoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CargoPermiso'], meta: { name: 'CargoPermiso' } }
+    /**
+     * Find zero or one CargoPermiso that matches the filter.
+     * @param {CargoPermisoFindUniqueArgs} args - Arguments to find a CargoPermiso
+     * @example
+     * // Get one CargoPermiso
+     * const cargoPermiso = await prisma.cargoPermiso.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends CargoPermisoFindUniqueArgs>(args: SelectSubset<T, CargoPermisoFindUniqueArgs<ExtArgs>>): Prisma__CargoPermisoClient<$Result.GetResult<Prisma.$CargoPermisoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one CargoPermiso that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {CargoPermisoFindUniqueOrThrowArgs} args - Arguments to find a CargoPermiso
+     * @example
+     * // Get one CargoPermiso
+     * const cargoPermiso = await prisma.cargoPermiso.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends CargoPermisoFindUniqueOrThrowArgs>(args: SelectSubset<T, CargoPermisoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__CargoPermisoClient<$Result.GetResult<Prisma.$CargoPermisoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CargoPermiso that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CargoPermisoFindFirstArgs} args - Arguments to find a CargoPermiso
+     * @example
+     * // Get one CargoPermiso
+     * const cargoPermiso = await prisma.cargoPermiso.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends CargoPermisoFindFirstArgs>(args?: SelectSubset<T, CargoPermisoFindFirstArgs<ExtArgs>>): Prisma__CargoPermisoClient<$Result.GetResult<Prisma.$CargoPermisoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first CargoPermiso that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CargoPermisoFindFirstOrThrowArgs} args - Arguments to find a CargoPermiso
+     * @example
+     * // Get one CargoPermiso
+     * const cargoPermiso = await prisma.cargoPermiso.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends CargoPermisoFindFirstOrThrowArgs>(args?: SelectSubset<T, CargoPermisoFindFirstOrThrowArgs<ExtArgs>>): Prisma__CargoPermisoClient<$Result.GetResult<Prisma.$CargoPermisoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more CargoPermisos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CargoPermisoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CargoPermisos
+     * const cargoPermisos = await prisma.cargoPermiso.findMany()
+     * 
+     * // Get first 10 CargoPermisos
+     * const cargoPermisos = await prisma.cargoPermiso.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const cargoPermisoWithIdOnly = await prisma.cargoPermiso.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends CargoPermisoFindManyArgs>(args?: SelectSubset<T, CargoPermisoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CargoPermisoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a CargoPermiso.
+     * @param {CargoPermisoCreateArgs} args - Arguments to create a CargoPermiso.
+     * @example
+     * // Create one CargoPermiso
+     * const CargoPermiso = await prisma.cargoPermiso.create({
+     *   data: {
+     *     // ... data to create a CargoPermiso
+     *   }
+     * })
+     * 
+     */
+    create<T extends CargoPermisoCreateArgs>(args: SelectSubset<T, CargoPermisoCreateArgs<ExtArgs>>): Prisma__CargoPermisoClient<$Result.GetResult<Prisma.$CargoPermisoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many CargoPermisos.
+     * @param {CargoPermisoCreateManyArgs} args - Arguments to create many CargoPermisos.
+     * @example
+     * // Create many CargoPermisos
+     * const cargoPermiso = await prisma.cargoPermiso.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends CargoPermisoCreateManyArgs>(args?: SelectSubset<T, CargoPermisoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many CargoPermisos and returns the data saved in the database.
+     * @param {CargoPermisoCreateManyAndReturnArgs} args - Arguments to create many CargoPermisos.
+     * @example
+     * // Create many CargoPermisos
+     * const cargoPermiso = await prisma.cargoPermiso.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many CargoPermisos and only return the `id`
+     * const cargoPermisoWithIdOnly = await prisma.cargoPermiso.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends CargoPermisoCreateManyAndReturnArgs>(args?: SelectSubset<T, CargoPermisoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CargoPermisoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a CargoPermiso.
+     * @param {CargoPermisoDeleteArgs} args - Arguments to delete one CargoPermiso.
+     * @example
+     * // Delete one CargoPermiso
+     * const CargoPermiso = await prisma.cargoPermiso.delete({
+     *   where: {
+     *     // ... filter to delete one CargoPermiso
+     *   }
+     * })
+     * 
+     */
+    delete<T extends CargoPermisoDeleteArgs>(args: SelectSubset<T, CargoPermisoDeleteArgs<ExtArgs>>): Prisma__CargoPermisoClient<$Result.GetResult<Prisma.$CargoPermisoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one CargoPermiso.
+     * @param {CargoPermisoUpdateArgs} args - Arguments to update one CargoPermiso.
+     * @example
+     * // Update one CargoPermiso
+     * const cargoPermiso = await prisma.cargoPermiso.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends CargoPermisoUpdateArgs>(args: SelectSubset<T, CargoPermisoUpdateArgs<ExtArgs>>): Prisma__CargoPermisoClient<$Result.GetResult<Prisma.$CargoPermisoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more CargoPermisos.
+     * @param {CargoPermisoDeleteManyArgs} args - Arguments to filter CargoPermisos to delete.
+     * @example
+     * // Delete a few CargoPermisos
+     * const { count } = await prisma.cargoPermiso.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends CargoPermisoDeleteManyArgs>(args?: SelectSubset<T, CargoPermisoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CargoPermisos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CargoPermisoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CargoPermisos
+     * const cargoPermiso = await prisma.cargoPermiso.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends CargoPermisoUpdateManyArgs>(args: SelectSubset<T, CargoPermisoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CargoPermisos and returns the data updated in the database.
+     * @param {CargoPermisoUpdateManyAndReturnArgs} args - Arguments to update many CargoPermisos.
+     * @example
+     * // Update many CargoPermisos
+     * const cargoPermiso = await prisma.cargoPermiso.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more CargoPermisos and only return the `id`
+     * const cargoPermisoWithIdOnly = await prisma.cargoPermiso.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends CargoPermisoUpdateManyAndReturnArgs>(args: SelectSubset<T, CargoPermisoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CargoPermisoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one CargoPermiso.
+     * @param {CargoPermisoUpsertArgs} args - Arguments to update or create a CargoPermiso.
+     * @example
+     * // Update or create a CargoPermiso
+     * const cargoPermiso = await prisma.cargoPermiso.upsert({
+     *   create: {
+     *     // ... data to create a CargoPermiso
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CargoPermiso we want to update
+     *   }
+     * })
+     */
+    upsert<T extends CargoPermisoUpsertArgs>(args: SelectSubset<T, CargoPermisoUpsertArgs<ExtArgs>>): Prisma__CargoPermisoClient<$Result.GetResult<Prisma.$CargoPermisoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of CargoPermisos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CargoPermisoCountArgs} args - Arguments to filter CargoPermisos to count.
+     * @example
+     * // Count the number of CargoPermisos
+     * const count = await prisma.cargoPermiso.count({
+     *   where: {
+     *     // ... the filter for the CargoPermisos we want to count
+     *   }
+     * })
+    **/
+    count<T extends CargoPermisoCountArgs>(
+      args?: Subset<T, CargoPermisoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CargoPermisoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CargoPermiso.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CargoPermisoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CargoPermisoAggregateArgs>(args: Subset<T, CargoPermisoAggregateArgs>): Prisma.PrismaPromise<GetCargoPermisoAggregateType<T>>
+
+    /**
+     * Group by CargoPermiso.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CargoPermisoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CargoPermisoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CargoPermisoGroupByArgs['orderBy'] }
+        : { orderBy?: CargoPermisoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CargoPermisoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCargoPermisoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CargoPermiso model
+   */
+  readonly fields: CargoPermisoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CargoPermiso.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CargoPermisoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    permiso<T extends PermisoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PermisoDefaultArgs<ExtArgs>>): Prisma__PermisoClient<$Result.GetResult<Prisma.$PermisoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the CargoPermiso model
+   */
+  interface CargoPermisoFieldRefs {
+    readonly id: FieldRef<"CargoPermiso", 'String'>
+    readonly cargo: FieldRef<"CargoPermiso", 'String'>
+    readonly permisoId: FieldRef<"CargoPermiso", 'String'>
+    readonly createdAt: FieldRef<"CargoPermiso", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * CargoPermiso findUnique
+   */
+  export type CargoPermisoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CargoPermiso
+     */
+    select?: CargoPermisoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CargoPermiso
+     */
+    omit?: CargoPermisoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CargoPermisoInclude<ExtArgs> | null
+    /**
+     * Filter, which CargoPermiso to fetch.
+     */
+    where: CargoPermisoWhereUniqueInput
+  }
+
+  /**
+   * CargoPermiso findUniqueOrThrow
+   */
+  export type CargoPermisoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CargoPermiso
+     */
+    select?: CargoPermisoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CargoPermiso
+     */
+    omit?: CargoPermisoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CargoPermisoInclude<ExtArgs> | null
+    /**
+     * Filter, which CargoPermiso to fetch.
+     */
+    where: CargoPermisoWhereUniqueInput
+  }
+
+  /**
+   * CargoPermiso findFirst
+   */
+  export type CargoPermisoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CargoPermiso
+     */
+    select?: CargoPermisoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CargoPermiso
+     */
+    omit?: CargoPermisoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CargoPermisoInclude<ExtArgs> | null
+    /**
+     * Filter, which CargoPermiso to fetch.
+     */
+    where?: CargoPermisoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CargoPermisos to fetch.
+     */
+    orderBy?: CargoPermisoOrderByWithRelationInput | CargoPermisoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CargoPermisos.
+     */
+    cursor?: CargoPermisoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CargoPermisos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CargoPermisos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CargoPermisos.
+     */
+    distinct?: CargoPermisoScalarFieldEnum | CargoPermisoScalarFieldEnum[]
+  }
+
+  /**
+   * CargoPermiso findFirstOrThrow
+   */
+  export type CargoPermisoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CargoPermiso
+     */
+    select?: CargoPermisoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CargoPermiso
+     */
+    omit?: CargoPermisoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CargoPermisoInclude<ExtArgs> | null
+    /**
+     * Filter, which CargoPermiso to fetch.
+     */
+    where?: CargoPermisoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CargoPermisos to fetch.
+     */
+    orderBy?: CargoPermisoOrderByWithRelationInput | CargoPermisoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CargoPermisos.
+     */
+    cursor?: CargoPermisoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CargoPermisos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CargoPermisos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CargoPermisos.
+     */
+    distinct?: CargoPermisoScalarFieldEnum | CargoPermisoScalarFieldEnum[]
+  }
+
+  /**
+   * CargoPermiso findMany
+   */
+  export type CargoPermisoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CargoPermiso
+     */
+    select?: CargoPermisoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CargoPermiso
+     */
+    omit?: CargoPermisoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CargoPermisoInclude<ExtArgs> | null
+    /**
+     * Filter, which CargoPermisos to fetch.
+     */
+    where?: CargoPermisoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CargoPermisos to fetch.
+     */
+    orderBy?: CargoPermisoOrderByWithRelationInput | CargoPermisoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CargoPermisos.
+     */
+    cursor?: CargoPermisoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CargoPermisos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CargoPermisos.
+     */
+    skip?: number
+    distinct?: CargoPermisoScalarFieldEnum | CargoPermisoScalarFieldEnum[]
+  }
+
+  /**
+   * CargoPermiso create
+   */
+  export type CargoPermisoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CargoPermiso
+     */
+    select?: CargoPermisoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CargoPermiso
+     */
+    omit?: CargoPermisoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CargoPermisoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a CargoPermiso.
+     */
+    data: XOR<CargoPermisoCreateInput, CargoPermisoUncheckedCreateInput>
+  }
+
+  /**
+   * CargoPermiso createMany
+   */
+  export type CargoPermisoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CargoPermisos.
+     */
+    data: CargoPermisoCreateManyInput | CargoPermisoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * CargoPermiso createManyAndReturn
+   */
+  export type CargoPermisoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CargoPermiso
+     */
+    select?: CargoPermisoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CargoPermiso
+     */
+    omit?: CargoPermisoOmit<ExtArgs> | null
+    /**
+     * The data used to create many CargoPermisos.
+     */
+    data: CargoPermisoCreateManyInput | CargoPermisoCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CargoPermisoIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CargoPermiso update
+   */
+  export type CargoPermisoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CargoPermiso
+     */
+    select?: CargoPermisoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CargoPermiso
+     */
+    omit?: CargoPermisoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CargoPermisoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a CargoPermiso.
+     */
+    data: XOR<CargoPermisoUpdateInput, CargoPermisoUncheckedUpdateInput>
+    /**
+     * Choose, which CargoPermiso to update.
+     */
+    where: CargoPermisoWhereUniqueInput
+  }
+
+  /**
+   * CargoPermiso updateMany
+   */
+  export type CargoPermisoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CargoPermisos.
+     */
+    data: XOR<CargoPermisoUpdateManyMutationInput, CargoPermisoUncheckedUpdateManyInput>
+    /**
+     * Filter which CargoPermisos to update
+     */
+    where?: CargoPermisoWhereInput
+    /**
+     * Limit how many CargoPermisos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * CargoPermiso updateManyAndReturn
+   */
+  export type CargoPermisoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CargoPermiso
+     */
+    select?: CargoPermisoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the CargoPermiso
+     */
+    omit?: CargoPermisoOmit<ExtArgs> | null
+    /**
+     * The data used to update CargoPermisos.
+     */
+    data: XOR<CargoPermisoUpdateManyMutationInput, CargoPermisoUncheckedUpdateManyInput>
+    /**
+     * Filter which CargoPermisos to update
+     */
+    where?: CargoPermisoWhereInput
+    /**
+     * Limit how many CargoPermisos to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CargoPermisoIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * CargoPermiso upsert
+   */
+  export type CargoPermisoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CargoPermiso
+     */
+    select?: CargoPermisoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CargoPermiso
+     */
+    omit?: CargoPermisoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CargoPermisoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the CargoPermiso to update in case it exists.
+     */
+    where: CargoPermisoWhereUniqueInput
+    /**
+     * In case the CargoPermiso found by the `where` argument doesn't exist, create a new CargoPermiso with this data.
+     */
+    create: XOR<CargoPermisoCreateInput, CargoPermisoUncheckedCreateInput>
+    /**
+     * In case the CargoPermiso was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CargoPermisoUpdateInput, CargoPermisoUncheckedUpdateInput>
+  }
+
+  /**
+   * CargoPermiso delete
+   */
+  export type CargoPermisoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CargoPermiso
+     */
+    select?: CargoPermisoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CargoPermiso
+     */
+    omit?: CargoPermisoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CargoPermisoInclude<ExtArgs> | null
+    /**
+     * Filter which CargoPermiso to delete.
+     */
+    where: CargoPermisoWhereUniqueInput
+  }
+
+  /**
+   * CargoPermiso deleteMany
+   */
+  export type CargoPermisoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CargoPermisos to delete
+     */
+    where?: CargoPermisoWhereInput
+    /**
+     * Limit how many CargoPermisos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * CargoPermiso without action
+   */
+  export type CargoPermisoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CargoPermiso
+     */
+    select?: CargoPermisoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the CargoPermiso
+     */
+    omit?: CargoPermisoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: CargoPermisoInclude<ExtArgs> | null
   }
 
 
@@ -9324,6 +10587,7 @@ export namespace Prisma {
     pagos?: boolean | User$pagosArgs<ExtArgs>
     anunciosCreados?: boolean | User$anunciosCreadosArgs<ExtArgs>
     eventosCreados?: boolean | User$eventosCreadosArgs<ExtArgs>
+    passwordResetToken?: boolean | User$passwordResetTokenArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -9530,6 +10794,7 @@ export namespace Prisma {
     pagos?: boolean | User$pagosArgs<ExtArgs>
     anunciosCreados?: boolean | User$anunciosCreadosArgs<ExtArgs>
     eventosCreados?: boolean | User$eventosCreadosArgs<ExtArgs>
+    passwordResetToken?: boolean | User$passwordResetTokenArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -9561,6 +10826,7 @@ export namespace Prisma {
       pagos: Prisma.$PagoPayload<ExtArgs>[]
       anunciosCreados: Prisma.$AnuncioPayload<ExtArgs>[]
       eventosCreados: Prisma.$EventoPayload<ExtArgs>[]
+      passwordResetToken: Prisma.$PasswordResetTokenPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -10031,6 +11297,7 @@ export namespace Prisma {
     pagos<T extends User$pagosArgs<ExtArgs> = {}>(args?: Subset<T, User$pagosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PagoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     anunciosCreados<T extends User$anunciosCreadosArgs<ExtArgs> = {}>(args?: Subset<T, User$anunciosCreadosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnuncioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     eventosCreados<T extends User$eventosCreadosArgs<ExtArgs> = {}>(args?: Subset<T, User$eventosCreadosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    passwordResetToken<T extends User$passwordResetTokenArgs<ExtArgs> = {}>(args?: Subset<T, User$passwordResetTokenArgs<ExtArgs>>): Prisma__PasswordResetTokenClient<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10903,6 +12170,25 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: EventoScalarFieldEnum | EventoScalarFieldEnum[]
+  }
+
+  /**
+   * User.passwordResetToken
+   */
+  export type User$passwordResetTokenArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetToken
+     */
+    select?: PasswordResetTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetToken
+     */
+    omit?: PasswordResetTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetTokenInclude<ExtArgs> | null
+    where?: PasswordResetTokenWhereInput
   }
 
   /**
@@ -14212,6 +15498,1064 @@ export namespace Prisma {
      * Omit specific fields from the VerificationToken
      */
     omit?: VerificationTokenOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PasswordResetToken
+   */
+
+  export type AggregatePasswordResetToken = {
+    _count: PasswordResetTokenCountAggregateOutputType | null
+    _min: PasswordResetTokenMinAggregateOutputType | null
+    _max: PasswordResetTokenMaxAggregateOutputType | null
+  }
+
+  export type PasswordResetTokenMinAggregateOutputType = {
+    id: string | null
+    token: string | null
+    expires: Date | null
+    userId: string | null
+    createdAt: Date | null
+  }
+
+  export type PasswordResetTokenMaxAggregateOutputType = {
+    id: string | null
+    token: string | null
+    expires: Date | null
+    userId: string | null
+    createdAt: Date | null
+  }
+
+  export type PasswordResetTokenCountAggregateOutputType = {
+    id: number
+    token: number
+    expires: number
+    userId: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type PasswordResetTokenMinAggregateInputType = {
+    id?: true
+    token?: true
+    expires?: true
+    userId?: true
+    createdAt?: true
+  }
+
+  export type PasswordResetTokenMaxAggregateInputType = {
+    id?: true
+    token?: true
+    expires?: true
+    userId?: true
+    createdAt?: true
+  }
+
+  export type PasswordResetTokenCountAggregateInputType = {
+    id?: true
+    token?: true
+    expires?: true
+    userId?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type PasswordResetTokenAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PasswordResetToken to aggregate.
+     */
+    where?: PasswordResetTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordResetTokens to fetch.
+     */
+    orderBy?: PasswordResetTokenOrderByWithRelationInput | PasswordResetTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PasswordResetTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordResetTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordResetTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PasswordResetTokens
+    **/
+    _count?: true | PasswordResetTokenCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PasswordResetTokenMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PasswordResetTokenMaxAggregateInputType
+  }
+
+  export type GetPasswordResetTokenAggregateType<T extends PasswordResetTokenAggregateArgs> = {
+        [P in keyof T & keyof AggregatePasswordResetToken]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePasswordResetToken[P]>
+      : GetScalarType<T[P], AggregatePasswordResetToken[P]>
+  }
+
+
+
+
+  export type PasswordResetTokenGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PasswordResetTokenWhereInput
+    orderBy?: PasswordResetTokenOrderByWithAggregationInput | PasswordResetTokenOrderByWithAggregationInput[]
+    by: PasswordResetTokenScalarFieldEnum[] | PasswordResetTokenScalarFieldEnum
+    having?: PasswordResetTokenScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PasswordResetTokenCountAggregateInputType | true
+    _min?: PasswordResetTokenMinAggregateInputType
+    _max?: PasswordResetTokenMaxAggregateInputType
+  }
+
+  export type PasswordResetTokenGroupByOutputType = {
+    id: string
+    token: string
+    expires: Date
+    userId: string
+    createdAt: Date
+    _count: PasswordResetTokenCountAggregateOutputType | null
+    _min: PasswordResetTokenMinAggregateOutputType | null
+    _max: PasswordResetTokenMaxAggregateOutputType | null
+  }
+
+  type GetPasswordResetTokenGroupByPayload<T extends PasswordResetTokenGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PasswordResetTokenGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PasswordResetTokenGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PasswordResetTokenGroupByOutputType[P]>
+            : GetScalarType<T[P], PasswordResetTokenGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PasswordResetTokenSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    token?: boolean
+    expires?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["passwordResetToken"]>
+
+  export type PasswordResetTokenSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    token?: boolean
+    expires?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["passwordResetToken"]>
+
+  export type PasswordResetTokenSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    token?: boolean
+    expires?: boolean
+    userId?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["passwordResetToken"]>
+
+  export type PasswordResetTokenSelectScalar = {
+    id?: boolean
+    token?: boolean
+    expires?: boolean
+    userId?: boolean
+    createdAt?: boolean
+  }
+
+  export type PasswordResetTokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "token" | "expires" | "userId" | "createdAt", ExtArgs["result"]["passwordResetToken"]>
+  export type PasswordResetTokenInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PasswordResetTokenIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type PasswordResetTokenIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $PasswordResetTokenPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PasswordResetToken"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      token: string
+      expires: Date
+      userId: string
+      createdAt: Date
+    }, ExtArgs["result"]["passwordResetToken"]>
+    composites: {}
+  }
+
+  type PasswordResetTokenGetPayload<S extends boolean | null | undefined | PasswordResetTokenDefaultArgs> = $Result.GetResult<Prisma.$PasswordResetTokenPayload, S>
+
+  type PasswordResetTokenCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PasswordResetTokenFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PasswordResetTokenCountAggregateInputType | true
+    }
+
+  export interface PasswordResetTokenDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PasswordResetToken'], meta: { name: 'PasswordResetToken' } }
+    /**
+     * Find zero or one PasswordResetToken that matches the filter.
+     * @param {PasswordResetTokenFindUniqueArgs} args - Arguments to find a PasswordResetToken
+     * @example
+     * // Get one PasswordResetToken
+     * const passwordResetToken = await prisma.passwordResetToken.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PasswordResetTokenFindUniqueArgs>(args: SelectSubset<T, PasswordResetTokenFindUniqueArgs<ExtArgs>>): Prisma__PasswordResetTokenClient<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PasswordResetToken that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PasswordResetTokenFindUniqueOrThrowArgs} args - Arguments to find a PasswordResetToken
+     * @example
+     * // Get one PasswordResetToken
+     * const passwordResetToken = await prisma.passwordResetToken.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PasswordResetTokenFindUniqueOrThrowArgs>(args: SelectSubset<T, PasswordResetTokenFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PasswordResetTokenClient<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PasswordResetToken that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetTokenFindFirstArgs} args - Arguments to find a PasswordResetToken
+     * @example
+     * // Get one PasswordResetToken
+     * const passwordResetToken = await prisma.passwordResetToken.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PasswordResetTokenFindFirstArgs>(args?: SelectSubset<T, PasswordResetTokenFindFirstArgs<ExtArgs>>): Prisma__PasswordResetTokenClient<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PasswordResetToken that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetTokenFindFirstOrThrowArgs} args - Arguments to find a PasswordResetToken
+     * @example
+     * // Get one PasswordResetToken
+     * const passwordResetToken = await prisma.passwordResetToken.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PasswordResetTokenFindFirstOrThrowArgs>(args?: SelectSubset<T, PasswordResetTokenFindFirstOrThrowArgs<ExtArgs>>): Prisma__PasswordResetTokenClient<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PasswordResetTokens that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetTokenFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PasswordResetTokens
+     * const passwordResetTokens = await prisma.passwordResetToken.findMany()
+     * 
+     * // Get first 10 PasswordResetTokens
+     * const passwordResetTokens = await prisma.passwordResetToken.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const passwordResetTokenWithIdOnly = await prisma.passwordResetToken.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PasswordResetTokenFindManyArgs>(args?: SelectSubset<T, PasswordResetTokenFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PasswordResetToken.
+     * @param {PasswordResetTokenCreateArgs} args - Arguments to create a PasswordResetToken.
+     * @example
+     * // Create one PasswordResetToken
+     * const PasswordResetToken = await prisma.passwordResetToken.create({
+     *   data: {
+     *     // ... data to create a PasswordResetToken
+     *   }
+     * })
+     * 
+     */
+    create<T extends PasswordResetTokenCreateArgs>(args: SelectSubset<T, PasswordResetTokenCreateArgs<ExtArgs>>): Prisma__PasswordResetTokenClient<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PasswordResetTokens.
+     * @param {PasswordResetTokenCreateManyArgs} args - Arguments to create many PasswordResetTokens.
+     * @example
+     * // Create many PasswordResetTokens
+     * const passwordResetToken = await prisma.passwordResetToken.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PasswordResetTokenCreateManyArgs>(args?: SelectSubset<T, PasswordResetTokenCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PasswordResetTokens and returns the data saved in the database.
+     * @param {PasswordResetTokenCreateManyAndReturnArgs} args - Arguments to create many PasswordResetTokens.
+     * @example
+     * // Create many PasswordResetTokens
+     * const passwordResetToken = await prisma.passwordResetToken.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PasswordResetTokens and only return the `id`
+     * const passwordResetTokenWithIdOnly = await prisma.passwordResetToken.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PasswordResetTokenCreateManyAndReturnArgs>(args?: SelectSubset<T, PasswordResetTokenCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PasswordResetToken.
+     * @param {PasswordResetTokenDeleteArgs} args - Arguments to delete one PasswordResetToken.
+     * @example
+     * // Delete one PasswordResetToken
+     * const PasswordResetToken = await prisma.passwordResetToken.delete({
+     *   where: {
+     *     // ... filter to delete one PasswordResetToken
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PasswordResetTokenDeleteArgs>(args: SelectSubset<T, PasswordResetTokenDeleteArgs<ExtArgs>>): Prisma__PasswordResetTokenClient<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PasswordResetToken.
+     * @param {PasswordResetTokenUpdateArgs} args - Arguments to update one PasswordResetToken.
+     * @example
+     * // Update one PasswordResetToken
+     * const passwordResetToken = await prisma.passwordResetToken.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PasswordResetTokenUpdateArgs>(args: SelectSubset<T, PasswordResetTokenUpdateArgs<ExtArgs>>): Prisma__PasswordResetTokenClient<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PasswordResetTokens.
+     * @param {PasswordResetTokenDeleteManyArgs} args - Arguments to filter PasswordResetTokens to delete.
+     * @example
+     * // Delete a few PasswordResetTokens
+     * const { count } = await prisma.passwordResetToken.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PasswordResetTokenDeleteManyArgs>(args?: SelectSubset<T, PasswordResetTokenDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PasswordResetTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetTokenUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PasswordResetTokens
+     * const passwordResetToken = await prisma.passwordResetToken.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PasswordResetTokenUpdateManyArgs>(args: SelectSubset<T, PasswordResetTokenUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PasswordResetTokens and returns the data updated in the database.
+     * @param {PasswordResetTokenUpdateManyAndReturnArgs} args - Arguments to update many PasswordResetTokens.
+     * @example
+     * // Update many PasswordResetTokens
+     * const passwordResetToken = await prisma.passwordResetToken.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PasswordResetTokens and only return the `id`
+     * const passwordResetTokenWithIdOnly = await prisma.passwordResetToken.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PasswordResetTokenUpdateManyAndReturnArgs>(args: SelectSubset<T, PasswordResetTokenUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PasswordResetToken.
+     * @param {PasswordResetTokenUpsertArgs} args - Arguments to update or create a PasswordResetToken.
+     * @example
+     * // Update or create a PasswordResetToken
+     * const passwordResetToken = await prisma.passwordResetToken.upsert({
+     *   create: {
+     *     // ... data to create a PasswordResetToken
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PasswordResetToken we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PasswordResetTokenUpsertArgs>(args: SelectSubset<T, PasswordResetTokenUpsertArgs<ExtArgs>>): Prisma__PasswordResetTokenClient<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PasswordResetTokens.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetTokenCountArgs} args - Arguments to filter PasswordResetTokens to count.
+     * @example
+     * // Count the number of PasswordResetTokens
+     * const count = await prisma.passwordResetToken.count({
+     *   where: {
+     *     // ... the filter for the PasswordResetTokens we want to count
+     *   }
+     * })
+    **/
+    count<T extends PasswordResetTokenCountArgs>(
+      args?: Subset<T, PasswordResetTokenCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PasswordResetTokenCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PasswordResetToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetTokenAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PasswordResetTokenAggregateArgs>(args: Subset<T, PasswordResetTokenAggregateArgs>): Prisma.PrismaPromise<GetPasswordResetTokenAggregateType<T>>
+
+    /**
+     * Group by PasswordResetToken.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PasswordResetTokenGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PasswordResetTokenGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PasswordResetTokenGroupByArgs['orderBy'] }
+        : { orderBy?: PasswordResetTokenGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PasswordResetTokenGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPasswordResetTokenGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PasswordResetToken model
+   */
+  readonly fields: PasswordResetTokenFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PasswordResetToken.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PasswordResetTokenClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PasswordResetToken model
+   */
+  interface PasswordResetTokenFieldRefs {
+    readonly id: FieldRef<"PasswordResetToken", 'String'>
+    readonly token: FieldRef<"PasswordResetToken", 'String'>
+    readonly expires: FieldRef<"PasswordResetToken", 'DateTime'>
+    readonly userId: FieldRef<"PasswordResetToken", 'String'>
+    readonly createdAt: FieldRef<"PasswordResetToken", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PasswordResetToken findUnique
+   */
+  export type PasswordResetTokenFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetToken
+     */
+    select?: PasswordResetTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetToken
+     */
+    omit?: PasswordResetTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordResetToken to fetch.
+     */
+    where: PasswordResetTokenWhereUniqueInput
+  }
+
+  /**
+   * PasswordResetToken findUniqueOrThrow
+   */
+  export type PasswordResetTokenFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetToken
+     */
+    select?: PasswordResetTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetToken
+     */
+    omit?: PasswordResetTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordResetToken to fetch.
+     */
+    where: PasswordResetTokenWhereUniqueInput
+  }
+
+  /**
+   * PasswordResetToken findFirst
+   */
+  export type PasswordResetTokenFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetToken
+     */
+    select?: PasswordResetTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetToken
+     */
+    omit?: PasswordResetTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordResetToken to fetch.
+     */
+    where?: PasswordResetTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordResetTokens to fetch.
+     */
+    orderBy?: PasswordResetTokenOrderByWithRelationInput | PasswordResetTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PasswordResetTokens.
+     */
+    cursor?: PasswordResetTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordResetTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordResetTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PasswordResetTokens.
+     */
+    distinct?: PasswordResetTokenScalarFieldEnum | PasswordResetTokenScalarFieldEnum[]
+  }
+
+  /**
+   * PasswordResetToken findFirstOrThrow
+   */
+  export type PasswordResetTokenFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetToken
+     */
+    select?: PasswordResetTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetToken
+     */
+    omit?: PasswordResetTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordResetToken to fetch.
+     */
+    where?: PasswordResetTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordResetTokens to fetch.
+     */
+    orderBy?: PasswordResetTokenOrderByWithRelationInput | PasswordResetTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PasswordResetTokens.
+     */
+    cursor?: PasswordResetTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordResetTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordResetTokens.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PasswordResetTokens.
+     */
+    distinct?: PasswordResetTokenScalarFieldEnum | PasswordResetTokenScalarFieldEnum[]
+  }
+
+  /**
+   * PasswordResetToken findMany
+   */
+  export type PasswordResetTokenFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetToken
+     */
+    select?: PasswordResetTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetToken
+     */
+    omit?: PasswordResetTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetTokenInclude<ExtArgs> | null
+    /**
+     * Filter, which PasswordResetTokens to fetch.
+     */
+    where?: PasswordResetTokenWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PasswordResetTokens to fetch.
+     */
+    orderBy?: PasswordResetTokenOrderByWithRelationInput | PasswordResetTokenOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PasswordResetTokens.
+     */
+    cursor?: PasswordResetTokenWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PasswordResetTokens from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PasswordResetTokens.
+     */
+    skip?: number
+    distinct?: PasswordResetTokenScalarFieldEnum | PasswordResetTokenScalarFieldEnum[]
+  }
+
+  /**
+   * PasswordResetToken create
+   */
+  export type PasswordResetTokenCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetToken
+     */
+    select?: PasswordResetTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetToken
+     */
+    omit?: PasswordResetTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetTokenInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PasswordResetToken.
+     */
+    data: XOR<PasswordResetTokenCreateInput, PasswordResetTokenUncheckedCreateInput>
+  }
+
+  /**
+   * PasswordResetToken createMany
+   */
+  export type PasswordResetTokenCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PasswordResetTokens.
+     */
+    data: PasswordResetTokenCreateManyInput | PasswordResetTokenCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PasswordResetToken createManyAndReturn
+   */
+  export type PasswordResetTokenCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetToken
+     */
+    select?: PasswordResetTokenSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetToken
+     */
+    omit?: PasswordResetTokenOmit<ExtArgs> | null
+    /**
+     * The data used to create many PasswordResetTokens.
+     */
+    data: PasswordResetTokenCreateManyInput | PasswordResetTokenCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetTokenIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PasswordResetToken update
+   */
+  export type PasswordResetTokenUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetToken
+     */
+    select?: PasswordResetTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetToken
+     */
+    omit?: PasswordResetTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetTokenInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PasswordResetToken.
+     */
+    data: XOR<PasswordResetTokenUpdateInput, PasswordResetTokenUncheckedUpdateInput>
+    /**
+     * Choose, which PasswordResetToken to update.
+     */
+    where: PasswordResetTokenWhereUniqueInput
+  }
+
+  /**
+   * PasswordResetToken updateMany
+   */
+  export type PasswordResetTokenUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PasswordResetTokens.
+     */
+    data: XOR<PasswordResetTokenUpdateManyMutationInput, PasswordResetTokenUncheckedUpdateManyInput>
+    /**
+     * Filter which PasswordResetTokens to update
+     */
+    where?: PasswordResetTokenWhereInput
+    /**
+     * Limit how many PasswordResetTokens to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PasswordResetToken updateManyAndReturn
+   */
+  export type PasswordResetTokenUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetToken
+     */
+    select?: PasswordResetTokenSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetToken
+     */
+    omit?: PasswordResetTokenOmit<ExtArgs> | null
+    /**
+     * The data used to update PasswordResetTokens.
+     */
+    data: XOR<PasswordResetTokenUpdateManyMutationInput, PasswordResetTokenUncheckedUpdateManyInput>
+    /**
+     * Filter which PasswordResetTokens to update
+     */
+    where?: PasswordResetTokenWhereInput
+    /**
+     * Limit how many PasswordResetTokens to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetTokenIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PasswordResetToken upsert
+   */
+  export type PasswordResetTokenUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetToken
+     */
+    select?: PasswordResetTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetToken
+     */
+    omit?: PasswordResetTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetTokenInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PasswordResetToken to update in case it exists.
+     */
+    where: PasswordResetTokenWhereUniqueInput
+    /**
+     * In case the PasswordResetToken found by the `where` argument doesn't exist, create a new PasswordResetToken with this data.
+     */
+    create: XOR<PasswordResetTokenCreateInput, PasswordResetTokenUncheckedCreateInput>
+    /**
+     * In case the PasswordResetToken was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PasswordResetTokenUpdateInput, PasswordResetTokenUncheckedUpdateInput>
+  }
+
+  /**
+   * PasswordResetToken delete
+   */
+  export type PasswordResetTokenDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetToken
+     */
+    select?: PasswordResetTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetToken
+     */
+    omit?: PasswordResetTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetTokenInclude<ExtArgs> | null
+    /**
+     * Filter which PasswordResetToken to delete.
+     */
+    where: PasswordResetTokenWhereUniqueInput
+  }
+
+  /**
+   * PasswordResetToken deleteMany
+   */
+  export type PasswordResetTokenDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PasswordResetTokens to delete
+     */
+    where?: PasswordResetTokenWhereInput
+    /**
+     * Limit how many PasswordResetTokens to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PasswordResetToken without action
+   */
+  export type PasswordResetTokenDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PasswordResetToken
+     */
+    select?: PasswordResetTokenSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PasswordResetToken
+     */
+    omit?: PasswordResetTokenOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PasswordResetTokenInclude<ExtArgs> | null
   }
 
 
@@ -34393,6 +36737,16 @@ export namespace Prisma {
   export type UsuarioPermisoScalarFieldEnum = (typeof UsuarioPermisoScalarFieldEnum)[keyof typeof UsuarioPermisoScalarFieldEnum]
 
 
+  export const CargoPermisoScalarFieldEnum: {
+    id: 'id',
+    cargo: 'cargo',
+    permisoId: 'permisoId',
+    createdAt: 'createdAt'
+  };
+
+  export type CargoPermisoScalarFieldEnum = (typeof CargoPermisoScalarFieldEnum)[keyof typeof CargoPermisoScalarFieldEnum]
+
+
   export const InstitucionEducativaScalarFieldEnum: {
     id: 'id',
     codigoModular: 'codigoModular',
@@ -34527,6 +36881,17 @@ export namespace Prisma {
   };
 
   export type VerificationTokenScalarFieldEnum = (typeof VerificationTokenScalarFieldEnum)[keyof typeof VerificationTokenScalarFieldEnum]
+
+
+  export const PasswordResetTokenScalarFieldEnum: {
+    id: 'id',
+    token: 'token',
+    expires: 'expires',
+    userId: 'userId',
+    createdAt: 'createdAt'
+  };
+
+  export type PasswordResetTokenScalarFieldEnum = (typeof PasswordResetTokenScalarFieldEnum)[keyof typeof PasswordResetTokenScalarFieldEnum]
 
 
   export const NivelScalarFieldEnum: {
@@ -35097,6 +37462,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Permiso"> | Date | string
     roles?: RolPermisoListRelationFilter
     usuarioPermisos?: UsuarioPermisoListRelationFilter
+    cargoPermisos?: CargoPermisoListRelationFilter
   }
 
   export type PermisoOrderByWithRelationInput = {
@@ -35110,6 +37476,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     roles?: RolPermisoOrderByRelationAggregateInput
     usuarioPermisos?: UsuarioPermisoOrderByRelationAggregateInput
+    cargoPermisos?: CargoPermisoOrderByRelationAggregateInput
   }
 
   export type PermisoWhereUniqueInput = Prisma.AtLeast<{
@@ -35126,6 +37493,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Permiso"> | Date | string
     roles?: RolPermisoListRelationFilter
     usuarioPermisos?: UsuarioPermisoListRelationFilter
+    cargoPermisos?: CargoPermisoListRelationFilter
   }, "id" | "codigo">
 
   export type PermisoOrderByWithAggregationInput = {
@@ -35269,6 +37637,57 @@ export namespace Prisma {
     fechaInicio?: DateTimeWithAggregatesFilter<"UsuarioPermiso"> | Date | string
     fechaFin?: DateTimeNullableWithAggregatesFilter<"UsuarioPermiso"> | Date | string | null
     activo?: BoolWithAggregatesFilter<"UsuarioPermiso"> | boolean
+  }
+
+  export type CargoPermisoWhereInput = {
+    AND?: CargoPermisoWhereInput | CargoPermisoWhereInput[]
+    OR?: CargoPermisoWhereInput[]
+    NOT?: CargoPermisoWhereInput | CargoPermisoWhereInput[]
+    id?: StringFilter<"CargoPermiso"> | string
+    cargo?: StringFilter<"CargoPermiso"> | string
+    permisoId?: StringFilter<"CargoPermiso"> | string
+    createdAt?: DateTimeFilter<"CargoPermiso"> | Date | string
+    permiso?: XOR<PermisoScalarRelationFilter, PermisoWhereInput>
+  }
+
+  export type CargoPermisoOrderByWithRelationInput = {
+    id?: SortOrder
+    cargo?: SortOrder
+    permisoId?: SortOrder
+    createdAt?: SortOrder
+    permiso?: PermisoOrderByWithRelationInput
+  }
+
+  export type CargoPermisoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    cargo_permisoId?: CargoPermisoCargoPermisoIdCompoundUniqueInput
+    AND?: CargoPermisoWhereInput | CargoPermisoWhereInput[]
+    OR?: CargoPermisoWhereInput[]
+    NOT?: CargoPermisoWhereInput | CargoPermisoWhereInput[]
+    cargo?: StringFilter<"CargoPermiso"> | string
+    permisoId?: StringFilter<"CargoPermiso"> | string
+    createdAt?: DateTimeFilter<"CargoPermiso"> | Date | string
+    permiso?: XOR<PermisoScalarRelationFilter, PermisoWhereInput>
+  }, "id" | "cargo_permisoId">
+
+  export type CargoPermisoOrderByWithAggregationInput = {
+    id?: SortOrder
+    cargo?: SortOrder
+    permisoId?: SortOrder
+    createdAt?: SortOrder
+    _count?: CargoPermisoCountOrderByAggregateInput
+    _max?: CargoPermisoMaxOrderByAggregateInput
+    _min?: CargoPermisoMinOrderByAggregateInput
+  }
+
+  export type CargoPermisoScalarWhereWithAggregatesInput = {
+    AND?: CargoPermisoScalarWhereWithAggregatesInput | CargoPermisoScalarWhereWithAggregatesInput[]
+    OR?: CargoPermisoScalarWhereWithAggregatesInput[]
+    NOT?: CargoPermisoScalarWhereWithAggregatesInput | CargoPermisoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"CargoPermiso"> | string
+    cargo?: StringWithAggregatesFilter<"CargoPermiso"> | string
+    permisoId?: StringWithAggregatesFilter<"CargoPermiso"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"CargoPermiso"> | Date | string
   }
 
   export type InstitucionEducativaWhereInput = {
@@ -35529,6 +37948,7 @@ export namespace Prisma {
     pagos?: PagoListRelationFilter
     anunciosCreados?: AnuncioListRelationFilter
     eventosCreados?: EventoListRelationFilter
+    passwordResetToken?: XOR<PasswordResetTokenNullableScalarRelationFilter, PasswordResetTokenWhereInput> | null
   }
 
   export type UserOrderByWithRelationInput = {
@@ -35606,6 +38026,7 @@ export namespace Prisma {
     pagos?: PagoOrderByRelationAggregateInput
     anunciosCreados?: AnuncioOrderByRelationAggregateInput
     eventosCreados?: EventoOrderByRelationAggregateInput
+    passwordResetToken?: PasswordResetTokenOrderByWithRelationInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -35686,6 +38107,7 @@ export namespace Prisma {
     pagos?: PagoListRelationFilter
     anunciosCreados?: AnuncioListRelationFilter
     eventosCreados?: EventoListRelationFilter
+    passwordResetToken?: XOR<PasswordResetTokenNullableScalarRelationFilter, PasswordResetTokenWhereInput> | null
   }, "id" | "email" | "dni" | "codigoEstudiante" | "codigoSiagie" | "codigoModular">
 
   export type UserOrderByWithAggregationInput = {
@@ -36024,6 +38446,61 @@ export namespace Prisma {
     identifier?: StringWithAggregatesFilter<"VerificationToken"> | string
     token?: StringWithAggregatesFilter<"VerificationToken"> | string
     expires?: DateTimeWithAggregatesFilter<"VerificationToken"> | Date | string
+  }
+
+  export type PasswordResetTokenWhereInput = {
+    AND?: PasswordResetTokenWhereInput | PasswordResetTokenWhereInput[]
+    OR?: PasswordResetTokenWhereInput[]
+    NOT?: PasswordResetTokenWhereInput | PasswordResetTokenWhereInput[]
+    id?: StringFilter<"PasswordResetToken"> | string
+    token?: StringFilter<"PasswordResetToken"> | string
+    expires?: DateTimeFilter<"PasswordResetToken"> | Date | string
+    userId?: StringFilter<"PasswordResetToken"> | string
+    createdAt?: DateTimeFilter<"PasswordResetToken"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type PasswordResetTokenOrderByWithRelationInput = {
+    id?: SortOrder
+    token?: SortOrder
+    expires?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type PasswordResetTokenWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: PasswordResetTokenWhereInput | PasswordResetTokenWhereInput[]
+    OR?: PasswordResetTokenWhereInput[]
+    NOT?: PasswordResetTokenWhereInput | PasswordResetTokenWhereInput[]
+    token?: StringFilter<"PasswordResetToken"> | string
+    expires?: DateTimeFilter<"PasswordResetToken"> | Date | string
+    createdAt?: DateTimeFilter<"PasswordResetToken"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId">
+
+  export type PasswordResetTokenOrderByWithAggregationInput = {
+    id?: SortOrder
+    token?: SortOrder
+    expires?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+    _count?: PasswordResetTokenCountOrderByAggregateInput
+    _max?: PasswordResetTokenMaxOrderByAggregateInput
+    _min?: PasswordResetTokenMinOrderByAggregateInput
+  }
+
+  export type PasswordResetTokenScalarWhereWithAggregatesInput = {
+    AND?: PasswordResetTokenScalarWhereWithAggregatesInput | PasswordResetTokenScalarWhereWithAggregatesInput[]
+    OR?: PasswordResetTokenScalarWhereWithAggregatesInput[]
+    NOT?: PasswordResetTokenScalarWhereWithAggregatesInput | PasswordResetTokenScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PasswordResetToken"> | string
+    token?: StringWithAggregatesFilter<"PasswordResetToken"> | string
+    expires?: DateTimeWithAggregatesFilter<"PasswordResetToken"> | Date | string
+    userId?: StringWithAggregatesFilter<"PasswordResetToken"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"PasswordResetToken"> | Date | string
   }
 
   export type NivelWhereInput = {
@@ -37735,6 +40212,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     roles?: RolPermisoCreateNestedManyWithoutPermisoInput
     usuarioPermisos?: UsuarioPermisoCreateNestedManyWithoutPermisoInput
+    cargoPermisos?: CargoPermisoCreateNestedManyWithoutPermisoInput
   }
 
   export type PermisoUncheckedCreateInput = {
@@ -37748,6 +40226,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     roles?: RolPermisoUncheckedCreateNestedManyWithoutPermisoInput
     usuarioPermisos?: UsuarioPermisoUncheckedCreateNestedManyWithoutPermisoInput
+    cargoPermisos?: CargoPermisoUncheckedCreateNestedManyWithoutPermisoInput
   }
 
   export type PermisoUpdateInput = {
@@ -37761,6 +40240,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     roles?: RolPermisoUpdateManyWithoutPermisoNestedInput
     usuarioPermisos?: UsuarioPermisoUpdateManyWithoutPermisoNestedInput
+    cargoPermisos?: CargoPermisoUpdateManyWithoutPermisoNestedInput
   }
 
   export type PermisoUncheckedUpdateInput = {
@@ -37774,6 +40254,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     roles?: RolPermisoUncheckedUpdateManyWithoutPermisoNestedInput
     usuarioPermisos?: UsuarioPermisoUncheckedUpdateManyWithoutPermisoNestedInput
+    cargoPermisos?: CargoPermisoUncheckedUpdateManyWithoutPermisoNestedInput
   }
 
   export type PermisoCreateManyInput = {
@@ -37916,6 +40397,54 @@ export namespace Prisma {
     fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type CargoPermisoCreateInput = {
+    id?: string
+    cargo: string
+    createdAt?: Date | string
+    permiso: PermisoCreateNestedOneWithoutCargoPermisosInput
+  }
+
+  export type CargoPermisoUncheckedCreateInput = {
+    id?: string
+    cargo: string
+    permisoId: string
+    createdAt?: Date | string
+  }
+
+  export type CargoPermisoUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    cargo?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    permiso?: PermisoUpdateOneRequiredWithoutCargoPermisosNestedInput
+  }
+
+  export type CargoPermisoUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    cargo?: StringFieldUpdateOperationsInput | string
+    permisoId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CargoPermisoCreateManyInput = {
+    id?: string
+    cargo: string
+    permisoId: string
+    createdAt?: Date | string
+  }
+
+  export type CargoPermisoUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    cargo?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CargoPermisoUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    cargo?: StringFieldUpdateOperationsInput | string
+    permisoId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type InstitucionEducativaCreateInput = {
@@ -38217,6 +40746,7 @@ export namespace Prisma {
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -38292,6 +40822,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -38367,6 +40898,7 @@ export namespace Prisma {
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -38442,6 +40974,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -38841,6 +41374,61 @@ export namespace Prisma {
     identifier?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PasswordResetTokenCreateInput = {
+    id?: string
+    token: string
+    expires: Date | string
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutPasswordResetTokenInput
+  }
+
+  export type PasswordResetTokenUncheckedCreateInput = {
+    id?: string
+    token: string
+    expires: Date | string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type PasswordResetTokenUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPasswordResetTokenNestedInput
+  }
+
+  export type PasswordResetTokenUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PasswordResetTokenCreateManyInput = {
+    id?: string
+    token: string
+    expires: Date | string
+    userId: string
+    createdAt?: Date | string
+  }
+
+  export type PasswordResetTokenUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PasswordResetTokenUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    userId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type NivelCreateInput = {
@@ -40775,6 +43363,12 @@ export namespace Prisma {
     none?: UsuarioPermisoWhereInput
   }
 
+  export type CargoPermisoListRelationFilter = {
+    every?: CargoPermisoWhereInput
+    some?: CargoPermisoWhereInput
+    none?: CargoPermisoWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -40785,6 +43379,10 @@ export namespace Prisma {
   }
 
   export type UsuarioPermisoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type CargoPermisoOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -40987,6 +43585,32 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type CargoPermisoCargoPermisoIdCompoundUniqueInput = {
+    cargo: string
+    permisoId: string
+  }
+
+  export type CargoPermisoCountOrderByAggregateInput = {
+    id?: SortOrder
+    cargo?: SortOrder
+    permisoId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CargoPermisoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    cargo?: SortOrder
+    permisoId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type CargoPermisoMinOrderByAggregateInput = {
+    id?: SortOrder
+    cargo?: SortOrder
+    permisoId?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type EnumTipoGestionFilter<$PrismaModel = never> = {
@@ -41304,6 +43928,11 @@ export namespace Prisma {
     every?: EventoWhereInput
     some?: EventoWhereInput
     none?: EventoWhereInput
+  }
+
+  export type PasswordResetTokenNullableScalarRelationFilter = {
+    is?: PasswordResetTokenWhereInput | null
+    isNot?: PasswordResetTokenWhereInput | null
   }
 
   export type RelacionFamiliarOrderByRelationAggregateInput = {
@@ -41716,6 +44345,30 @@ export namespace Prisma {
     identifier?: SortOrder
     token?: SortOrder
     expires?: SortOrder
+  }
+
+  export type PasswordResetTokenCountOrderByAggregateInput = {
+    id?: SortOrder
+    token?: SortOrder
+    expires?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PasswordResetTokenMaxOrderByAggregateInput = {
+    id?: SortOrder
+    token?: SortOrder
+    expires?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type PasswordResetTokenMinOrderByAggregateInput = {
+    id?: SortOrder
+    token?: SortOrder
+    expires?: SortOrder
+    userId?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type GradoListRelationFilter = {
@@ -42957,6 +45610,13 @@ export namespace Prisma {
     connect?: UsuarioPermisoWhereUniqueInput | UsuarioPermisoWhereUniqueInput[]
   }
 
+  export type CargoPermisoCreateNestedManyWithoutPermisoInput = {
+    create?: XOR<CargoPermisoCreateWithoutPermisoInput, CargoPermisoUncheckedCreateWithoutPermisoInput> | CargoPermisoCreateWithoutPermisoInput[] | CargoPermisoUncheckedCreateWithoutPermisoInput[]
+    connectOrCreate?: CargoPermisoCreateOrConnectWithoutPermisoInput | CargoPermisoCreateOrConnectWithoutPermisoInput[]
+    createMany?: CargoPermisoCreateManyPermisoInputEnvelope
+    connect?: CargoPermisoWhereUniqueInput | CargoPermisoWhereUniqueInput[]
+  }
+
   export type RolPermisoUncheckedCreateNestedManyWithoutPermisoInput = {
     create?: XOR<RolPermisoCreateWithoutPermisoInput, RolPermisoUncheckedCreateWithoutPermisoInput> | RolPermisoCreateWithoutPermisoInput[] | RolPermisoUncheckedCreateWithoutPermisoInput[]
     connectOrCreate?: RolPermisoCreateOrConnectWithoutPermisoInput | RolPermisoCreateOrConnectWithoutPermisoInput[]
@@ -42969,6 +45629,13 @@ export namespace Prisma {
     connectOrCreate?: UsuarioPermisoCreateOrConnectWithoutPermisoInput | UsuarioPermisoCreateOrConnectWithoutPermisoInput[]
     createMany?: UsuarioPermisoCreateManyPermisoInputEnvelope
     connect?: UsuarioPermisoWhereUniqueInput | UsuarioPermisoWhereUniqueInput[]
+  }
+
+  export type CargoPermisoUncheckedCreateNestedManyWithoutPermisoInput = {
+    create?: XOR<CargoPermisoCreateWithoutPermisoInput, CargoPermisoUncheckedCreateWithoutPermisoInput> | CargoPermisoCreateWithoutPermisoInput[] | CargoPermisoUncheckedCreateWithoutPermisoInput[]
+    connectOrCreate?: CargoPermisoCreateOrConnectWithoutPermisoInput | CargoPermisoCreateOrConnectWithoutPermisoInput[]
+    createMany?: CargoPermisoCreateManyPermisoInputEnvelope
+    connect?: CargoPermisoWhereUniqueInput | CargoPermisoWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -43015,6 +45682,20 @@ export namespace Prisma {
     deleteMany?: UsuarioPermisoScalarWhereInput | UsuarioPermisoScalarWhereInput[]
   }
 
+  export type CargoPermisoUpdateManyWithoutPermisoNestedInput = {
+    create?: XOR<CargoPermisoCreateWithoutPermisoInput, CargoPermisoUncheckedCreateWithoutPermisoInput> | CargoPermisoCreateWithoutPermisoInput[] | CargoPermisoUncheckedCreateWithoutPermisoInput[]
+    connectOrCreate?: CargoPermisoCreateOrConnectWithoutPermisoInput | CargoPermisoCreateOrConnectWithoutPermisoInput[]
+    upsert?: CargoPermisoUpsertWithWhereUniqueWithoutPermisoInput | CargoPermisoUpsertWithWhereUniqueWithoutPermisoInput[]
+    createMany?: CargoPermisoCreateManyPermisoInputEnvelope
+    set?: CargoPermisoWhereUniqueInput | CargoPermisoWhereUniqueInput[]
+    disconnect?: CargoPermisoWhereUniqueInput | CargoPermisoWhereUniqueInput[]
+    delete?: CargoPermisoWhereUniqueInput | CargoPermisoWhereUniqueInput[]
+    connect?: CargoPermisoWhereUniqueInput | CargoPermisoWhereUniqueInput[]
+    update?: CargoPermisoUpdateWithWhereUniqueWithoutPermisoInput | CargoPermisoUpdateWithWhereUniqueWithoutPermisoInput[]
+    updateMany?: CargoPermisoUpdateManyWithWhereWithoutPermisoInput | CargoPermisoUpdateManyWithWhereWithoutPermisoInput[]
+    deleteMany?: CargoPermisoScalarWhereInput | CargoPermisoScalarWhereInput[]
+  }
+
   export type RolPermisoUncheckedUpdateManyWithoutPermisoNestedInput = {
     create?: XOR<RolPermisoCreateWithoutPermisoInput, RolPermisoUncheckedCreateWithoutPermisoInput> | RolPermisoCreateWithoutPermisoInput[] | RolPermisoUncheckedCreateWithoutPermisoInput[]
     connectOrCreate?: RolPermisoCreateOrConnectWithoutPermisoInput | RolPermisoCreateOrConnectWithoutPermisoInput[]
@@ -43041,6 +45722,20 @@ export namespace Prisma {
     update?: UsuarioPermisoUpdateWithWhereUniqueWithoutPermisoInput | UsuarioPermisoUpdateWithWhereUniqueWithoutPermisoInput[]
     updateMany?: UsuarioPermisoUpdateManyWithWhereWithoutPermisoInput | UsuarioPermisoUpdateManyWithWhereWithoutPermisoInput[]
     deleteMany?: UsuarioPermisoScalarWhereInput | UsuarioPermisoScalarWhereInput[]
+  }
+
+  export type CargoPermisoUncheckedUpdateManyWithoutPermisoNestedInput = {
+    create?: XOR<CargoPermisoCreateWithoutPermisoInput, CargoPermisoUncheckedCreateWithoutPermisoInput> | CargoPermisoCreateWithoutPermisoInput[] | CargoPermisoUncheckedCreateWithoutPermisoInput[]
+    connectOrCreate?: CargoPermisoCreateOrConnectWithoutPermisoInput | CargoPermisoCreateOrConnectWithoutPermisoInput[]
+    upsert?: CargoPermisoUpsertWithWhereUniqueWithoutPermisoInput | CargoPermisoUpsertWithWhereUniqueWithoutPermisoInput[]
+    createMany?: CargoPermisoCreateManyPermisoInputEnvelope
+    set?: CargoPermisoWhereUniqueInput | CargoPermisoWhereUniqueInput[]
+    disconnect?: CargoPermisoWhereUniqueInput | CargoPermisoWhereUniqueInput[]
+    delete?: CargoPermisoWhereUniqueInput | CargoPermisoWhereUniqueInput[]
+    connect?: CargoPermisoWhereUniqueInput | CargoPermisoWhereUniqueInput[]
+    update?: CargoPermisoUpdateWithWhereUniqueWithoutPermisoInput | CargoPermisoUpdateWithWhereUniqueWithoutPermisoInput[]
+    updateMany?: CargoPermisoUpdateManyWithWhereWithoutPermisoInput | CargoPermisoUpdateManyWithWhereWithoutPermisoInput[]
+    deleteMany?: CargoPermisoScalarWhereInput | CargoPermisoScalarWhereInput[]
   }
 
   export type PermisoCreateNestedOneWithoutRolesInput = {
@@ -43091,6 +45786,20 @@ export namespace Prisma {
     upsert?: PermisoUpsertWithoutUsuarioPermisosInput
     connect?: PermisoWhereUniqueInput
     update?: XOR<XOR<PermisoUpdateToOneWithWhereWithoutUsuarioPermisosInput, PermisoUpdateWithoutUsuarioPermisosInput>, PermisoUncheckedUpdateWithoutUsuarioPermisosInput>
+  }
+
+  export type PermisoCreateNestedOneWithoutCargoPermisosInput = {
+    create?: XOR<PermisoCreateWithoutCargoPermisosInput, PermisoUncheckedCreateWithoutCargoPermisosInput>
+    connectOrCreate?: PermisoCreateOrConnectWithoutCargoPermisosInput
+    connect?: PermisoWhereUniqueInput
+  }
+
+  export type PermisoUpdateOneRequiredWithoutCargoPermisosNestedInput = {
+    create?: XOR<PermisoCreateWithoutCargoPermisosInput, PermisoUncheckedCreateWithoutCargoPermisosInput>
+    connectOrCreate?: PermisoCreateOrConnectWithoutCargoPermisosInput
+    upsert?: PermisoUpsertWithoutCargoPermisosInput
+    connect?: PermisoWhereUniqueInput
+    update?: XOR<XOR<PermisoUpdateToOneWithWhereWithoutCargoPermisosInput, PermisoUpdateWithoutCargoPermisosInput>, PermisoUncheckedUpdateWithoutCargoPermisosInput>
   }
 
   export type UserCreateNestedOneWithoutInstitucionDirectorInput = {
@@ -43493,6 +46202,12 @@ export namespace Prisma {
     connect?: EventoWhereUniqueInput | EventoWhereUniqueInput[]
   }
 
+  export type PasswordResetTokenCreateNestedOneWithoutUserInput = {
+    create?: XOR<PasswordResetTokenCreateWithoutUserInput, PasswordResetTokenUncheckedCreateWithoutUserInput>
+    connectOrCreate?: PasswordResetTokenCreateOrConnectWithoutUserInput
+    connect?: PasswordResetTokenWhereUniqueInput
+  }
+
   export type UsuarioPermisoUncheckedCreateNestedManyWithoutUsuarioInput = {
     create?: XOR<UsuarioPermisoCreateWithoutUsuarioInput, UsuarioPermisoUncheckedCreateWithoutUsuarioInput> | UsuarioPermisoCreateWithoutUsuarioInput[] | UsuarioPermisoUncheckedCreateWithoutUsuarioInput[]
     connectOrCreate?: UsuarioPermisoCreateOrConnectWithoutUsuarioInput | UsuarioPermisoCreateOrConnectWithoutUsuarioInput[]
@@ -43595,6 +46310,12 @@ export namespace Prisma {
     connectOrCreate?: EventoCreateOrConnectWithoutOrganizadorInput | EventoCreateOrConnectWithoutOrganizadorInput[]
     createMany?: EventoCreateManyOrganizadorInputEnvelope
     connect?: EventoWhereUniqueInput | EventoWhereUniqueInput[]
+  }
+
+  export type PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<PasswordResetTokenCreateWithoutUserInput, PasswordResetTokenUncheckedCreateWithoutUserInput>
+    connectOrCreate?: PasswordResetTokenCreateOrConnectWithoutUserInput
+    connect?: PasswordResetTokenWhereUniqueInput
   }
 
   export type NullableEnumCargoFieldUpdateOperationsInput = {
@@ -43839,6 +46560,16 @@ export namespace Prisma {
     deleteMany?: EventoScalarWhereInput | EventoScalarWhereInput[]
   }
 
+  export type PasswordResetTokenUpdateOneWithoutUserNestedInput = {
+    create?: XOR<PasswordResetTokenCreateWithoutUserInput, PasswordResetTokenUncheckedCreateWithoutUserInput>
+    connectOrCreate?: PasswordResetTokenCreateOrConnectWithoutUserInput
+    upsert?: PasswordResetTokenUpsertWithoutUserInput
+    disconnect?: PasswordResetTokenWhereInput | boolean
+    delete?: PasswordResetTokenWhereInput | boolean
+    connect?: PasswordResetTokenWhereUniqueInput
+    update?: XOR<XOR<PasswordResetTokenUpdateToOneWithWhereWithoutUserInput, PasswordResetTokenUpdateWithoutUserInput>, PasswordResetTokenUncheckedUpdateWithoutUserInput>
+  }
+
   export type UsuarioPermisoUncheckedUpdateManyWithoutUsuarioNestedInput = {
     create?: XOR<UsuarioPermisoCreateWithoutUsuarioInput, UsuarioPermisoUncheckedCreateWithoutUsuarioInput> | UsuarioPermisoCreateWithoutUsuarioInput[] | UsuarioPermisoUncheckedCreateWithoutUsuarioInput[]
     connectOrCreate?: UsuarioPermisoCreateOrConnectWithoutUsuarioInput | UsuarioPermisoCreateOrConnectWithoutUsuarioInput[]
@@ -44045,6 +46776,16 @@ export namespace Prisma {
     deleteMany?: EventoScalarWhereInput | EventoScalarWhereInput[]
   }
 
+  export type PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<PasswordResetTokenCreateWithoutUserInput, PasswordResetTokenUncheckedCreateWithoutUserInput>
+    connectOrCreate?: PasswordResetTokenCreateOrConnectWithoutUserInput
+    upsert?: PasswordResetTokenUpsertWithoutUserInput
+    disconnect?: PasswordResetTokenWhereInput | boolean
+    delete?: PasswordResetTokenWhereInput | boolean
+    connect?: PasswordResetTokenWhereUniqueInput
+    update?: XOR<XOR<PasswordResetTokenUpdateToOneWithWhereWithoutUserInput, PasswordResetTokenUpdateWithoutUserInput>, PasswordResetTokenUncheckedUpdateWithoutUserInput>
+  }
+
   export type UserCreateNestedOneWithoutHijosDeTutorInput = {
     create?: XOR<UserCreateWithoutHijosDeTutorInput, UserUncheckedCreateWithoutHijosDeTutorInput>
     connectOrCreate?: UserCreateOrConnectWithoutHijosDeTutorInput
@@ -44093,6 +46834,20 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutAccountsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAccountsInput, UserUpdateWithoutAccountsInput>, UserUncheckedUpdateWithoutAccountsInput>
+  }
+
+  export type UserCreateNestedOneWithoutPasswordResetTokenInput = {
+    create?: XOR<UserCreateWithoutPasswordResetTokenInput, UserUncheckedCreateWithoutPasswordResetTokenInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPasswordResetTokenInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutPasswordResetTokenNestedInput = {
+    create?: XOR<UserCreateWithoutPasswordResetTokenInput, UserUncheckedCreateWithoutPasswordResetTokenInput>
+    connectOrCreate?: UserCreateOrConnectWithoutPasswordResetTokenInput
+    upsert?: UserUpsertWithoutPasswordResetTokenInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutPasswordResetTokenInput, UserUpdateWithoutPasswordResetTokenInput>, UserUncheckedUpdateWithoutPasswordResetTokenInput>
   }
 
   export type GradoCreateNestedManyWithoutNivelInput = {
@@ -46211,6 +48966,28 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type CargoPermisoCreateWithoutPermisoInput = {
+    id?: string
+    cargo: string
+    createdAt?: Date | string
+  }
+
+  export type CargoPermisoUncheckedCreateWithoutPermisoInput = {
+    id?: string
+    cargo: string
+    createdAt?: Date | string
+  }
+
+  export type CargoPermisoCreateOrConnectWithoutPermisoInput = {
+    where: CargoPermisoWhereUniqueInput
+    create: XOR<CargoPermisoCreateWithoutPermisoInput, CargoPermisoUncheckedCreateWithoutPermisoInput>
+  }
+
+  export type CargoPermisoCreateManyPermisoInputEnvelope = {
+    data: CargoPermisoCreateManyPermisoInput | CargoPermisoCreateManyPermisoInput[]
+    skipDuplicates?: boolean
+  }
+
   export type RolPermisoUpsertWithWhereUniqueWithoutPermisoInput = {
     where: RolPermisoWhereUniqueInput
     update: XOR<RolPermisoUpdateWithoutPermisoInput, RolPermisoUncheckedUpdateWithoutPermisoInput>
@@ -46265,6 +49042,32 @@ export namespace Prisma {
     activo?: BoolFilter<"UsuarioPermiso"> | boolean
   }
 
+  export type CargoPermisoUpsertWithWhereUniqueWithoutPermisoInput = {
+    where: CargoPermisoWhereUniqueInput
+    update: XOR<CargoPermisoUpdateWithoutPermisoInput, CargoPermisoUncheckedUpdateWithoutPermisoInput>
+    create: XOR<CargoPermisoCreateWithoutPermisoInput, CargoPermisoUncheckedCreateWithoutPermisoInput>
+  }
+
+  export type CargoPermisoUpdateWithWhereUniqueWithoutPermisoInput = {
+    where: CargoPermisoWhereUniqueInput
+    data: XOR<CargoPermisoUpdateWithoutPermisoInput, CargoPermisoUncheckedUpdateWithoutPermisoInput>
+  }
+
+  export type CargoPermisoUpdateManyWithWhereWithoutPermisoInput = {
+    where: CargoPermisoScalarWhereInput
+    data: XOR<CargoPermisoUpdateManyMutationInput, CargoPermisoUncheckedUpdateManyWithoutPermisoInput>
+  }
+
+  export type CargoPermisoScalarWhereInput = {
+    AND?: CargoPermisoScalarWhereInput | CargoPermisoScalarWhereInput[]
+    OR?: CargoPermisoScalarWhereInput[]
+    NOT?: CargoPermisoScalarWhereInput | CargoPermisoScalarWhereInput[]
+    id?: StringFilter<"CargoPermiso"> | string
+    cargo?: StringFilter<"CargoPermiso"> | string
+    permisoId?: StringFilter<"CargoPermiso"> | string
+    createdAt?: DateTimeFilter<"CargoPermiso"> | Date | string
+  }
+
   export type PermisoCreateWithoutRolesInput = {
     id?: string
     codigo: string
@@ -46275,6 +49078,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     usuarioPermisos?: UsuarioPermisoCreateNestedManyWithoutPermisoInput
+    cargoPermisos?: CargoPermisoCreateNestedManyWithoutPermisoInput
   }
 
   export type PermisoUncheckedCreateWithoutRolesInput = {
@@ -46287,6 +49091,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     usuarioPermisos?: UsuarioPermisoUncheckedCreateNestedManyWithoutPermisoInput
+    cargoPermisos?: CargoPermisoUncheckedCreateNestedManyWithoutPermisoInput
   }
 
   export type PermisoCreateOrConnectWithoutRolesInput = {
@@ -46315,6 +49120,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     usuarioPermisos?: UsuarioPermisoUpdateManyWithoutPermisoNestedInput
+    cargoPermisos?: CargoPermisoUpdateManyWithoutPermisoNestedInput
   }
 
   export type PermisoUncheckedUpdateWithoutRolesInput = {
@@ -46327,6 +49133,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     usuarioPermisos?: UsuarioPermisoUncheckedUpdateManyWithoutPermisoNestedInput
+    cargoPermisos?: CargoPermisoUncheckedUpdateManyWithoutPermisoNestedInput
   }
 
   export type UserCreateWithoutUsuarioPermisosInput = {
@@ -46401,6 +49208,7 @@ export namespace Prisma {
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUsuarioPermisosInput = {
@@ -46475,6 +49283,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUsuarioPermisosInput = {
@@ -46492,6 +49301,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     roles?: RolPermisoCreateNestedManyWithoutPermisoInput
+    cargoPermisos?: CargoPermisoCreateNestedManyWithoutPermisoInput
   }
 
   export type PermisoUncheckedCreateWithoutUsuarioPermisosInput = {
@@ -46504,6 +49314,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     roles?: RolPermisoUncheckedCreateNestedManyWithoutPermisoInput
+    cargoPermisos?: CargoPermisoUncheckedCreateNestedManyWithoutPermisoInput
   }
 
   export type PermisoCreateOrConnectWithoutUsuarioPermisosInput = {
@@ -46594,6 +49405,7 @@ export namespace Prisma {
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUsuarioPermisosInput = {
@@ -46668,6 +49480,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type PermisoUpsertWithoutUsuarioPermisosInput = {
@@ -46691,6 +49504,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     roles?: RolPermisoUpdateManyWithoutPermisoNestedInput
+    cargoPermisos?: CargoPermisoUpdateManyWithoutPermisoNestedInput
   }
 
   export type PermisoUncheckedUpdateWithoutUsuarioPermisosInput = {
@@ -46703,6 +49517,75 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     roles?: RolPermisoUncheckedUpdateManyWithoutPermisoNestedInput
+    cargoPermisos?: CargoPermisoUncheckedUpdateManyWithoutPermisoNestedInput
+  }
+
+  export type PermisoCreateWithoutCargoPermisosInput = {
+    id?: string
+    codigo: string
+    nombre: string
+    descripcion?: string | null
+    modulo?: string | null
+    activo?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    roles?: RolPermisoCreateNestedManyWithoutPermisoInput
+    usuarioPermisos?: UsuarioPermisoCreateNestedManyWithoutPermisoInput
+  }
+
+  export type PermisoUncheckedCreateWithoutCargoPermisosInput = {
+    id?: string
+    codigo: string
+    nombre: string
+    descripcion?: string | null
+    modulo?: string | null
+    activo?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    roles?: RolPermisoUncheckedCreateNestedManyWithoutPermisoInput
+    usuarioPermisos?: UsuarioPermisoUncheckedCreateNestedManyWithoutPermisoInput
+  }
+
+  export type PermisoCreateOrConnectWithoutCargoPermisosInput = {
+    where: PermisoWhereUniqueInput
+    create: XOR<PermisoCreateWithoutCargoPermisosInput, PermisoUncheckedCreateWithoutCargoPermisosInput>
+  }
+
+  export type PermisoUpsertWithoutCargoPermisosInput = {
+    update: XOR<PermisoUpdateWithoutCargoPermisosInput, PermisoUncheckedUpdateWithoutCargoPermisosInput>
+    create: XOR<PermisoCreateWithoutCargoPermisosInput, PermisoUncheckedCreateWithoutCargoPermisosInput>
+    where?: PermisoWhereInput
+  }
+
+  export type PermisoUpdateToOneWithWhereWithoutCargoPermisosInput = {
+    where?: PermisoWhereInput
+    data: XOR<PermisoUpdateWithoutCargoPermisosInput, PermisoUncheckedUpdateWithoutCargoPermisosInput>
+  }
+
+  export type PermisoUpdateWithoutCargoPermisosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    modulo?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    roles?: RolPermisoUpdateManyWithoutPermisoNestedInput
+    usuarioPermisos?: UsuarioPermisoUpdateManyWithoutPermisoNestedInput
+  }
+
+  export type PermisoUncheckedUpdateWithoutCargoPermisosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    codigo?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    modulo?: NullableStringFieldUpdateOperationsInput | string | null
+    activo?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    roles?: RolPermisoUncheckedUpdateManyWithoutPermisoNestedInput
+    usuarioPermisos?: UsuarioPermisoUncheckedUpdateManyWithoutPermisoNestedInput
   }
 
   export type UserCreateWithoutInstitucionDirectorInput = {
@@ -46777,6 +49660,7 @@ export namespace Prisma {
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutInstitucionDirectorInput = {
@@ -46851,6 +49735,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutInstitucionDirectorInput = {
@@ -46930,6 +49815,7 @@ export namespace Prisma {
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutInstitucionInput = {
@@ -47004,6 +49890,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutInstitucionInput = {
@@ -47323,6 +50210,7 @@ export namespace Prisma {
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInstitucionDirectorInput = {
@@ -47397,6 +50285,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserUpsertWithWhereUniqueWithoutInstitucionInput = {
@@ -48431,6 +51320,25 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PasswordResetTokenCreateWithoutUserInput = {
+    id?: string
+    token: string
+    expires: Date | string
+    createdAt?: Date | string
+  }
+
+  export type PasswordResetTokenUncheckedCreateWithoutUserInput = {
+    id?: string
+    token: string
+    expires: Date | string
+    createdAt?: Date | string
+  }
+
+  export type PasswordResetTokenCreateOrConnectWithoutUserInput = {
+    where: PasswordResetTokenWhereUniqueInput
+    create: XOR<PasswordResetTokenCreateWithoutUserInput, PasswordResetTokenUncheckedCreateWithoutUserInput>
+  }
+
   export type UsuarioPermisoUpsertWithWhereUniqueWithoutUsuarioInput = {
     where: UsuarioPermisoWhereUniqueInput
     update: XOR<UsuarioPermisoUpdateWithoutUsuarioInput, UsuarioPermisoUncheckedUpdateWithoutUsuarioInput>
@@ -49063,6 +51971,31 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Evento"> | Date | string
   }
 
+  export type PasswordResetTokenUpsertWithoutUserInput = {
+    update: XOR<PasswordResetTokenUpdateWithoutUserInput, PasswordResetTokenUncheckedUpdateWithoutUserInput>
+    create: XOR<PasswordResetTokenCreateWithoutUserInput, PasswordResetTokenUncheckedCreateWithoutUserInput>
+    where?: PasswordResetTokenWhereInput
+  }
+
+  export type PasswordResetTokenUpdateToOneWithWhereWithoutUserInput = {
+    where?: PasswordResetTokenWhereInput
+    data: XOR<PasswordResetTokenUpdateWithoutUserInput, PasswordResetTokenUncheckedUpdateWithoutUserInput>
+  }
+
+  export type PasswordResetTokenUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PasswordResetTokenUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    token?: StringFieldUpdateOperationsInput | string
+    expires?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type UserCreateWithoutHijosDeTutorInput = {
     id?: string
     name?: string | null
@@ -49135,6 +52068,7 @@ export namespace Prisma {
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutHijosDeTutorInput = {
@@ -49209,6 +52143,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutHijosDeTutorInput = {
@@ -49288,6 +52223,7 @@ export namespace Prisma {
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPadresTutoresInput = {
@@ -49362,6 +52298,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPadresTutoresInput = {
@@ -49452,6 +52389,7 @@ export namespace Prisma {
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutHijosDeTutorInput = {
@@ -49526,6 +52464,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserUpsertWithoutPadresTutoresInput = {
@@ -49611,6 +52550,7 @@ export namespace Prisma {
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPadresTutoresInput = {
@@ -49685,6 +52625,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -49759,6 +52700,7 @@ export namespace Prisma {
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -49833,6 +52775,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -49923,6 +52866,7 @@ export namespace Prisma {
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -49988,6 +52932,323 @@ export namespace Prisma {
     hijosDeTutor?: RelacionFamiliarUncheckedUpdateManyWithoutPadreTutorNestedInput
     padresTutores?: RelacionFamiliarUncheckedUpdateManyWithoutHijoNestedInput
     institucionDirector?: InstitucionEducativaUncheckedUpdateOneWithoutDirectorNestedInput
+    cursosImpartidos?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    cursosInscritos?: MatriculaCursoUncheckedUpdateManyWithoutUserNestedInput
+    notas?: NotaUncheckedUpdateManyWithoutEstudianteNestedInput
+    asistencias?: AsistenciaUncheckedUpdateManyWithoutEstudianteNestedInput
+    matriculas?: MatriculaUncheckedUpdateManyWithoutEstudianteNestedInput
+    documentos?: DocumentoUncheckedUpdateManyWithoutUsuarioNestedInput
+    pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
+    anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
+    eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutPasswordResetTokenInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    password?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    role?: $Enums.Role
+    apellidoPaterno?: string | null
+    apellidoMaterno?: string | null
+    dni?: string | null
+    fechaNacimiento?: Date | string | null
+    sexo?: string | null
+    estadoCivil?: string | null
+    nacionalidad?: string | null
+    direccion?: string | null
+    ubigeo?: string | null
+    distrito?: string | null
+    provincia?: string | null
+    departamento?: string | null
+    telefono?: string | null
+    telefonoEmergencia?: string | null
+    codigoEstudiante?: string | null
+    codigoSiagie?: string | null
+    codigoModular?: string | null
+    numeroExpediente?: string | null
+    tipoSangre?: string | null
+    alergias?: string | null
+    condicionesMedicas?: string | null
+    contactoEmergencia?: string | null
+    cargo?: $Enums.Cargo | null
+    area?: string | null
+    fechaIngreso?: Date | string | null
+    fechaSalida?: Date | string | null
+    numeroContrato?: string | null
+    turno?: $Enums.Turno | null
+    viveConPadres?: boolean | null
+    tipoVivienda?: string | null
+    serviciosBasicos?: string | null
+    transporteEscolar?: boolean | null
+    becario?: boolean | null
+    tipoBeca?: string | null
+    programaSocial?: string | null
+    especialidad?: string | null
+    titulo?: string | null
+    colegioProfesor?: string | null
+    fechaContratacion?: Date | string | null
+    tipoContrato?: string | null
+    escalaMagisterial?: string | null
+    ocupacion?: string | null
+    lugarTrabajo?: string | null
+    ingresoFamiliar?: string | null
+    gradoInstruccion?: string | null
+    estado?: $Enums.EstadoUsuario
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuarioPermisos?: UsuarioPermisoCreateNestedManyWithoutUsuarioInput
+    nivelAcademico?: NivelAcademicoCreateNestedOneWithoutStudentsInput
+    tutorDe?: NivelAcademicoCreateNestedManyWithoutTutorInput
+    hijosDeTutor?: RelacionFamiliarCreateNestedManyWithoutPadreTutorInput
+    padresTutores?: RelacionFamiliarCreateNestedManyWithoutHijoInput
+    institucion?: InstitucionEducativaCreateNestedOneWithoutUsersInput
+    institucionDirector?: InstitucionEducativaCreateNestedOneWithoutDirectorInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    cursosImpartidos?: CursoCreateNestedManyWithoutProfesorInput
+    cursosInscritos?: MatriculaCursoCreateNestedManyWithoutUserInput
+    notas?: NotaCreateNestedManyWithoutEstudianteInput
+    asistencias?: AsistenciaCreateNestedManyWithoutEstudianteInput
+    matriculas?: MatriculaCreateNestedManyWithoutEstudianteInput
+    documentos?: DocumentoCreateNestedManyWithoutUsuarioInput
+    pagos?: PagoCreateNestedManyWithoutEstudianteInput
+    anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
+    eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+  }
+
+  export type UserUncheckedCreateWithoutPasswordResetTokenInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    password?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    role?: $Enums.Role
+    apellidoPaterno?: string | null
+    apellidoMaterno?: string | null
+    dni?: string | null
+    fechaNacimiento?: Date | string | null
+    sexo?: string | null
+    estadoCivil?: string | null
+    nacionalidad?: string | null
+    direccion?: string | null
+    ubigeo?: string | null
+    distrito?: string | null
+    provincia?: string | null
+    departamento?: string | null
+    telefono?: string | null
+    telefonoEmergencia?: string | null
+    codigoEstudiante?: string | null
+    codigoSiagie?: string | null
+    codigoModular?: string | null
+    numeroExpediente?: string | null
+    tipoSangre?: string | null
+    alergias?: string | null
+    condicionesMedicas?: string | null
+    contactoEmergencia?: string | null
+    cargo?: $Enums.Cargo | null
+    area?: string | null
+    fechaIngreso?: Date | string | null
+    fechaSalida?: Date | string | null
+    numeroContrato?: string | null
+    nivelAcademicoId?: string | null
+    turno?: $Enums.Turno | null
+    viveConPadres?: boolean | null
+    tipoVivienda?: string | null
+    serviciosBasicos?: string | null
+    transporteEscolar?: boolean | null
+    becario?: boolean | null
+    tipoBeca?: string | null
+    programaSocial?: string | null
+    especialidad?: string | null
+    titulo?: string | null
+    colegioProfesor?: string | null
+    fechaContratacion?: Date | string | null
+    tipoContrato?: string | null
+    escalaMagisterial?: string | null
+    ocupacion?: string | null
+    lugarTrabajo?: string | null
+    ingresoFamiliar?: string | null
+    gradoInstruccion?: string | null
+    institucionId?: string | null
+    estado?: $Enums.EstadoUsuario
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuarioPermisos?: UsuarioPermisoUncheckedCreateNestedManyWithoutUsuarioInput
+    tutorDe?: NivelAcademicoUncheckedCreateNestedManyWithoutTutorInput
+    hijosDeTutor?: RelacionFamiliarUncheckedCreateNestedManyWithoutPadreTutorInput
+    padresTutores?: RelacionFamiliarUncheckedCreateNestedManyWithoutHijoInput
+    institucionDirector?: InstitucionEducativaUncheckedCreateNestedOneWithoutDirectorInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    cursosImpartidos?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    cursosInscritos?: MatriculaCursoUncheckedCreateNestedManyWithoutUserInput
+    notas?: NotaUncheckedCreateNestedManyWithoutEstudianteInput
+    asistencias?: AsistenciaUncheckedCreateNestedManyWithoutEstudianteInput
+    matriculas?: MatriculaUncheckedCreateNestedManyWithoutEstudianteInput
+    documentos?: DocumentoUncheckedCreateNestedManyWithoutUsuarioInput
+    pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
+    anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
+    eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+  }
+
+  export type UserCreateOrConnectWithoutPasswordResetTokenInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutPasswordResetTokenInput, UserUncheckedCreateWithoutPasswordResetTokenInput>
+  }
+
+  export type UserUpsertWithoutPasswordResetTokenInput = {
+    update: XOR<UserUpdateWithoutPasswordResetTokenInput, UserUncheckedUpdateWithoutPasswordResetTokenInput>
+    create: XOR<UserCreateWithoutPasswordResetTokenInput, UserUncheckedCreateWithoutPasswordResetTokenInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutPasswordResetTokenInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutPasswordResetTokenInput, UserUncheckedUpdateWithoutPasswordResetTokenInput>
+  }
+
+  export type UserUpdateWithoutPasswordResetTokenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    apellidoPaterno?: NullableStringFieldUpdateOperationsInput | string | null
+    apellidoMaterno?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sexo?: NullableStringFieldUpdateOperationsInput | string | null
+    estadoCivil?: NullableStringFieldUpdateOperationsInput | string | null
+    nacionalidad?: NullableStringFieldUpdateOperationsInput | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    ubigeo?: NullableStringFieldUpdateOperationsInput | string | null
+    distrito?: NullableStringFieldUpdateOperationsInput | string | null
+    provincia?: NullableStringFieldUpdateOperationsInput | string | null
+    departamento?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoEmergencia?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoEstudiante?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoSiagie?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoModular?: NullableStringFieldUpdateOperationsInput | string | null
+    numeroExpediente?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoSangre?: NullableStringFieldUpdateOperationsInput | string | null
+    alergias?: NullableStringFieldUpdateOperationsInput | string | null
+    condicionesMedicas?: NullableStringFieldUpdateOperationsInput | string | null
+    contactoEmergencia?: NullableStringFieldUpdateOperationsInput | string | null
+    cargo?: NullableEnumCargoFieldUpdateOperationsInput | $Enums.Cargo | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaIngreso?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaSalida?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numeroContrato?: NullableStringFieldUpdateOperationsInput | string | null
+    turno?: NullableEnumTurnoFieldUpdateOperationsInput | $Enums.Turno | null
+    viveConPadres?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tipoVivienda?: NullableStringFieldUpdateOperationsInput | string | null
+    serviciosBasicos?: NullableStringFieldUpdateOperationsInput | string | null
+    transporteEscolar?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    becario?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tipoBeca?: NullableStringFieldUpdateOperationsInput | string | null
+    programaSocial?: NullableStringFieldUpdateOperationsInput | string | null
+    especialidad?: NullableStringFieldUpdateOperationsInput | string | null
+    titulo?: NullableStringFieldUpdateOperationsInput | string | null
+    colegioProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaContratacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tipoContrato?: NullableStringFieldUpdateOperationsInput | string | null
+    escalaMagisterial?: NullableStringFieldUpdateOperationsInput | string | null
+    ocupacion?: NullableStringFieldUpdateOperationsInput | string | null
+    lugarTrabajo?: NullableStringFieldUpdateOperationsInput | string | null
+    ingresoFamiliar?: NullableStringFieldUpdateOperationsInput | string | null
+    gradoInstruccion?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: EnumEstadoUsuarioFieldUpdateOperationsInput | $Enums.EstadoUsuario
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioPermisos?: UsuarioPermisoUpdateManyWithoutUsuarioNestedInput
+    nivelAcademico?: NivelAcademicoUpdateOneWithoutStudentsNestedInput
+    tutorDe?: NivelAcademicoUpdateManyWithoutTutorNestedInput
+    hijosDeTutor?: RelacionFamiliarUpdateManyWithoutPadreTutorNestedInput
+    padresTutores?: RelacionFamiliarUpdateManyWithoutHijoNestedInput
+    institucion?: InstitucionEducativaUpdateOneWithoutUsersNestedInput
+    institucionDirector?: InstitucionEducativaUpdateOneWithoutDirectorNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    cursosImpartidos?: CursoUpdateManyWithoutProfesorNestedInput
+    cursosInscritos?: MatriculaCursoUpdateManyWithoutUserNestedInput
+    notas?: NotaUpdateManyWithoutEstudianteNestedInput
+    asistencias?: AsistenciaUpdateManyWithoutEstudianteNestedInput
+    matriculas?: MatriculaUpdateManyWithoutEstudianteNestedInput
+    documentos?: DocumentoUpdateManyWithoutUsuarioNestedInput
+    pagos?: PagoUpdateManyWithoutEstudianteNestedInput
+    anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
+    eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutPasswordResetTokenInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    apellidoPaterno?: NullableStringFieldUpdateOperationsInput | string | null
+    apellidoMaterno?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sexo?: NullableStringFieldUpdateOperationsInput | string | null
+    estadoCivil?: NullableStringFieldUpdateOperationsInput | string | null
+    nacionalidad?: NullableStringFieldUpdateOperationsInput | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    ubigeo?: NullableStringFieldUpdateOperationsInput | string | null
+    distrito?: NullableStringFieldUpdateOperationsInput | string | null
+    provincia?: NullableStringFieldUpdateOperationsInput | string | null
+    departamento?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoEmergencia?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoEstudiante?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoSiagie?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoModular?: NullableStringFieldUpdateOperationsInput | string | null
+    numeroExpediente?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoSangre?: NullableStringFieldUpdateOperationsInput | string | null
+    alergias?: NullableStringFieldUpdateOperationsInput | string | null
+    condicionesMedicas?: NullableStringFieldUpdateOperationsInput | string | null
+    contactoEmergencia?: NullableStringFieldUpdateOperationsInput | string | null
+    cargo?: NullableEnumCargoFieldUpdateOperationsInput | $Enums.Cargo | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaIngreso?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaSalida?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numeroContrato?: NullableStringFieldUpdateOperationsInput | string | null
+    nivelAcademicoId?: NullableStringFieldUpdateOperationsInput | string | null
+    turno?: NullableEnumTurnoFieldUpdateOperationsInput | $Enums.Turno | null
+    viveConPadres?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tipoVivienda?: NullableStringFieldUpdateOperationsInput | string | null
+    serviciosBasicos?: NullableStringFieldUpdateOperationsInput | string | null
+    transporteEscolar?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    becario?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tipoBeca?: NullableStringFieldUpdateOperationsInput | string | null
+    programaSocial?: NullableStringFieldUpdateOperationsInput | string | null
+    especialidad?: NullableStringFieldUpdateOperationsInput | string | null
+    titulo?: NullableStringFieldUpdateOperationsInput | string | null
+    colegioProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaContratacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tipoContrato?: NullableStringFieldUpdateOperationsInput | string | null
+    escalaMagisterial?: NullableStringFieldUpdateOperationsInput | string | null
+    ocupacion?: NullableStringFieldUpdateOperationsInput | string | null
+    lugarTrabajo?: NullableStringFieldUpdateOperationsInput | string | null
+    ingresoFamiliar?: NullableStringFieldUpdateOperationsInput | string | null
+    gradoInstruccion?: NullableStringFieldUpdateOperationsInput | string | null
+    institucionId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: EnumEstadoUsuarioFieldUpdateOperationsInput | $Enums.EstadoUsuario
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioPermisos?: UsuarioPermisoUncheckedUpdateManyWithoutUsuarioNestedInput
+    tutorDe?: NivelAcademicoUncheckedUpdateManyWithoutTutorNestedInput
+    hijosDeTutor?: RelacionFamiliarUncheckedUpdateManyWithoutPadreTutorNestedInput
+    padresTutores?: RelacionFamiliarUncheckedUpdateManyWithoutHijoNestedInput
+    institucionDirector?: InstitucionEducativaUncheckedUpdateOneWithoutDirectorNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     cursosImpartidos?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
     cursosInscritos?: MatriculaCursoUncheckedUpdateManyWithoutUserNestedInput
     notas?: NotaUncheckedUpdateManyWithoutEstudianteNestedInput
@@ -51054,6 +54315,7 @@ export namespace Prisma {
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutTutorDeInput = {
@@ -51128,6 +54390,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutTutorDeInput = {
@@ -51280,6 +54543,7 @@ export namespace Prisma {
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNivelAcademicoInput = {
@@ -51354,6 +54618,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNivelAcademicoInput = {
@@ -51627,6 +54892,7 @@ export namespace Prisma {
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTutorDeInput = {
@@ -51701,6 +54967,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type InstitucionEducativaUpsertWithoutNivelesAcademicosInput = {
@@ -52802,6 +56069,7 @@ export namespace Prisma {
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCursosImpartidosInput = {
@@ -52876,6 +56144,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCursosImpartidosInput = {
@@ -53397,6 +56666,7 @@ export namespace Prisma {
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCursosImpartidosInput = {
@@ -53471,6 +56741,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type MatriculaCursoUpsertWithWhereUniqueWithoutCursoInput = {
@@ -53749,6 +57020,7 @@ export namespace Prisma {
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutMatriculasInput = {
@@ -53823,6 +57095,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutMatriculasInput = {
@@ -53984,6 +57257,7 @@ export namespace Prisma {
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMatriculasInput = {
@@ -54058,6 +57332,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type NivelAcademicoUpsertWithoutMatriculasInput = {
@@ -54285,6 +57560,7 @@ export namespace Prisma {
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCursosInscritosInput = {
@@ -54359,6 +57635,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCursosInscritosInput = {
@@ -54547,6 +57824,7 @@ export namespace Prisma {
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCursosInscritosInput = {
@@ -54621,6 +57899,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type CursoCreateWithoutEvaluacionesInput = {
@@ -54927,6 +58206,7 @@ export namespace Prisma {
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutNotasInput = {
@@ -55001,6 +58281,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutNotasInput = {
@@ -55185,6 +58466,7 @@ export namespace Prisma {
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotasInput = {
@@ -55259,6 +58541,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type CursoUpsertWithoutNotasInput = {
@@ -55439,6 +58722,7 @@ export namespace Prisma {
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAsistenciasInput = {
@@ -55513,6 +58797,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAsistenciasInput = {
@@ -55656,6 +58941,7 @@ export namespace Prisma {
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAsistenciasInput = {
@@ -55730,6 +59016,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type CursoUpsertWithoutAsistenciasInput = {
@@ -55863,6 +59150,7 @@ export namespace Prisma {
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutDocumentosInput = {
@@ -55937,6 +59225,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutDocumentosInput = {
@@ -56027,6 +59316,7 @@ export namespace Prisma {
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutDocumentosInput = {
@@ -56101,6 +59391,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserCreateWithoutPagosInput = {
@@ -56175,6 +59466,7 @@ export namespace Prisma {
     documentos?: DocumentoCreateNestedManyWithoutUsuarioInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPagosInput = {
@@ -56249,6 +59541,7 @@ export namespace Prisma {
     documentos?: DocumentoUncheckedCreateNestedManyWithoutUsuarioInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPagosInput = {
@@ -56339,6 +59632,7 @@ export namespace Prisma {
     documentos?: DocumentoUpdateManyWithoutUsuarioNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPagosInput = {
@@ -56413,6 +59707,7 @@ export namespace Prisma {
     documentos?: DocumentoUncheckedUpdateManyWithoutUsuarioNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type NivelCreateWithoutAnunciosInput = {
@@ -56557,6 +59852,7 @@ export namespace Prisma {
     documentos?: DocumentoCreateNestedManyWithoutUsuarioInput
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAnunciosCreadosInput = {
@@ -56631,6 +59927,7 @@ export namespace Prisma {
     documentos?: DocumentoUncheckedCreateNestedManyWithoutUsuarioInput
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAnunciosCreadosInput = {
@@ -56753,6 +60050,7 @@ export namespace Prisma {
     documentos?: DocumentoUpdateManyWithoutUsuarioNestedInput
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAnunciosCreadosInput = {
@@ -56827,6 +60125,7 @@ export namespace Prisma {
     documentos?: DocumentoUncheckedUpdateManyWithoutUsuarioNestedInput
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type NivelCreateWithoutEventosInput = {
@@ -56971,6 +60270,7 @@ export namespace Prisma {
     documentos?: DocumentoCreateNestedManyWithoutUsuarioInput
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
+    passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutEventosCreadosInput = {
@@ -57045,6 +60345,7 @@ export namespace Prisma {
     documentos?: DocumentoUncheckedCreateNestedManyWithoutUsuarioInput
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
+    passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutEventosCreadosInput = {
@@ -57167,6 +60468,7 @@ export namespace Prisma {
     documentos?: DocumentoUpdateManyWithoutUsuarioNestedInput
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
+    passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEventosCreadosInput = {
@@ -57241,6 +60543,7 @@ export namespace Prisma {
     documentos?: DocumentoUncheckedUpdateManyWithoutUsuarioNestedInput
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
+    passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type RolPermisoCreateManyPermisoInput = {
@@ -57255,6 +60558,12 @@ export namespace Prisma {
     fechaInicio?: Date | string
     fechaFin?: Date | string | null
     activo?: boolean
+  }
+
+  export type CargoPermisoCreateManyPermisoInput = {
+    id?: string
+    cargo: string
+    createdAt?: Date | string
   }
 
   export type RolPermisoUpdateWithoutPermisoInput = {
@@ -57297,6 +60606,24 @@ export namespace Prisma {
     fechaInicio?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     activo?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type CargoPermisoUpdateWithoutPermisoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    cargo?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CargoPermisoUncheckedUpdateWithoutPermisoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    cargo?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CargoPermisoUncheckedUpdateManyWithoutPermisoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    cargo?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserCreateManyInstitucionInput = {
@@ -57500,6 +60827,7 @@ export namespace Prisma {
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutInstitucionInput = {
@@ -57574,6 +60902,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutInstitucionInput = {
@@ -59636,6 +62965,7 @@ export namespace Prisma {
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNivelAcademicoInput = {
@@ -59710,6 +63040,7 @@ export namespace Prisma {
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateManyWithoutNivelAcademicoInput = {

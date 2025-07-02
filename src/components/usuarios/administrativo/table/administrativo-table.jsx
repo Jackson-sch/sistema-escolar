@@ -2,12 +2,14 @@
 
 import { GenericDataTable } from "@/components/DataTable/GenericTable";
 import { columns } from "./columns";
-import ModalAdministrativo from "../modal-administrativo";
+import ModalPersonal from "../modal-administrativo";
 import RenderSubComponent from "./render-sub-component";
 import TableHeaderActions from "@/components/DataTable/table-header-actions";
 import { camposBusquedaAdministrativo } from "./campos-busqueda";
 
-export default function AdministrativoTable({ data }) {
+export default function PersonalTable({ data = [], institucionId = "" }) {
+  // Ahora recibimos el institucionId como prop directamente desde la página principal
+  // Esto asegura que siempre tengamos un ID válido, incluso si no hay datos
   // Filtrar para no mostrar al usuario con rol 'administrativo' y cargo 'administrador'
   const filteredData = data.filter(
     (item) =>
@@ -21,9 +23,9 @@ export default function AdministrativoTable({ data }) {
     <GenericDataTable
       columns={columns}
       data={filteredData}
-      title="Lista de personal administrativo"
-      description="Listado de personal administrativo"
-      ActionComponent={<ModalAdministrativo />}
+      title="Lista de Personal"
+      description="Listado de personal administrativo y directivo"
+      ActionComponent={<ModalPersonal institucionId={institucionId} />}
       getRowCanExpand={() => true}
       renderSubComponent={RenderSubComponent}
       TableHeaderComponent={

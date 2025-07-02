@@ -5,6 +5,7 @@ import { ProfesorTable } from "@/components/usuarios/profesor/table/profesor-tab
 
 export default async function ProfesorPage() {
   const profesores = await getProfesores();
+  console.log("profesores", profesores);
 
   const { data: instituciones = [] } = await getInstituciones();
   // Obtener la primera institución (esto podría cambiarse para permitir seleccionar la institución)

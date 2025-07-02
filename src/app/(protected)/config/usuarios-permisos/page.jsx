@@ -32,6 +32,8 @@ export default async function UsuariosPermisosPage() {
 
   // Obtener usuarios iniciales para la institución (excluyendo estudiantes y padres)
   const { data: usuarios = [] } = await getUsuarios(institucion.id, true); // El segundo parámetro true indica que solo queremos usuarios del sistema
+
+  console.log("usuarios", usuarios)
   
   // Obtener permisos iniciales
   const { data: permisos = [] } = await getPermisos();

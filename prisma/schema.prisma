@@ -12,7 +12,6 @@ enum Role {
   estudiante
   profesor
   administrativo
-  director
   padre
 }
 
@@ -148,6 +147,7 @@ model Permiso {
   // Relaciones
   roles           RolPermiso[]
   usuarioPermisos UsuarioPermiso[]
+  cargoPermisos   CargoPermiso[]
 
   activo    Boolean  @default(true)
   createdAt DateTime @default(now())
@@ -183,6 +183,20 @@ model UsuarioPermiso {
   @@index([usuarioId])
   @@index([permisoId])
   @@index([activo])
+}
+
+// Modelo para gestionar permisos por cargo
+model CargoPermiso {
+  id        String  @id @default(cuid())
+  cargo     String  // Corresponde a los valores del enum Cargo
+  permiso   Permiso @relation(fields: [permisoId], references: [id])
+  permisoId String
+
+  createdAt DateTime @default(now())
+
+  @@unique([cargo, permisoId])
+  @@index([cargo])
+  @@index([permisoId])
 }
 
 // Modelos para el sistema de permisos
@@ -332,6 +346,9 @@ model User {
   anunciosCreados Anuncio[]
   eventosCreados  Evento[]
 
+  // Tokens de recuperación de contraseña
+  passwordResetToken PasswordResetToken?
+
   estado EstadoUsuario @default(activo)
 
   createdAt DateTime @default(now())
@@ -381,6 +398,16 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+// Modelo PasswordResetToken para recuperación de contraseñas
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  token     String   @db.Text
+  expires   DateTime
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 }
 
 // Modelo Nivel (debe ir antes de Grado)

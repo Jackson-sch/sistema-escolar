@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { handlePrint, handleExportPDF } from "@/lib/printUtils";
 import { calculateAge } from "@/lib/calculateAge";
-import { formatDate } from "@/lib/dateUtils";
+import { formatDate } from "@/lib/formatDate";
 import {
   BookOpen,
   Calendar,
@@ -49,7 +49,7 @@ const SectionTitle = ({ icon: Icon, title, gradient = "from-blue-500 to-purple-5
 
 // Componente para cards de información con animaciones
 const InfoCard = ({ icon: Icon, label, value, gradient = "from-blue-500 to-blue-600", delay = 0 }) => (
-  <div 
+  <div
     className="group bg-white dark:bg-slate-800 p-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-slate-100 dark:border-slate-700 hover:scale-105"
     style={{ animationDelay: `${delay}ms` }}
   >
@@ -102,12 +102,12 @@ const StatusBadge = ({ status, type = "status" }) => {
         label: "Sí"
       } : {
         bg: "bg-slate-400",
-        text: "text-white", 
+        text: "text-white",
         icon: XCircle,
         label: "No"
       };
     }
-    
+
     // Para otros tipos de status
     const configs = {
       ACTIVO: { bg: "bg-emerald-500", text: "text-white", icon: CheckCircle },
@@ -116,7 +116,7 @@ const StatusBadge = ({ status, type = "status" }) => {
       PRIMARIA: { bg: "bg-green-500", text: "text-white", icon: BookOpen },
       SECUNDARIA: { bg: "bg-purple-500", text: "text-white", icon: GraduationCap },
     };
-    
+
     return configs[status] || { bg: "bg-slate-400", text: "text-white", icon: AlertCircle };
   };
 
@@ -191,7 +191,7 @@ export default function RenderSubComponent({ row }) {
         <div className="absolute inset-0 bg-black/10"></div>
         <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
         <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full -ml-12 -mb-12"></div>
-        
+
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div className="flex items-center">
             <div className="bg-white/20 backdrop-blur-sm p-4 rounded-3xl mr-6 shadow-xl">
@@ -213,30 +213,30 @@ export default function RenderSubComponent({ row }) {
 
       {/* Bento Grid Layout Mejorado */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
-        
+
         {/* Academic Info - Tarjeta Principal */}
         <div className="lg:col-span-8 bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-xl hover:shadow-2xl transition-all duration-300">
           <SectionTitle icon={GraduationCap} title="Información Académica" gradient="from-blue-500 to-purple-500" />
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-            <InfoCard 
-              icon={School} 
-              label="Nivel Educativo" 
-              value={student.nivelAcademico?.nivel?.nombre} 
+            <InfoCard
+              icon={School}
+              label="Nivel Educativo"
+              value={student.nivelAcademico?.nivel?.nombre}
               gradient="from-blue-500 to-blue-600"
               delay={0}
             />
-            <InfoCard 
-              icon={BookOpen} 
-              label="Grado Académico" 
-              value={student.nivelAcademico?.grado?.nombre} 
+            <InfoCard
+              icon={BookOpen}
+              label="Grado Académico"
+              value={student.nivelAcademico?.grado?.nombre}
               gradient="from-purple-500 to-purple-600"
               delay={100}
             />
-            <InfoCard 
-              icon={Users} 
-              label="Sección Asignada" 
-              value={student.nivelAcademico?.seccion} 
+            <InfoCard
+              icon={Users}
+              label="Sección Asignada"
+              value={student.nivelAcademico?.seccion}
               gradient="from-indigo-500 to-indigo-600"
               delay={200}
             />
@@ -251,7 +251,7 @@ export default function RenderSubComponent({ row }) {
         {/* Quick Stats */}
         <div className="lg:col-span-4 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 p-6 rounded-3xl border border-emerald-200 dark:border-emerald-700 shadow-xl">
           <SectionTitle icon={Activity} title="Datos Clave" gradient="from-emerald-500 to-teal-500" />
-          
+
           <div className="space-y-4">
             <div className="flex items-center justify-between bg-white dark:bg-slate-800 p-4 rounded-xl shadow-md">
               <div className="flex items-center gap-3">
@@ -264,7 +264,7 @@ export default function RenderSubComponent({ row }) {
                 {calculateAge(student.fechaNacimiento)} años
               </span>
             </div>
-            
+
             <InfoItem icon={CreditCard} label="DNI" value={student.dni} />
             <InfoItem icon={User} label="Sexo" value={student.sexo} />
             <InfoItem icon={Globe} label="Nacionalidad" value={student.nacionalidad} />
@@ -274,7 +274,7 @@ export default function RenderSubComponent({ row }) {
         {/* Personal Info */}
         <div className="lg:col-span-7 bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-xl">
           <SectionTitle icon={User} title="Información Personal" gradient="from-orange-500 to-red-500" />
-          
+
           <div className="space-y-4">
             <InfoItem icon={Calendar} label="Fecha de Nacimiento" value={formatDate(student.fechaNacimiento)} />
             <InfoItem icon={Heart} label="Tipo de Sangre" value={student.tipoSangre} />
@@ -293,7 +293,7 @@ export default function RenderSubComponent({ row }) {
         {/* Contact Info */}
         <div className="lg:col-span-5 bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-xl">
           <SectionTitle icon={Mail} title="Información de Contacto" gradient="from-cyan-500 to-blue-500" />
-          
+
           <div className="space-y-4">
             <ContactInfoItem icon={Mail} label="Correo Electrónico" value={student.email} gradient="from-blue-500 to-cyan-500" />
             <ContactInfoItem icon={Phone} label="Teléfono" value={formatPhone(student.telefono)} gradient="from-green-500 to-emerald-500" />
@@ -304,7 +304,7 @@ export default function RenderSubComponent({ row }) {
         {/* Parent Info */}
         <div className="lg:col-span-6 bg-gradient-to-br from-violet-50 to-purple-50 dark:from-violet-900/20 dark:to-purple-900/20 p-6 rounded-3xl border border-violet-200 dark:border-violet-700 shadow-xl">
           <SectionTitle icon={Users} title="Información del Tutor" gradient="from-violet-500 to-purple-500" />
-          
+
           <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-lg border border-violet-100 dark:border-violet-800">
             <div className="flex items-center gap-4 mb-4">
               <div className="bg-gradient-to-r from-violet-500 to-purple-500 p-3 rounded-xl">
@@ -325,7 +325,7 @@ export default function RenderSubComponent({ row }) {
         {student.contactoEmergencia && (
           <div className="lg:col-span-6 bg-gradient-to-br from-red-50 to-pink-50 dark:from-red-900/20 dark:to-pink-900/20 p-6 rounded-3xl border border-red-200 dark:border-red-700 shadow-xl">
             <SectionTitle icon={Shield} title="Contacto de Emergencia" gradient="from-red-500 to-pink-500" />
-            
+
             <div className="bg-white dark:bg-slate-800 p-5 rounded-2xl shadow-lg border border-red-100 dark:border-red-800">
               <div className="flex items-center gap-4 mb-4">
                 <div className="bg-gradient-to-r from-red-500 to-pink-500 p-3 rounded-xl">
@@ -346,7 +346,7 @@ export default function RenderSubComponent({ row }) {
         {/* Scholarships & Programs */}
         <div className="lg:col-span-12 bg-gradient-to-r from-green-50 via-emerald-50 to-teal-50 dark:from-green-900/20 dark:via-emerald-900/20 dark:to-teal-900/20 p-6 rounded-3xl border border-green-200 dark:border-green-700 shadow-xl">
           <SectionTitle icon={Award} title="Becas y Programas Sociales" gradient="from-green-500 to-emerald-500" />
-          
+
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <div className="text-center p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-green-100 dark:border-green-800">
               <div className="w-14 h-14 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg">
@@ -355,7 +355,7 @@ export default function RenderSubComponent({ row }) {
               <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 font-medium">Estado de Beca</p>
               <StatusBadge status={student.becario} type="boolean" />
             </div>
-            
+
             <div className="text-center p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-blue-100 dark:border-blue-800">
               <div className="w-14 h-14 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg">
                 <BookOpen className="h-7 w-7 text-white" />
@@ -363,7 +363,7 @@ export default function RenderSubComponent({ row }) {
               <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 font-medium">Tipo de Beca</p>
               <p className="font-bold text-sm text-slate-800 dark:text-slate-200">{student.tipoBeca || "No aplica"}</p>
             </div>
-            
+
             <div className="text-center p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-purple-100 dark:border-purple-800">
               <div className="w-14 h-14 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg">
                 <Users className="h-7 w-7 text-white" />
@@ -371,7 +371,7 @@ export default function RenderSubComponent({ row }) {
               <p className="text-xs text-slate-500 dark:text-slate-400 mb-2 font-medium">Programa Social</p>
               <p className="font-bold text-sm text-slate-800 dark:text-slate-200">{student.programaSocial || "No participa"}</p>
             </div>
-            
+
             <div className="text-center p-5 bg-white dark:bg-slate-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-orange-100 dark:border-orange-800">
               <div className="w-14 h-14 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl flex items-center justify-center mx-auto mb-3 shadow-lg">
                 <Bus className="h-7 w-7 text-white" />
@@ -385,7 +385,7 @@ export default function RenderSubComponent({ row }) {
         {/* System Info */}
         <div className="lg:col-span-12 bg-white dark:bg-slate-800 p-6 rounded-3xl border border-slate-200 dark:border-slate-700 shadow-xl">
           <SectionTitle icon={Clock} title="Información del Sistema" gradient="from-slate-500 to-gray-500" />
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <InfoItem icon={Calendar} label="Fecha de Registro" value={formatDate(student.createdAt)} />
             <InfoItem icon={Clock} label="Última Actualización" value={formatDate(student.updatedAt)} />

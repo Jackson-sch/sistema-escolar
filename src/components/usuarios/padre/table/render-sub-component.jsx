@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { handlePrint, handleExportPDF } from "@/lib/printUtils";
-import { formatDate } from "@/lib/dateUtils";
+import { formatDate } from "@/lib/formatDate";
 import {
   Calendar,
   Mail,
@@ -32,40 +32,40 @@ const getStateClass = (estado) => {
 // Función para formatear el nivel académico
 const formatNivelAcademico = (nivelAcademico) => {
   if (!nivelAcademico) return "-";
-  
+
   // Si es un array, tomar el primer elemento
   const nivel = Array.isArray(nivelAcademico) ? nivelAcademico[0] : nivelAcademico;
-  
+
   if (!nivel) return "-";
-  
+
   const nivelTexto = nivel.nivel || "";
   const grado = nivel.grado || "";
-  
+
   // Si hay tanto nivel como grado, mostrar ambos
   if (nivelTexto && grado) {
     return `${nivelTexto} - ${grado}°`;
   }
-  
+
   // Si solo hay nivel
   if (nivelTexto) {
     return nivelTexto;
   }
-  
+
   // Si solo hay grado
   if (grado) {
     return `${grado}°`;
   }
-  
+
   return "-";
 };
 
 // Función para obtener la sección del nivel académico
 const getSeccionFromNivel = (nivelAcademico) => {
   if (!nivelAcademico) return null;
-  
+
   // Si es un array, tomar el primer elemento
   const nivel = Array.isArray(nivelAcademico) ? nivelAcademico[0] : nivelAcademico;
-  
+
   return nivel?.seccion || null;
 };
 

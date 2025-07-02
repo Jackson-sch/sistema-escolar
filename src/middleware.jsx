@@ -6,7 +6,7 @@ import authConfig from "./auth.config";
 const { auth } = NextAuth(authConfig);
 
 const publicRoutes = ["/", "/prices"];
-const authRoutes = ["/login", "/register"];
+const authRoutes = ["/login", "/register", "/recovery"];
 const apiAuthPrefix = "/api/auth";
 
 export default auth((req) => {

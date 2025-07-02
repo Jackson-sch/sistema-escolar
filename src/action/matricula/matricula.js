@@ -13,6 +13,11 @@ export async function registerMatricula(data) {
       where: {
         id: data.nivelAcademicoId,
       },
+      include: { 
+        nivel: true, 
+        grado: true, 
+        institucion: true 
+      }
     });
 
     if (!nivelAcademico) {
@@ -48,12 +53,33 @@ export async function registerMatricula(data) {
       };
     }
 
-    // Obtener todos los cursos disponibles para este nivel académico en este año académico
+    // Obtener todos los cursos disponibles considerando todos los tipos de alcance
     const cursos = await db.curso.findMany({
       where: {
-        nivelAcademicoId: data.nivelAcademicoId,
         anioAcademico: data.anioAcademico,
         activo: true,
+        OR: [
+          // Cursos específicos para esta sección
+          { 
+            alcance: "SECCION_ESPECIFICA",
+            nivelAcademicoId: data.nivelAcademicoId 
+          },
+          // Cursos para todo el grado
+          { 
+            alcance: "TODO_EL_GRADO",
+            gradoId: nivelAcademico.gradoId 
+          },
+          // Cursos para todo el nivel
+          { 
+            alcance: "TODO_EL_NIVEL",
+            nivelId: nivelAcademico.nivelId 
+          },
+          // Cursos para toda la institución
+          { 
+            alcance: "TODO_LA_INSTITUCION",
+            institucionId: nivelAcademico.institucionId 
+          }
+        ]
       },
     });
 
@@ -193,12 +219,57 @@ export async function updateMatricula({ id, ...data }) {
         },
       });
 
-      // Obtener los nuevos cursos
+      // Obtener el nivel académico completo con sus relaciones
+      const nivelAcademicoCompleto = await db.nivelAcademico.findUnique({
+        where: {
+          id: data.nivelAcademicoId,
+        },
+        include: { 
+          nivel: true, 
+          grado: true, 
+          institucion: true 
+        }
+      });
+
+      if (!nivelAcademicoCompleto) {
+        return {
+          success: false,
+          errors: [
+            {
+              field: "nivelAcademicoId",
+              message: "El nivel académico seleccionado no existe",
+            },
+          ],
+        };
+      }
+
+      // Obtener los nuevos cursos considerando todos los tipos de alcance
       const nuevoCursos = await db.curso.findMany({
         where: {
-          nivelAcademicoId: data.nivelAcademicoId,
           anioAcademico: data.anioAcademico,
           activo: true,
+          OR: [
+            // Cursos específicos para esta sección
+            { 
+              alcance: "SECCION_ESPECIFICA",
+              nivelAcademicoId: data.nivelAcademicoId 
+            },
+            // Cursos para todo el grado
+            { 
+              alcance: "TODO_EL_GRADO",
+              gradoId: nivelAcademicoCompleto.gradoId 
+            },
+            // Cursos para todo el nivel
+            { 
+              alcance: "TODO_EL_NIVEL",
+              nivelId: nivelAcademicoCompleto.nivelId 
+            },
+            // Cursos para toda la institución
+            { 
+              alcance: "TODO_LA_INSTITUCION",
+              institucionId: nivelAcademicoCompleto.institucionId 
+            }
+          ]
         },
       });
 

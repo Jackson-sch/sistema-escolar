@@ -5,27 +5,8 @@ import { Button } from "@/components/ui/button";
 import {
   ChevronDown,
   ChevronRight,
-  Edit,
-  Edit2,
-  MoreHorizontal,
-  Trash2,
 } from "lucide-react";
-import { useState } from "react";
-import ModalEstudiante from "@/components/estudiante/estudiante-modal";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import Link from "next/link";
-import { deleteStudent } from "@/action/estudiante/estudiante";
-import { deleteAdministrativo } from "@/action/administrativo/administrativo";
-import DeleteButton from "@/components/reutilizables/DeleteButton";
-import ModalAdministrativo from "../modal-administrativo";
-import RowActionsAdministrativo from "./rowActionsAdministrativo";
+import RowActionsPersonal from "./rowActionsAdministrativo";
 
 export const columns = [
   {
@@ -63,6 +44,14 @@ export const columns = [
     header: "DNI",
   },
   {
+    accessorKey: "role",
+    header: "Rol",
+    cell: ({ row }) => {
+      const role = row.getValue("role");
+      return role?.charAt(0).toUpperCase() + role?.slice(1) || "";
+    },
+  },
+  {
     accessorKey: "cargo",
     header: "Cargo",
   },
@@ -88,7 +77,7 @@ export const columns = [
     accessorKey: "actions",
     header: "Acciones",
     cell: ({ row }) => (
-      <RowActionsAdministrativo administrativo={row.original} />
+      <RowActionsPersonal administrativo={row.original} />
     ),
   },
 ];

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import ModalAdministrativo from "../modal-administrativo";
+import ModalPersonal from "../modal-administrativo";
 import { useState } from "react";
 import DeleteButton from "@/components/reutilizables/DeleteButton";
 import {
@@ -19,7 +19,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export default function RowActionsAdministrativo({ administrativo }) {
+export default function RowActionsPersonal({ administrativo }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleCopy = (text) => {
@@ -71,7 +71,7 @@ export default function RowActionsAdministrativo({ administrativo }) {
               <Trash2 className="mr-2 h-4 w-4" />
               <DeleteButton
                 id={administrativo.id}
-                descriptionName={`administrativo ${administrativo.name}`}
+                descriptionName={`personal ${administrativo.name}`}
                 deleteAction={deleteAdministrativo}
               />
             </DropdownMenuItem>
@@ -79,8 +79,9 @@ export default function RowActionsAdministrativo({ administrativo }) {
         </DropdownMenu>
       </div>
       {isModalOpen && (
-        <ModalAdministrativo
+        <ModalPersonal
           administrativo={administrativo}
+          institucionId={administrativo.institucionId}
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />

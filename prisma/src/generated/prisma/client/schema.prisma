@@ -12,7 +12,6 @@ enum Role {
   estudiante
   profesor
   administrativo
-  director
   padre
 }
 
@@ -111,6 +110,32 @@ enum TipoEvaluacion {
   EXPOSICION
 }
 
+enum TipoContrato {
+  NOMBRADO
+  CONTRATADO
+  PRATICANTE
+  SUPLENTE
+}
+
+enum EscalaMagisterial {
+  I
+  II
+  III
+  IV
+  V
+  VI
+  VII
+  VIII
+}
+
+// Enum para definir el alcance del curso
+enum AlcanceCurso {
+  SECCION_ESPECIFICA // Para una sección específica (1°A)
+  TODO_EL_GRADO // Para todo el grado (Todas las secciones de 1°)
+  TODO_EL_NIVEL // Para todo el nivel (Toda Primaria)
+  TODO_LA_INSTITUCION // Para todo la institución (Toda la Primaria)
+}
+
 // Nuevos modelos para el sistema de permisos
 model Permiso {
   id          String  @id @default(cuid())
@@ -122,6 +147,7 @@ model Permiso {
   // Relaciones
   roles           RolPermiso[]
   usuarioPermisos UsuarioPermiso[]
+  cargoPermisos   CargoPermiso[]
 
   activo    Boolean  @default(true)
   createdAt DateTime @default(now())
@@ -157,6 +183,20 @@ model UsuarioPermiso {
   @@index([usuarioId])
   @@index([permisoId])
   @@index([activo])
+}
+
+// Modelo para gestionar permisos por cargo
+model CargoPermiso {
+  id        String  @id @default(cuid())
+  cargo     String // Corresponde a los valores del enum Cargo
+  permiso   Permiso @relation(fields: [permisoId], references: [id])
+  permisoId String
+
+  createdAt DateTime @default(now())
+
+  @@unique([cargo, permisoId])
+  @@index([cargo])
+  @@index([permisoId])
 }
 
 // Modelos para el sistema de permisos
@@ -197,6 +237,7 @@ model InstitucionEducativa {
   nivelesAcademicos NivelAcademico[]
   periodos          PeriodoAcademico[]
   areasCurriculares AreaCurricular[]
+  cursos            Curso[] // Relación opuesta para cursos
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -252,7 +293,7 @@ model User {
 
   // Campos específicos para estudiantes
   nivelAcademicoId String?
-  nivelAcademico   NivelAcademico? @relation(fields: [nivelAcademicoId], references: [id])
+  nivelAcademico   NivelAcademico? @relation("StudentNivelAcademico", fields: [nivelAcademicoId], references: [id], onDelete: SetNull)
   turno            Turno?
 
   // Información socioeconómica (para estudiantes)
@@ -271,6 +312,7 @@ model User {
   fechaContratacion DateTime?
   tipoContrato      String? // Nombrado, contratado, etc.
   escalaMagisterial String? // Para profesores del sector público
+  tutorDe           NivelAcademico[] @relation("TutorCursos")
 
   // Relaciones para padres/tutores
   ocupacion        String?
@@ -303,6 +345,9 @@ model User {
   // Anuncios y eventos creados
   anunciosCreados Anuncio[]
   eventosCreados  Evento[]
+
+  // Tokens de recuperación de contraseña
+  passwordResetToken PasswordResetToken?
 
   estado EstadoUsuario @default(activo)
 
@@ -355,6 +400,16 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+// Modelo PasswordResetToken para recuperación de contraseñas
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  token     String   @db.Text
+  expires   DateTime
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
 // Modelo Nivel (debe ir antes de Grado)
 model Nivel {
   id          String  @id @default(cuid())
@@ -364,8 +419,12 @@ model Nivel {
   // Relaciones
   grados            Grado[]
   nivelesAcademicos NivelAcademico[]
-  institucionId     String
-  institucion       InstitucionEducativa @relation(fields: [institucionId], references: [id])
+  areasCurriculares AreaCurricular[]
+  cursos            Curso[] // Relación opuesta para cursos
+
+  // Relación con institución (OBLIGATORIA)
+  institucionId String
+  institucion   InstitucionEducativa @relation(fields: [institucionId], references: [id])
 
   // Para anuncios y eventos
   anuncios Anuncio[]
@@ -375,6 +434,8 @@ model Nivel {
   activo    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([institucionId, nombre])
 }
 
 // Modelo Grado (nueva tabla separada)
@@ -385,9 +446,9 @@ model Grado {
   descripcion String?
   orden       Int // Para ordenar los grados (1, 2, 3, etc.)
 
-  // Relación con Nivel
+  // Relación con Nivel (OBLIGATORIA)
   nivelId String
-  nivel   Nivel  @relation(fields: [nivelId], references: [id])
+  nivel   Nivel  @relation(fields: [nivelId], references: [id], onDelete: Cascade)
 
   // Relaciones
   nivelesAcademicos NivelAcademico[]
@@ -406,38 +467,42 @@ model Grado {
   @@unique([nivelId, orden])
 }
 
-// Modelo NivelAcademico actualizado
+// Modelo NivelAcademico (compatible con el código existente)
 model NivelAcademico {
-  id String @id @default(cuid())
-
-  // Referencias a Nivel y Grado (ahora son requeridas)
-  nivelId String
-  nivel   Nivel  @relation(fields: [nivelId], references: [id])
-
-  gradoId String
-  grado   Grado  @relation(fields: [gradoId], references: [id])
-
-  seccion String? // "A", "B", "C", etc.
-  turno   Turno   @default(MANANA)
+  id          String  @id @default(cuid())
+  seccion     String // Sección ("A", "B", etc.)
+  descripcion String?
 
   // Gestión de aulas y capacidad
+  capacidad       Int     @default(30)
   capacidadMaxima Int?
   aulaAsignada    String?
-  descripcion     String?
 
-  // Tutor de aula
+  // Relación con Nivel (OBLIGATORIA)
+  nivelId String
+  nivel   Nivel  @relation(fields: [nivelId], references: [id], onDelete: Cascade)
+
+  // Relación con Grado (OBLIGATORIA) 
+  gradoId String
+  grado   Grado  @relation(fields: [gradoId], references: [id], onDelete: Cascade)
+
+  // Tutor de aula (OPCIONAL)
   tutorId String?
+  tutor   User?   @relation("TutorCursos", fields: [tutorId], references: [id])
+
+  // Relación con institución (OBLIGATORIA)
+  institucionId String
+  institucion   InstitucionEducativa @relation(fields: [institucionId], references: [id])
 
   // Año académico
   anioAcademico Int     @default(2025)
   activo        Boolean @default(true)
+  turno         Turno   @default(MANANA)
 
-  // Relaciones
-  students      User[]
-  institucionId String
-  institucion   InstitucionEducativa @relation(fields: [institucionId], references: [id])
-  cursos        Curso[]
-  matriculas    Matricula[]
+  // Relaciones con otras entidades
+  students   User[]      @relation("StudentNivelAcademico") // Estudiantes asignados a este nivel académico
+  cursos     Curso[] // Cursos asociados a este nivel académico
+  matriculas Matricula[] // Matrículas de estudiantes en este nivel
 
   // Metadatos
   createdAt DateTime @default(now())
@@ -470,7 +535,6 @@ model AreaCurricular {
   nombre      String // Matemática, Comunicación, etc.
   codigo      String // MAT, COM, etc.
   descripcion String?
-  nivel       String // Cambié de Nivel a String para evitar problemas
   orden       Int? // Para ordenar en el currículo
   color       String? // Para UI
   activa      Boolean @default(true)
@@ -478,12 +542,24 @@ model AreaCurricular {
   // Competencias y capacidades según Currículo Nacional
   competencias String? // JSON con competencias
 
-  // Relaciones
+  // Relaciones con institución (OBLIGATORIA)
   institucionId String
   institucion   InstitucionEducativa @relation(fields: [institucionId], references: [id])
-  cursos        Curso[]
 
-  @@unique([codigo, nivel, institucionId])
+  // Relación con Nivel (OPCIONAL)
+  nivelId String?
+  nivel   Nivel?  @relation(fields: [nivelId], references: [id])
+
+  // Relación con Grado (OPCIONAL)
+  cursos   Curso[]
+  creditos Int? // Para nivel superior
+
+  // Auto-referencia para áreas curriculares padre/hijo
+  parentId String?
+  parent   AreaCurricular?  @relation("SubAreas", fields: [parentId], references: [id])
+  subAreas AreaCurricular[] @relation("SubAreas")
+
+  @@unique([codigo, institucionId])
 }
 
 // Modelo Curso
@@ -492,26 +568,37 @@ model Curso {
   nombre         String
   codigo         String
   descripcion    String?
-  nivel          String // Cambié de Nivel enum a String
   anioAcademico  Int
   horasSemanales Int?
   creditos       Int? // Para nivel superior
 
-  // Área curricular
+  // Definir el alcance del curso
+  alcance AlcanceCurso @default(SECCION_ESPECIFICA)
+
+  // Área curricular (OBLIGATORIA)
   areaCurricularId String
   areaCurricular   AreaCurricular @relation(fields: [areaCurricularId], references: [id])
 
-  // Nivel académico
-  nivelAcademicoId String?
-  nivelAcademico   NivelAcademico? @relation(fields: [nivelAcademicoId], references: [id])
+  // Relaciones opcionales dependiendo del alcance
+  // Para alcance SECCION_ESPECIFICA
+  nivelAcademicoId String
+  nivelAcademico   NivelAcademico @relation(fields: [nivelAcademicoId], references: [id])
 
-  // Grado (relación opcional)
+  // Para alcance TODO_EL_GRADO
   gradoId String?
   grado   Grado?  @relation(fields: [gradoId], references: [id])
 
-  // Profesor que imparte el curso
-  profesor   User   @relation("ProfesorCursos", fields: [profesorId], references: [id])
+  // Para alcance TODO_EL_NIVEL
+  nivelId String?
+  nivel   Nivel?  @relation(fields: [nivelId], references: [id])
+
+  // Para alcance TODO_LA_INSTITUCION
+  institucionId String?
+  institucion   InstitucionEducativa? @relation(fields: [institucionId], references: [id])
+
+  // Profesor que imparte el curso (OBLIGATORIA)
   profesorId String
+  profesor   User   @relation("ProfesorCursos", fields: [profesorId], references: [id])
 
   // Relaciones académicas
   estudiantes  MatriculaCurso[]
@@ -528,7 +615,10 @@ model Curso {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([codigo, anioAcademico, nivelAcademicoId])
+  @@unique([codigo, anioAcademico, nivelAcademicoId]) // Para alcance SECCION_ESPECIFICA
+  @@unique([codigo, anioAcademico, gradoId]) // Para alcance TODO_EL_GRADO
+  @@unique([codigo, anioAcademico, nivelId]) // Para alcance TODO_EL_NIVEL
+  @@unique([codigo, anioAcademico, institucionId]) // Para alcance TODO_LA_INSTITUCION
 }
 
 // Modelo Horario

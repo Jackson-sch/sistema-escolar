@@ -98,7 +98,7 @@ export function UsuariosPermisosClient({ institucion, usuariosIniciales = [], pe
     todos: usuarios.length,
     profesor: usuarios.filter((u) => u.role === "profesor").length,
     administrativo: usuarios.filter((u) => u.role === "administrativo").length,
-    director: usuarios.filter((u) => u.role === "director").length,
+    // Nota: El rol "director" fue eliminado del esquema Prisma
   };
 
   return (
@@ -164,9 +164,6 @@ export function UsuariosPermisosClient({ institucion, usuariosIniciales = [], pe
               </TabsTrigger>
               <TabsTrigger value="administrativo">
                 Administrativos ({roleCounts.administrativo})
-              </TabsTrigger>
-              <TabsTrigger value="director">
-                Directores ({roleCounts.director})
               </TabsTrigger>
             </TabsList>
 

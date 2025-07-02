@@ -10,7 +10,7 @@ export default function ModalMatricula({ matricula, isOpen, onClose }) {
       FormComponent={(props) => (
         <FormularioMatricula {...props} matriculaData={matricula} />
       )}
-      modalWidth="sm:max-w-[625px]"
+      modalWidth="sm:max-w-3xl"
       labels={{
         create: "Nueva",
         edit: "Editar",

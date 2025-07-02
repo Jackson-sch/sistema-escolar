@@ -1,21 +1,23 @@
 "use client";
 
 import GenericModal from "@/components/reutilizables/GenericModal";
-import AdministrativoFormulario from "@/components/administrativo/formulario";
+import PersonalFormulario from "./formulario";
 
-export default function ModalAdministrativo({
+export default function ModalPersonal({
   administrativo,
   isOpen,
   onClose,
+  institucionId,
 }) {
   return (
     <GenericModal
-      entityName="administrativo"
+      entityName="personal"
       entityData={administrativo}
-      FormComponent={(props) => (
-        <AdministrativoFormulario
-          {...props}
-          administrativoData={administrativo}
+      FormComponent={({ data, onSuccess }) => (
+        <PersonalFormulario
+          administrativoData={data}
+          institucionId={institucionId}
+          onSuccess={onSuccess}
         />
       )}
       modalWidth="sm:max-w-[625px]"

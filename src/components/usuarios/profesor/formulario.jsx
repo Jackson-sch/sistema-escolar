@@ -377,8 +377,11 @@ export default function ProfesorFormulario({ profesorData, institucionId, onSucc
                 name="tipoContrato"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Tipo de contrato</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormLabel className="flex items-center gap-2">
+                      <Briefcase className="h-4 w-4" />
+                      Tipo de contrato
+                    </FormLabel>
+                    <Select onValueChange={field.onChange} value={field.value}>
                       <FormControl>
                         <SelectTrigger className="w-full">
                           <SelectValue placeholder="Seleccione tipo de contrato" />
@@ -407,7 +410,7 @@ export default function ProfesorFormulario({ profesorData, institucionId, onSucc
                     </FormLabel>
                     <Select
                       onValueChange={field.onChange}
-                      defaultValue={field.value}
+                      value={field.value}
                     >
                       <FormControl>
                         <SelectTrigger className="w-full">
@@ -433,7 +436,7 @@ export default function ProfesorFormulario({ profesorData, institucionId, onSucc
           {!profesorData && (
             <div className="pt-6 space-y-4">
               <h3 className="text-lg font-semibold">Información Para Acceso al Sistema</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4">
                 <FormField
                   control={form.control}
                   name="password"
@@ -445,23 +448,6 @@ export default function ProfesorFormulario({ profesorData, institucionId, onSucc
                       </FormControl>
                       <FormDescription>
                         Mínimo 6 caracteres
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="confirmPassword"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Confirmar Contraseña</FormLabel>
-                      <FormControl>
-                        <Input type="password" placeholder="********" {...field} />
-                      </FormControl>
-                      <FormDescription>
-                        Confirmar Contraseña
                       </FormDescription>
                       <FormMessage />
                     </FormItem>

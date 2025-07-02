@@ -168,6 +168,7 @@ export async function getProfesores() {
       sexo: true,
       especialidad: true,
       titulo: true,
+      tipoContrato: true,
       fechaContratacion: true,
       role: true,
       estado: true,

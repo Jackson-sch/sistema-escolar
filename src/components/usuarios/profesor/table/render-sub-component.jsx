@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { calculateAge } from "@/lib/calculateAge";
-import { formatDate } from "@/lib/dateUtils";
+import { formatDate } from "@/lib/formatDate";
 import { calculateYearsOfService } from "@/lib/calculateYearsOfService";
 import { handlePrint } from "@/lib/printUtils";
 import { Badge } from "@/components/ui/badge";

@@ -68,13 +68,6 @@ const navigationData = {
       icon: Users,
       items: [
         {
-          title: "Directivos",
-          url: "/usuarios/directivos",
-          description: "Gestionar directores y subdirectores",
-          role: "director",
-          actions: ["create", "edit", "view", "delete"]
-        },
-        {
           title: "Administrativos",
           url: "/usuarios/administrativos",
           description: "Gestionar personal administrativo",

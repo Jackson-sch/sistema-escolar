@@ -208,16 +208,64 @@ async function main() {
       'PAGO_VER',
       'PAGO_CREAR',
       'DOCUMENTO_VERIFICAR',
-      'REPORTE_GENERAR'
-    ],
-    director: [
-      // El director tiene todos los permisos
-      ...permisos.map(p => p.codigo)
+      'REPORTE_GENERAR',
+      'USUARIO_GESTIONAR'
     ],
     padre: [
       'ESTUDIANTE_VER', // Solo de sus hijos
       'NOTA_VER',       // Solo de sus hijos
       'PAGO_VER'        // Solo de sus hijos
+    ]
+  };
+
+  // Definir permisos adicionales para cargos específicos
+  const permisosAdicionalePorCargo = {
+    director: [
+      // El director tiene todos los permisos
+      ...permisos.map(p => p.codigo)
+    ],
+    administrador: [
+      // El administrador también tiene permisos amplios
+      ...permisos.map(p => p.codigo)
+    ],
+    subdirector: [
+      'ESTUDIANTE_VER',
+      'ESTUDIANTE_CREAR',
+      'ESTUDIANTE_ACTUALIZAR',
+      'ESTUDIANTE_MATRICULAR',
+      'ESTUDIANTE_CAMBIAR_SECCION',
+      'NOTA_VER',
+      'EVALUACION_CREAR',
+      'ASISTENCIA_REGISTRAR',
+      'HORARIO_GESTIONAR',
+      'PAGO_VER',
+      'DOCUMENTO_VERIFICAR',
+      'REPORTE_GENERAR',
+      'PERIODO_ACADEMICO_CREAR',
+      'NIVEL_ACADEMICO_GESTIONAR',
+      'ANUNCIO_CREAR',
+      'EVENTO_CREAR'
+    ],
+    coordinador_academico: [
+      'ESTUDIANTE_VER',
+      'NOTA_VER',
+      'NOTA_CREAR',
+      'NOTA_ACTUALIZAR',
+      'EVALUACION_CREAR',
+      'ASISTENCIA_REGISTRAR',
+      'HORARIO_GESTIONAR',
+      'NIVEL_ACADEMICO_GESTIONAR',
+      'AREA_CURRICULAR_CREAR',
+      'REPORTE_GENERAR'
+    ],
+    secretaria: [
+      'ESTUDIANTE_VER',
+      'ESTUDIANTE_CREAR',
+      'ESTUDIANTE_ACTUALIZAR',
+      'ESTUDIANTE_MATRICULAR',
+      'DOCUMENTO_VERIFICAR',
+      'PAGO_VER',
+      'PAGO_CREAR'
     ]
   };
 
@@ -252,7 +300,7 @@ async function main() {
     }
   }
 
-  // 🎯 CREAR USUARIO ADMINISTRADOR
+  // 🎯 CREAR USUARIO ADMINISTRADOR CON CARGO DE DIRECTOR
   console.log('👤 Creando usuario administrador...');
   
   // Datos del administrador
@@ -263,8 +311,8 @@ async function main() {
     apellidoPaterno: 'Sistema',
     apellidoMaterno: 'Administrador',
     dni: '12345678',
-    role: 'director', // Rol con más permisos
-    cargo: 'administrador',
+    role: 'administrativo', // Rol administrativo
+    cargo: 'administrador',      // Cargo específico de director
     estado: 'activo',
     fechaNacimiento: new Date('1980-01-01'),
     sexo: 'M',
@@ -280,14 +328,15 @@ async function main() {
     update: {
       password: adminData.password,
       name: adminData.name,
-      estado: 'activo'
+      estado: 'activo',
+      cargo: 'administrador' // Asegurar que tenga el cargo de director
     },
     create: adminData
   });
 
-  console.log(`✅ Usuario administrador creado: ${adminUser.email}`);
+  console.log(`✅ Usuario administrador creado: ${adminUser.email} con cargo: ${adminUser.cargo}`);
 
-  // 🔑 ASIGNAR TODOS LOS PERMISOS AL ADMINISTRADOR
+  // 🔑 ASIGNAR TODOS LOS PERMISOS AL ADMINISTRADOR (POR SER DIRECTOR)
   console.log('🔑 Asignando todos los permisos al administrador...');
   
   // Obtener todos los permisos creados
@@ -327,10 +376,16 @@ async function main() {
   console.log(`👥 Roles configurados: ${Object.keys(permisosDefaultPorRol).length}`);
   console.log('👤 Usuario administrador creado:');
   console.log(`   📧 Email: ${adminUser.email}`);
+  console.log(`   👔 Rol: ${adminUser.role}`);
+  console.log(`   💼 Cargo: ${adminUser.cargo}`);
   console.log(`   🔑 Contraseña: Admin123! (¡CAMBIAR INMEDIATAMENTE!)`);
   console.log(`   🆔 ID: ${adminUser.id}`);
   console.log(`   🔐 Permisos asignados: ${todosLosPermisos.length}`);
   
+  console.log('\n💡 Lógica de permisos:');
+  console.log('   • Los permisos base se asignan por ROL');
+  console.log('   • Los permisos adicionales se pueden asignar por CARGO');
+  console.log('   • El director tiene cargo "director" dentro del rol "administrativo"');
   console.log('\n⚠️  IMPORTANTE: Cambia la contraseña del administrador después del primer login!');
 }
 

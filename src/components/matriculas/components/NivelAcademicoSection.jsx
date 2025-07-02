@@ -12,6 +12,7 @@ export default function NivelAcademicoSection({
   seccionesFiltradas,
   nivelSeleccionado,
   gradoSeleccionado,
+  loading,
   onNivelChange,
   onGradoChange,
 }) {
@@ -37,7 +38,7 @@ export default function NivelAcademicoSection({
             Nivel educativo
             <span className="text-red-500">*</span>
           </Label>
-          <Select value={nivelSeleccionado || ""} onValueChange={onNivelChange}>
+          <Select value={nivelSeleccionado || ""} onValueChange={onNivelChange} disabled={loading}>
             <SelectTrigger className="h-10 transition-all duration-200 focus:ring-2 focus:ring-purple-500/20">
               <SelectValue placeholder="Seleccione nivel" />
             </SelectTrigger>
@@ -52,7 +53,7 @@ export default function NivelAcademicoSection({
               ))}
               {niveles.length === 0 && (
                 <SelectItem value="no-levels" disabled>
-                  No hay niveles disponibles
+                  {loading ? "Cargando niveles..." : "No hay niveles disponibles"}
                 </SelectItem>
               )}
             </SelectContent>
@@ -80,7 +81,7 @@ export default function NivelAcademicoSection({
                   form.setValue("nivelAcademicoId", "")
                 }}
                 value={gradoSeleccionado || field.value || ""}
-                disabled={!nivelSeleccionado}
+                disabled={!nivelSeleccionado || loading}
               >
                 <FormControl>
                   <SelectTrigger className="h-10 transition-all duration-200 focus:ring-2 focus:ring-indigo-500/20">

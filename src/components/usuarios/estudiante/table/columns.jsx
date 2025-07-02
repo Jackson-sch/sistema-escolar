@@ -35,7 +35,7 @@ import { colorClassesEstudiante } from "@/lib/estadoColorClasses";
 import { EstadoBadge } from "@/components/EstadoBadge";
 import { formatPhone } from "@/lib/formatPhone";
 import { useNivelGradoAcademico } from "@/hooks/utilidades";
-import { formatDate } from "@/lib/dateUtils";
+import { formatDate } from "@/lib/formatDate";
 
 // Componente Badge para el nivel
 const NivelBadge = ({ nivel }) => {
@@ -171,7 +171,7 @@ export const columns = ({ niveles }) => [
     cell: ({ row }) => {
       const nivelAcademico = row.original.nivelAcademico;
       if (!nivelAcademico || !nivelAcademico.nivel) return null;
-      
+
       return <NivelBadge nivel={nivelAcademico.nivel.nombre} />;
     },
   },
@@ -193,7 +193,7 @@ export const columns = ({ niveles }) => [
     cell: ({ row }) => {
       const nivelAcademico = row.original.nivelAcademico;
       if (!nivelAcademico || !nivelAcademico.grado) return null;
-      
+
       return (
         <div className="flex items-center gap-2">
           <span className="text-sm">{nivelAcademico.grado.nombre}</span>
@@ -204,11 +204,11 @@ export const columns = ({ niveles }) => [
       // Acceder al código del grado, que ahora está en nivelAcademico.grado.codigo
       const gradoCodigoA = rowA.original.nivelAcademico?.grado?.codigo || "";
       const gradoCodigoB = rowB.original.nivelAcademico?.grado?.codigo || "";
-      
+
       // Extraer la parte del grado (e.g., "PRIMERO" de "PRIMARIA_PRIMERO")
       const gradoA = gradoCodigoA.split("_")[1] || gradoCodigoA;
       const gradoB = gradoCodigoB.split("_")[1] || gradoCodigoB;
-      
+
       return gradoToNumber(gradoA) - gradoToNumber(gradoB); // Compara los valores numéricos
     },
   },

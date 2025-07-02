@@ -47,6 +47,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import AlertError, { AlertInfo } from "@/components/reutilizables/Alerts";
+import ResponsableSection from "./components/ResponsableSection";
+import ConfiguracionSection from "./components/ConfiguracionSection";
+import NivelAcademicoSection from "./components/NivelAcademicoSection";
+import EstudianteSection from "./components/EstudianteSection";
 
 // Constants
 const ESTADO_OPTIONS = [
@@ -72,7 +76,7 @@ const normalizeNivelName = (nivel) => {
 
 const extractGradoId = (nivelAcademico) => {
   if (!nivelAcademico) return "";
-  
+
   const { grado } = nivelAcademico;
   if (typeof grado === "string") return grado;
   if (grado?.id) return grado.id;
@@ -105,9 +109,9 @@ const useProcessedData = (nivelesData, nivelesAcademicos, nivelSeleccionado, gra
   // Filter academic levels by selected level
   const nivelesAcademicosFiltrados = useMemo(() => {
     if (!nivelSeleccionado || !nivelesAcademicos.length) return [];
-    
+
     const nivelSeleccionadoStr = String(nivelSeleccionado).toLowerCase();
-    
+
     return nivelesAcademicos.filter(na => {
       const nivelAcademico = normalizeNivelName(na.nivel || na.nivelId);
       return nivelAcademico.toLowerCase() === nivelSeleccionadoStr;
@@ -117,27 +121,27 @@ const useProcessedData = (nivelesData, nivelesAcademicos, nivelSeleccionado, gra
   // Extract unique grades from filtered academic levels
   const gradosUnicos = useMemo(() => {
     if (!nivelesAcademicosFiltrados.length) return [];
-    
+
     const gradosMap = new Map();
-    
+
     nivelesAcademicosFiltrados.forEach(na => {
       const gradoId = extractGradoId(na);
       if (!gradoId || gradosMap.has(gradoId)) return;
-      
-      const gradoNombre = typeof na.grado === "string" 
+
+      const gradoNombre = typeof na.grado === "string"
         ? na.grado.replace("_", " ")
         : na.grado?.nombre || na.grado?.codigo?.replace("_", " ") || "Grado sin nombre";
-      
+
       gradosMap.set(gradoId, { id: gradoId, nombre: gradoNombre });
     });
-    
+
     return Array.from(gradosMap.values());
   }, [nivelesAcademicosFiltrados]);
 
   // Filter sections by selected grade
   const seccionesFiltradas = useMemo(() => {
     if (!gradoSeleccionado || !nivelesAcademicosFiltrados.length) return [];
-    
+
     return nivelesAcademicosFiltrados
       .filter(na => extractGradoId(na) === gradoSeleccionado)
       .map(na => ({
@@ -201,7 +205,7 @@ export default function FormularioMatricula({ onSuccess, matriculaData }) {
   // Hooks
   const router = useRouter();
   const { toast } = useToast();
-  
+
   // Data hooks
   const { estudiantes, loading: loadingEstudiantes } = useEstudiante();
   const { nivelesAcademicos, loading: loadingNiveles } = useNivelAcademico();
@@ -225,7 +229,7 @@ export default function FormularioMatricula({ onSuccess, matriculaData }) {
   });
 
   // Processed data
-  const { niveles, nivelesAcademicosFiltrados, gradosUnicos, seccionesFiltradas } = 
+  const { niveles, nivelesAcademicosFiltrados, gradosUnicos, seccionesFiltradas } =
     useProcessedData(nivelesData, nivelesAcademicos, nivelSeleccionado, gradoSeleccionado);
 
   // Watch form values
@@ -250,7 +254,7 @@ export default function FormularioMatricula({ onSuccess, matriculaData }) {
         // Si no hay padre asociado al estudiante, mostrar todos los responsables disponibles
         if (responsables && responsables.length > 0) {
           setFilteredResponsables(responsables);
-          
+
           // Si estamos en modo edición, mantener el responsable seleccionado
           if (matriculaData?.responsableId) {
             const selectedResponsable = responsables.find(r => r.id === matriculaData.responsableId);
@@ -286,11 +290,11 @@ export default function FormularioMatricula({ onSuccess, matriculaData }) {
 
     // Validation
     if (validateAndSetError(!nivelSeleccionado, "Debe seleccionar un nivel educativo")) return;
-    
+
     // Verificar el grado usando tanto el estado local como el valor del formulario
     const gradoValue = gradoSeleccionado || data.gradoId;
     if (validateAndSetError(!gradoValue, "Debe seleccionar un grado")) return;
-    
+
     if (validateAndSetError(!data.nivelAcademicoId, "Debe seleccionar una sección")) return;
 
     try {
@@ -332,14 +336,14 @@ export default function FormularioMatricula({ onSuccess, matriculaData }) {
 
   const handleFormErrors = (errors) => {
     if (!errors) return;
-    
+
     const fieldErrorsMap = {};
     errors.forEach((error) => {
       fieldErrorsMap[error.field] = error.message;
     });
-    
+
     setFieldErrors(fieldErrorsMap);
-    
+
     const generalError = errors.find((e) => e.field === "general");
     if (generalError) {
       setError(generalError.message);
@@ -361,7 +365,7 @@ export default function FormularioMatricula({ onSuccess, matriculaData }) {
       }
 
       console.log("Datos de matrícula para edición:", matriculaData);
-      
+
       // Extraer el nombre del responsable si está en los datos
       if (matriculaData.responsableNombre) {
         console.log("Nombre del responsable encontrado:", matriculaData.responsableNombre);
@@ -406,7 +410,7 @@ export default function FormularioMatricula({ onSuccess, matriculaData }) {
       if (matriculaData.responsableId) {
         console.log("Responsable ID en matricula:", matriculaData.responsableId);
         console.log("Nombre del responsable en matricula:", matriculaData.responsableNombre);
-        
+
         // Crear un responsable temporal con el ID y nombre de la matrícula
         if (matriculaData.responsableNombre) {
           const tempResponsable = {
@@ -460,7 +464,7 @@ export default function FormularioMatricula({ onSuccess, matriculaData }) {
       loadResponsable(estudianteId);
     }
   }, [estudianteId, initialLoad, loadResponsable]);
-  
+
   // Effect to preserve responsable when responsables list changes
   useEffect(() => {
     // Si tenemos un responsable actual y la lista de responsables cambia,
@@ -484,7 +488,7 @@ export default function FormularioMatricula({ onSuccess, matriculaData }) {
     const currentNivelAcademicoId = form.getValues("nivelAcademicoId");
 
     const gradoValido = gradosUnicos.some(g => g.id === currentGradoId);
-    
+
     if (!gradoValido) {
       form.setValue("gradoId", "");
       form.setValue("nivelAcademicoId", "");
@@ -500,317 +504,123 @@ export default function FormularioMatricula({ onSuccess, matriculaData }) {
   // Render
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="max-w-7xl mx-auto p-6">
         <ErrorDisplay fieldErrors={fieldErrors} error={error} />
 
-        {/* Form fields */}
-        <div className="space-y-6">
-          <div className="flex items-center space-x-2">
-            <h2 className="text-lg font-semibold">Información de Matrícula</h2>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* Student field */}
-            <FormField
-              control={form.control}
-              name="estudianteId"
-              render={({ field }) => (
-                <FormItem className="flex flex-col space-y-1.5">
-                  <FormLabel className="font-medium text-sm flex items-center gap-2">
-                    <User className="h-4 w-4" />
-                    Estudiante <span className="text-red-500 ml-1">*</span>
-                  </FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value}
-                    disabled={loadingEstudiantes}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue
-                          placeholder={loadingEstudiantes ? "Cargando..." : "Seleccione estudiante"}
-                        />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {estudiantes?.map((e) => (
-                        <SelectItem key={e.id} value={e.id}>
-                          {e.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage className="text-xs" />
-                </FormItem>
-              )}
-            />
 
-            {/* Level selection */}
-            <div>
-              <Label className="font-medium text-sm flex items-center gap-2">
-                <School className="h-4 w-4" />
-                Nivel educativo <span className="text-red-500 ml-1">*</span>
-              </Label>
-              <Select
-                value={nivelSeleccionado || ""}
-                onValueChange={setNivelSeleccionado}
-              >
-                <SelectTrigger className="focus:ring-2 focus:ring-primary focus:ring-offset-1">
-                  <SelectValue placeholder="Seleccione nivel" />
-                </SelectTrigger>
-                <SelectContent>
-                  {niveles.length > 0 ? (
-                    niveles.map((nivel) => (
-                      <SelectItem key={nivel} value={nivel}>
-                        {nivel}
-                      </SelectItem>
-                    ))
-                  ) : (
-                    <SelectItem value="sin" disabled>
-                      {loadingNiveles2 ? "Cargando niveles..." : "No hay niveles disponibles"}
-                    </SelectItem>
-                  )}
-                </SelectContent>
-              </Select>
-            </div>
+        {/* Bento Grid Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
 
-            {/* Grade selection */}
-            <FormField
-              control={form.control}
-              name="gradoId"
-              render={({ field }) => (
-                <FormItem className="flex flex-col space-y-1.5">
-                  <FormLabel className="font-medium text-sm flex items-center gap-2">
-                    <Bookmark className="h-4 w-4" />
-                    Grado <span className="text-red-500 ml-1">*</span>
-                  </FormLabel>
-                  <Select
-                    onValueChange={(value) => {
-                      setGradoSeleccionado(value);
-                      field.onChange(value);
-                      // Asegurarse de que el valor se actualice correctamente en el formulario
-                      form.setValue("gradoId", value, { shouldValidate: true, shouldDirty: true, shouldTouch: true });
-                      form.setValue("nivelAcademicoId", "");
-                    }}
-                    value={gradoSeleccionado || field.value || ""}
-                    disabled={!nivelSeleccionado || loadingNiveles}
-                  >
-                    <FormControl>
-                      <SelectTrigger className="w-full focus:ring-2 focus:ring-primary focus:ring-offset-1">
-                        <SelectValue placeholder="Seleccione grado" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {gradosUnicos.map((grado) => (
-                        <SelectItem key={grado.id} value={grado.id}>
-                          {grado.nombre}
-                        </SelectItem>
-                      ))}
-                      {gradosUnicos.length === 0 && nivelSeleccionado && (
-                        <div className="py-2 px-2 text-sm text-gray-500">
-                          No hay grados disponibles para este nivel
-                        </div>
-                      )}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage className="text-xs" />
-                </FormItem>
-              )}
-            />
+          {/* Estudiante Card - Large */}
+          <div className="lg:col-span-8">
 
-            {/* Section selection */}
-            <FormField
-              control={form.control}
-              name="nivelAcademicoId"
-              render={({ field }) => (
-                <FormItem className="flex flex-col space-y-1.5">
-                  <FormLabel className="font-medium text-sm flex items-center gap-2">
-                    <LayoutGrid className="h-4 w-4" />
-                    Sección <span className="text-red-500 ml-1">*</span>
-                  </FormLabel>
-                  <Select
-                    onValueChange={(value) => {
-                      field.onChange(value);
-                      form.setValue("nivelAcademicoId", value, { shouldValidate: true });
-                    }}
-                    value={field.value || ""}
-                    disabled={!gradoSeleccionado || seccionesFiltradas.length === 0}
-                  >
-                    <FormControl>
-                      <SelectTrigger className="w-full focus:ring-2 focus:ring-primary focus:ring-offset-1">
-                        <SelectValue placeholder="Seleccione sección" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {seccionesFiltradas.map((item) => (
-                        <SelectItem key={item.id} value={item.id}>
-                          Sección {item.seccion}
-                        </SelectItem>
-                      ))}
-                      {seccionesFiltradas.length === 0 && gradoSeleccionado && (
-                        <div className="py-2 px-2 text-sm text-gray-500">
-                          No hay secciones disponibles para este grado
-                        </div>
-                      )}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage className="text-xs" />
-                </FormItem>
-              )}
-            />
-
-            {/* Academic year field */}
-            <FormField
-              control={form.control}
-              name="anioAcademico"
-              render={({ field }) => (
-                <FormItem className="flex flex-col space-y-1.5">
-                  <FormLabel className="font-medium text-sm flex items-center gap-2">
-                    <Calendar className="h-4 w-4" />
-                    Año académico <span className="text-red-500 ml-1">*</span>
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number"
-                      placeholder="2025"
-                      className="w-full focus:ring-primary"
-                      {...field}
-                      onChange={(e) => field.onChange(parseInt(e.target.value))}
-                    />
-                  </FormControl>
-                  <FormMessage className="text-xs" />
-                </FormItem>
-              )}
-            />
-
-            {/* Responsible field */}
-            <FormField
-              control={form.control}
-              name="responsableId"
-              render={({ field }) => {
-                // Buscar el nombre del responsable seleccionado para mostrar
-                const selectedResponsable = responsableActual || 
-                  filteredResponsables?.find(r => r.id === field.value) ||
-                  (matriculaData?.responsableId && matriculaData?.responsableNombre ? 
-                    { id: matriculaData.responsableId, name: matriculaData.responsableNombre } : null);
-                
-                // Asegurarse de que el valor esté establecido en el formulario
-                React.useEffect(() => {
-                  if (selectedResponsable && !field.value) {
-                    field.onChange(selectedResponsable.id);
-                  }
-                }, [selectedResponsable, field]);
-                
-                return (
-                  <FormItem className="flex flex-col space-y-1.5">
-                    <FormLabel className="font-medium text-sm flex items-center gap-2">
-                      <UserCheck className="h-4 w-4" />
-                      Responsable <span className="text-red-500 ml-1">*</span>
-                    </FormLabel>
-                    <div className="relative">
-                      {/* Mostrar el nombre del responsable directamente si está seleccionado */}
-                      {selectedResponsable && (
-                        <div className="absolute top-0 left-0 right-0 bottom-0 flex items-center px-3 pointer-events-none">
-                          {selectedResponsable.name}
-                        </div>
-                      )}
-                      <Select
-                        onValueChange={(value) => {
-                          field.onChange(value);
-                          form.setValue("responsableId", value, { shouldValidate: true, shouldDirty: true, shouldTouch: true });
-                          const newSelected = filteredResponsables.find(r => r.id === value);
-                          if (newSelected) {
-                            setResponsableActual(newSelected);
-                          }
-                        }}
-                        value={field.value || ""}
-                        disabled={loadingPadres}
-                      >
-                        <FormControl>
-                          <SelectTrigger className={selectedResponsable ? "text-transparent" : ""}>
-                            <SelectValue placeholder="Seleccione responsable" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {filteredResponsables?.map((r) => (
-                            <SelectItem key={r.id} value={r.id}>
-                              {r.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <FormMessage className="text-xs" />
-                  </FormItem>
-                );
+            <EstudianteSection
+              form={form}
+              estudiantes={estudiantes}
+              loading={loadingEstudiantes}
+              onEstudianteChange={(value) => {
+                form.setValue("estudianteId", value, { shouldValidate: true });
+                loadResponsable(value);
               }}
             />
+          </div>
 
-            {/* Status field */}
-            <FormField
-              control={form.control}
-              name="estado"
-              render={({ field }) => (
-                <FormItem className="flex flex-col space-y-1.5">
-                  <FormLabel className="font-medium text-sm flex items-center gap-2">
-                    <Bookmark className="h-4 w-4" />
-                    Estado <span className="text-red-500 ml-1">*</span>
-                  </FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value?.toLowerCase()}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Seleccione estado" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {ESTADO_OPTIONS.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage className="text-xs" />
-                </FormItem>
-              )}
+          {/* Quick Info Card - Small */}
+          <div className="lg:col-span-4 bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-900/20 dark:to-teal-900/20 rounded-2xl border border-emerald-200 dark:border-emerald-800/50">
+            <div className="p-6">
+              <div className="w-10 h-10 bg-emerald-100 dark:bg-emerald-900/30 rounded-xl flex items-center justify-center mb-4">
+                <svg className="w-5 h-5 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="font-semibold text-emerald-900 dark:text-emerald-100 mb-2">
+                Estado del Proceso
+              </h3>
+              <p className="text-sm text-emerald-700 dark:text-emerald-300">
+                {matriculaData ? "Modo edición activo" : "Nuevo registro en proceso"}
+              </p>
+            </div>
+          </div>
+
+          {/* Nivel Académico Card - Large */}
+          <div className="lg:col-span-12">
+            <NivelAcademicoSection
+              form={form}
+              niveles={niveles}
+              gradosUnicos={gradosUnicos}
+              seccionesFiltradas={seccionesFiltradas}
+              nivelSeleccionado={nivelSeleccionado}
+              gradoSeleccionado={gradoSeleccionado}
+              loading={loadingNiveles}
+              onNivelChange={(nivel) => {
+                setNivelSeleccionado(nivel);
+                setGradoSeleccionado("");
+                form.setValue("gradoId", "");
+                form.setValue("nivelAcademicoId", "");
+              }}
+              onGradoChange={(grado) => {
+                setGradoSeleccionado(grado);
+                form.setValue("gradoId", grado, { shouldValidate: true, shouldDirty: true, shouldTouch: true });
+                form.setValue("nivelAcademicoId", "");
+              }}
+            />
+          </div>
+
+          {/* Configuración Card - Medium */}
+          <div className="lg:col-span-5">
+            <ConfiguracionSection
+              form={form}
+              matriculaData={matriculaData}
+            />
+          </div>
+
+          {/* Responsable Card - Large */}
+          <div className="lg:col-span-7">
+            <ResponsableSection
+              form={form}
+              responsables={filteredResponsables.length > 0 ? filteredResponsables : responsables}
+              loading={loadingPadres}
             />
           </div>
         </div>
 
-        <InfoBanner />
+        {/* Action Bar */}
+        <div className="bg-muted/20  rounded-t-2xl">
+          <div className="p-6">
+            <div className="flex flex-col sm:flex-row gap-4 justify-between items-center">
 
-        {/* Action buttons */}
-        <div className="pt-4 flex flex-col sm:flex-row gap-4 justify-end border-t border-slate-200 dark:border-slate-800 mt-6">
-          <Button
-            className="w-full sm:w-auto px-8 py-2.5 rounded-lg text-sm font-medium"
-            type="button"
-            variant="outline"
-            onClick={handleCancel}
-          >
-            Cancelar
-          </Button>
-          <Button
-            type="submit"
-            className="w-full sm:w-auto px-8 py-2.5 rounded-lg text-sm font-medium bg-primary hover:bg-primary/90 gap-2"
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <div className="flex items-center justify-center">
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                <span>
-                  {matriculaData ? "Actualizando..." : "Registrando..."}
-                </span>
+
+              <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                <Button
+                  className="w-full sm:w-auto px-6 py-2.5 rounded-xl text-sm font-medium border-2 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors duration-200"
+                  type="button"
+                  variant="outline"
+                  onClick={handleCancel}
+                >
+                  Cancelar
+                </Button>
+                <Button
+                  type="submit"
+                  className="w-full sm:w-auto px-6 py-2.5 rounded-xl text-sm font-medium bg-primary hover:bg-primary/90 shadow-lg hover:shadow-xl transition-all duration-200 gap-2"
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <div className="flex items-center justify-center">
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      <span>
+                        {matriculaData ? "Actualizando..." : "Registrando..."}
+                      </span>
+                    </div>
+                  ) : (
+                    <>
+                      <Save className="h-4 w-4" />
+                      {matriculaData ? "Actualizar Matrícula" : "Guardar Matrícula"}
+                    </>
+                  )}
+                </Button>
               </div>
-            ) : (
-              <>
-                <Save className="h-4 w-4" />
-                {matriculaData ? "Actualizar" : "Guardar"}
-              </>
-            )}
-          </Button>
+            </div>
+          </div>
         </div>
       </form>
     </Form>

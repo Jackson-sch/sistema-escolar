@@ -13,8 +13,8 @@ import { Input } from "@/components/ui/input";
 import { Loader2, Search, Shield, RefreshCw } from "lucide-react";
 
 // Roles disponibles en el sistema
+// Nota: El rol "director" fue eliminado del esquema Prisma
 const ROLES = [
-  { value: "director", label: "Director" },
   { value: "administrativo", label: "Administrativo" },
   { value: "profesor", label: "Profesor" },
   { value: "estudiante", label: "Estudiante" },
@@ -44,7 +44,7 @@ const getModuloBadgeColor = (modulo) => {
 };
 
 export function PermisosRol() {
-  const [selectedRole, setSelectedRole] = useState("director");
+  const [selectedRole, setSelectedRole] = useState("administrativo");
   const [allPermisos, setAllPermisos] = useState([]);
   const [rolePermisos, setRolePermisos] = useState([]);
   const [filteredPermisos, setFilteredPermisos] = useState([]);

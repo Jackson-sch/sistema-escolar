@@ -11,8 +11,9 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { PermisoForm } from "./permiso-form";
 import { PermisoList } from "./permiso-list";
 import { PermisosRol } from "./permisos-rol";
+import { PermisosCargo } from "./permisos-cargo";
 import { PermisosUsuario } from "./permisos-usuario";
-import { Plus, Search, RefreshCw, Settings } from "lucide-react";
+import { Plus, Search, RefreshCw, Settings, Briefcase } from "lucide-react";
 
 export function PermisosClient({ usuarios, selectedUsuario = null, permisosIniciales = [] }) {
   // Filtrar usuarios para excluir estudiantes y padres
@@ -98,16 +99,22 @@ export function PermisosClient({ usuarios, selectedUsuario = null, permisosInici
     <div className="space-y-6">
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <TabsList>
-            <TabsTrigger value="permisos" className="flex items-center gap-2">
-              <Settings className="h-4 w-4" />
-              <span>Permisos</span>
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="permisos" onClick={() => setActiveTab("permisos")}>
+              <Settings className="h-4 w-4 mr-2" />
+              Permisos
             </TabsTrigger>
-            <TabsTrigger value="roles">
-              Roles
+            <TabsTrigger value="roles" onClick={() => setActiveTab("roles")}>
+              <RefreshCw className="h-4 w-4 mr-2" />
+              Por Rol
             </TabsTrigger>
-            <TabsTrigger value="usuarios">
-              Usuarios
+            <TabsTrigger value="cargos" onClick={() => setActiveTab("cargos")}>
+              <Briefcase className="h-4 w-4 mr-2" />
+              Por Cargo
+            </TabsTrigger>
+            <TabsTrigger value="usuarios" onClick={() => setActiveTab("usuarios")}>
+              <Search className="h-4 w-4 mr-2" />
+              Por Usuario
             </TabsTrigger>
           </TabsList>
 
@@ -166,11 +173,15 @@ export function PermisosClient({ usuarios, selectedUsuario = null, permisosInici
           </Card>
         </TabsContent>
 
-        <TabsContent value="roles" className="mt-6">
+        <TabsContent value="roles" className="space-y-4">
           <PermisosRol />
         </TabsContent>
 
-        <TabsContent value="usuarios" className="mt-6">
+        <TabsContent value="cargos" className="space-y-4">
+          <PermisosCargo />
+        </TabsContent>
+
+        <TabsContent value="usuarios" className="space-y-4">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-1">
               <Card>

@@ -61,19 +61,8 @@ export const profesorSchema = z.object({
     required_error: "La institución es requerida",
   }),
   
-  // Campos de contraseña opcionales (solo requeridos para nuevos registros)
+  // Campo de contraseña opcional (solo requerido para nuevos registros)
   password: z.string().min(6, {
     message: "La contraseña debe tener al menos 6 caracteres.",
   }).optional(),
-  
-  confirmPassword: z.string().optional(),
-}).refine((data) => {
-  // Si hay password, debe coincidir con confirmPassword
-  if (data.password) {
-    return data.password === data.confirmPassword;
-  }
-  return true;
-}, {
-  message: "Las contraseñas no coinciden",
-  path: ["confirmPassword"],
 });

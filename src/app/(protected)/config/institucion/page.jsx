@@ -1,11 +1,12 @@
 import { getInstituciones } from "@/action/config/institucion-action";
+import { getUsuarios } from "@/action/config/usuarios-action";
 import { InstitucionForm } from "@/components/config/institucion/institucion-form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Building, Calendar, GraduationCap, MapPin, Mail, User, MapIcon, Building2, Clock, AlertTriangle, CheckCircle, School } from "lucide-react";
-import { formatDate } from "@/lib/dateUtils";
+import { Building, Calendar, GraduationCap, MapPin, Mail, User, MapIcon, Building2, Clock, AlertTriangle, CheckCircle, School, Briefcase } from "lucide-react";
+import { formatDate } from "@/lib/formatDate";
 
 export default async function ConfigInstitucionalPage() {
   // Obtener datos de la institución
@@ -13,10 +14,18 @@ export default async function ConfigInstitucionalPage() {
 
   // Por ahora trabajamos con la primera institución (en el futuro podría haber selector)
   const institucion = instituciones?.[0] || null;
-
-  // Formatear el nombre del director si existe
-  const directorNombre = institucion?.director ?
-    `${institucion.director.name || ''} ${institucion.director.apellidoPaterno || ''} ${institucion.director.apellidoMaterno || ''}`.trim() :
+  
+  // Obtener usuarios administrativos con cargo director
+  const { success: usuariosSuccess, data: usuarios = [] } = await getUsuarios(institucion?.id, true);
+  
+  // Encontrar el usuario con rol administrativo y cargo director
+  const directorAdministrativo = usuarios.find(user => 
+    user.role === "administrativo" && user.cargo === "director"
+  );
+  
+  // Formatear el nombre del director administrativo
+  const directorNombre = directorAdministrativo ?
+    `${directorAdministrativo.name || ''} ${directorAdministrativo.apellidoPaterno || ''} ${directorAdministrativo.apellidoMaterno || ''}`.trim() :
     'No asignado';
 
   return (
@@ -208,38 +217,44 @@ export default async function ConfigInstitucionalPage() {
                   Director(a)
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <dt className="text-sm font-medium text-muted-foreground">Nombre Completo</dt>
-                  <dd className="text-base font-medium">{directorNombre}</dd>
-                </div>
+              <CardContent>
+                <div className="space-y-4">
+                  <div>
+                    <dt className="text-sm font-medium text-muted-foreground">Nombre Completo</dt>
+                    <dd className="text-base capitalize">{directorNombre}</dd>
+                  </div>
 
-                <Separator />
-
-                <div className="space-y-3">
-                  {institucion.director && (
-                    <div className="flex items-center gap-2 p-2 bg-muted rounded-lg">
-                      <Mail className="h-4 w-4 text-muted-foreground" />
-                      <div className="flex-1 min-w-0">
-                        <dt className="text-sm font-medium text-muted-foreground">Email</dt>
-                        <dd className="text-sm truncate">{institucion.director.email || "No disponible"}</dd>
-                      </div>
+                  <Separator />
+                  
+                  <div className="flex items-start gap-2">
+                    <Briefcase className="h-4 w-4 text-muted-foreground mt-0.5" />
+                    <div className="flex-1">
+                      <dt className="text-sm font-medium text-muted-foreground">Cargo</dt>
+                      <dd className="text-sm capitalize">{directorAdministrativo?.cargo || 'No asignado'}</dd>
                     </div>
-                  )}
+                  </div>
+                  
+                  <div className="flex items-start gap-2">
+                    <Mail className="h-4 w-4 text-muted-foreground mt-0.5" />
+                    <div className="flex-1">
+                      <dt className="text-sm font-medium text-muted-foreground">Correo electrónico</dt>
+                      <dd className="text-sm">{directorAdministrativo?.email || 'No asignado'}</dd>
+                    </div>
+                  </div>
 
                   <div>
-                    <dt className="text-sm font-medium text-muted-foreground mb-2">Estado</dt>
+                    <dt className="text-sm font-medium text-muted-foreground">Estado</dt>
                     <dd>
-                      {institucion.director ? (
-                        <div className="flex items-center gap-2">
-                          <CheckCircle className="h-4 w-4 text-muted-foreground" />
-                          <Badge>Asignado</Badge>
-                        </div>
+                      {directorAdministrativo ? (
+                        <Badge variant="outline" className="bg-green-50 text-green-700 hover:bg-green-50 hover:text-green-700">
+                          <CheckCircle className="h-3.5 w-3.5 mr-1" />
+                          Asignado
+                        </Badge>
                       ) : (
-                        <div className="flex items-center gap-2">
-                          <AlertTriangle className="h-4 w-4 text-muted-foreground" />
-                          <Badge variant="secondary">No asignado</Badge>
-                        </div>
+                        <Badge variant="outline" className="bg-amber-50 text-amber-700 hover:bg-amber-50 hover:text-amber-700">
+                          <AlertTriangle className="h-3.5 w-3.5 mr-1" />
+                          No asignado
+                        </Badge>
                       )}
                     </dd>
                   </div>

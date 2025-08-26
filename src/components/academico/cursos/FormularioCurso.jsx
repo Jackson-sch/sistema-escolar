@@ -44,9 +44,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import AlertError, { AlertInfo } from "@/components/reutilizables/Alerts";
 import { registerCurso, updateCurso } from "@/action/cursos/curso";
 import { cursoSchema } from "@/lib/validaciones/schemas/curso-schema";
-import { niveles } from "@/lib/gradosPorNivel";
 import { useProfesoresActivos } from "@/hooks";
-import { useInstitucion } from "@/hooks/use-institucion";
 
 export function FormularioCurso({ cursoData, onSuccess, areasCurriculares = [], nivelesAcademicos = [], institucionId }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -55,7 +53,6 @@ export function FormularioCurso({ cursoData, onSuccess, areasCurriculares = [], 
   const router = useRouter();
   const { toast } = useToast();
   const { profesores, loading: loadingProfesores, error: errorProfesores } = useProfesoresActivos();
-  const { institucion } = useInstitucion(institucionId);
   
   // Manejar error de carga de profesores
   useEffect(() => {
@@ -92,8 +89,6 @@ export function FormularioCurso({ cursoData, onSuccess, areasCurriculares = [], 
     resolver: zodResolver(cursoSchema),
     defaultValues: getDefaultValues(),
   });
-
-  const nivelSeleccionado = form.watch("nivel");
 
   useEffect(() => {
     form.reset(getDefaultValues());

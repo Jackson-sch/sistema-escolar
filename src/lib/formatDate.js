@@ -2,11 +2,18 @@
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 
-export function formatDate(date) {
-  if (!date) return "-";
+export function formatDate(date, formatString = "PPP", options = {}) {
+  const {
+    locale = es,
+    fallback = "-"
+  } = options;
+
+  if (!date) return fallback;
+  
   try {
-    return format(new Date(date), "PPP", { locale: es });
+    return format(new Date(date), formatString, { locale });
   } catch (error) {
-    return "-";
+    console.warn("Error al formatear fecha:", error);
+    return fallback;
   }
 }

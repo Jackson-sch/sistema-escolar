@@ -70,6 +70,8 @@ export async function getAdministrativos() {
     select: {
       id: true,
       name: true,
+      apellidoPaterno: true,
+      apellidoMaterno: true,
       email: true,
       dni: true,
       fechaNacimiento: true,
@@ -87,6 +89,7 @@ export async function getAdministrativos() {
   });
   return administrativos.map((a) => ({
     ...a,
+    fullName: `${a.name} ${a.apellidoPaterno} ${a.apellidoMaterno}`,
     createdAt: a.createdAt?.toISOString() ?? null,
     updatedAt: a.updatedAt?.toISOString() ?? null,
   }));

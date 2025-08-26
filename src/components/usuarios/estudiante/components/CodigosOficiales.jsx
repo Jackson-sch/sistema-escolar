@@ -1,7 +1,7 @@
 "use client"
 import { FormField, FormControl, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { handleOnlyNumbers } from "@/lib/utils"
+import { handleOnlyNumbers } from "@/utils/utils"
 import { FileText, Hash, Building2, GraduationCap, Info, Shield } from "lucide-react"
 
 export default function CodigosOficiales({ form }) {

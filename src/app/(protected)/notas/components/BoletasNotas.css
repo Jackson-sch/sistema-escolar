@@ -1,0 +1,94 @@
+/* Estilos para impresión de boletas y actas */
+@media print {
+  /* Ocultar elementos que no deben imprimirse */
+  body * {
+    visibility: hidden;
+  }
+  
+  /* Mostrar solo el contenido del documento */
+  #pdfContent, #pdfContent * {
+    visibility: visible;
+  }
+  
+  /* Posicionar el documento en la parte superior izquierda */
+  #pdfContent {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+  
+  /* Asegurar que los colores de fondo se impriman */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  /* Evitar saltos de página dentro de elementos importantes */
+  .no-break-inside {
+    break-inside: avoid;
+  }
+  
+  /* Forzar salto de página antes de ciertos elementos */
+  .page-break-before {
+    break-before: page;
+  }
+  
+  /* Ajustar márgenes y tamaño de página */
+  @page {
+    size: A4;
+    margin: 1.5cm;
+  }
+}
+
+/* Estilos para la vista previa del PDF */
+.pdf-container {
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 210mm; /* Ancho A4 */
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Estilos para las tablas en el PDF */
+.pdf-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.pdf-table th,
+.pdf-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.pdf-table th {
+  background-color: #f8f8f8;
+  font-weight: bold;
+}
+
+/* Estilos para los encabezados */
+.pdf-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.pdf-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+/* Estilos para las firmas */
+.pdf-signatures {
+  margin-top: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+}
+
+.signature-line {
+  border-top: 1px solid #000;
+  padding-top: 5px;
+  text-align: center;
+}

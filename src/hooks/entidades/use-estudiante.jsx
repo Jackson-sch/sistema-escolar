@@ -12,7 +12,7 @@ export function useEstudiante() {
       setError(null);
       try {
         const data = await getStudents();
-        setEstudiantes(data);
+        setEstudiantes(data.data);
       } catch (err) {
         setError(err);
       } finally {

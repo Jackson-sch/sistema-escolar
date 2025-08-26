@@ -7,7 +7,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Check, ChevronDown, Loader2, Search, X } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/utils";
 import {
   Command,
   CommandEmpty,
@@ -92,13 +92,13 @@ export default function ComboboxGenerico({
     if (!search) return true;
 
     const searchLower = search.toLowerCase();
-    
+
     // Si no se proporcionaron campos de búsqueda, usar el campo de visualización principal
     const fieldsToSearch = searchFields.length > 0 ? searchFields : [displayField];
-    
+
     return fieldsToSearch.some(field => {
-      return item[field] && 
-             String(item[field]).toLowerCase().includes(searchLower);
+      return item[field] &&
+        String(item[field]).toLowerCase().includes(searchLower);
     });
   });
 

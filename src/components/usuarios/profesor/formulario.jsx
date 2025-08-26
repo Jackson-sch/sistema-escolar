@@ -35,7 +35,7 @@ import {
   Info,
 } from "lucide-react";
 import AlertError from "@/components/reutilizables/Alerts";
-import { handleOnlyNumbers } from "@/lib/utils";
+import { handleOnlyNumbers } from "@/utils/utils";
 import { EstadoProfesor } from "@/components/EstadoUsuarios";
 import {
   Select,

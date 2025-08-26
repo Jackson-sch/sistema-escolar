@@ -34,16 +34,18 @@ const formatNivelAcademico = (nivelAcademico) => {
   if (!nivelAcademico) return "-";
 
   // Si es un array, tomar el primer elemento
-  const nivel = Array.isArray(nivelAcademico) ? nivelAcademico[0] : nivelAcademico;
+  const nivel = Array.isArray(nivelAcademico)
+    ? nivelAcademico[0]
+    : nivelAcademico;
 
   if (!nivel) return "-";
 
-  const nivelTexto = nivel.nivel || "";
-  const grado = nivel.grado || "";
+  const nivelTexto = nivel.nivel?.nombre || "";
+  const gradoTexto = nivel.grado?.nombre || "";
 
   // Si hay tanto nivel como grado, mostrar ambos
-  if (nivelTexto && grado) {
-    return `${nivelTexto} - ${grado}°`;
+  if (nivelTexto && gradoTexto) {
+    return `${nivelTexto} - ${gradoTexto}`;
   }
 
   // Si solo hay nivel
@@ -52,8 +54,8 @@ const formatNivelAcademico = (nivelAcademico) => {
   }
 
   // Si solo hay grado
-  if (grado) {
-    return `${grado}°`;
+  if (gradoTexto) {
+    return gradoTexto;
   }
 
   return "-";
@@ -64,15 +66,16 @@ const getSeccionFromNivel = (nivelAcademico) => {
   if (!nivelAcademico) return null;
 
   // Si es un array, tomar el primer elemento
-  const nivel = Array.isArray(nivelAcademico) ? nivelAcademico[0] : nivelAcademico;
+  const nivel = Array.isArray(nivelAcademico)
+    ? nivelAcademico[0]
+    : nivelAcademico;
 
   return nivel?.seccion || null;
 };
 
 export default function RenderSubComponent({ row }) {
   const padre = row.original;
-  const hijos = useHijosDePadre(padre.id);
-  console.log("hijos", hijos);
+  const { hijos, loading, error } = useHijosDePadre(padre.id);
   const estadoClass = getStateClass(padre.estado);
 
   return (
@@ -210,7 +213,9 @@ export default function RenderSubComponent({ row }) {
               <Users className="h-4 w-4 text-primary" />
             </div>
             <div>
-              <span className="text-xl font-bold">{hijos.length || 0}</span>
+              <span className="text-xl font-bold">
+                {loading ? "..." : hijos.length || 0}
+              </span>
               <div className="text-xs text-muted-foreground">
                 Estudiantes asignados
               </div>
@@ -254,7 +259,19 @@ export default function RenderSubComponent({ row }) {
           </div>
         </div>
 
-        {hijos.length === 0 ? (
+        {loading ? (
+          <div className="flex items-center justify-center p-4 bg-muted/50 rounded-md text-center">
+            <span className="text-xs text-muted-foreground">
+              Cargando estudiantes...
+            </span>
+          </div>
+        ) : error ? (
+          <div className="flex items-center justify-center p-4 bg-red-50 rounded-md text-center">
+            <span className="text-xs text-red-600">
+              Error al cargar estudiantes
+            </span>
+          </div>
+        ) : hijos.length === 0 ? (
           <div className="flex items-center justify-center p-4 bg-muted/50 rounded-md text-center">
             <span className="text-xs text-muted-foreground">
               No hay estudiantes asignados

@@ -34,6 +34,15 @@ export const columns = [
   {
     accessorKey: "name",
     header: "Nombre",
+    cell: ({ row }) => {
+      console.log(row);
+      const name = row.original.fullName;
+      return (
+        <span className="capitalize font-medium">
+          {name}
+        </span>
+      );
+    },
   },
   {
     accessorKey: "email",
@@ -47,7 +56,7 @@ export const columns = [
     accessorKey: "role",
     header: "Rol",
     cell: ({ row }) => {
-      const role = row.getValue("role");
+      const role = row.original.role;
       return role?.charAt(0).toUpperCase() + role?.slice(1) || "";
     },
   },
@@ -63,7 +72,7 @@ export const columns = [
     accessorKey: "estado",
     header: "Estado",
     cell: ({ row }) => {
-      const estado = row.getValue("estado");
+      const estado = row.original.estado;
       return (
         <EstadoBadge
           estado={estado}

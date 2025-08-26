@@ -1,8 +1,15 @@
-export default function ReportesPage() {
-  return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">Reportes</h1>
-      <p>Esta sección permite generar y consultar diversos reportes del sistema escolar.</p>
-    </div>
-  );
+import ReportesClient from "./ReportesClient";
+import { auth } from "@/auth";
+
+export const metadata = {
+  title: "Reportes - Sistema Escolar",
+  description: "Generación y consulta de reportes del sistema escolar",
+};
+
+export default async function ReportesPage() {
+  // Obtener la sesión del usuario
+  const session = await auth();
+  const user = session.user;
+
+  return <ReportesClient user={user} />;
 }

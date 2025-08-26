@@ -86,7 +86,7 @@ export async function registerCurso(data) {
   }
 }
 
-export async function getCursos(institucionId = null) {
+export async function getCursos({ institucionId = null, profesorId = null } = {}) {
   try {
     const cursos = await db.curso.findMany({
       where: {
@@ -96,6 +96,8 @@ export async function getCursos(institucionId = null) {
             institucionId: institucionId
           } 
         } : {}),
+        // Si se proporciona profesorId, filtramos por cursos asignados a ese profesor
+        ...(profesorId ? { profesorId: profesorId } : {}),
       },
       orderBy: [{ nombre: "asc" }],
       include: {
@@ -133,7 +135,7 @@ export async function getCursos(institucionId = null) {
       },
     });
 
-    return cursos.map((curso) => ({
+    const formattedCursos = cursos.map((curso) => ({
       ...curso,
       profesorNombre: curso.profesor
         ? `${curso.profesor.name} ${curso.profesor.apellidoPaterno ?? ""} ${curso.profesor.apellidoMaterno ?? ""}`.trim()
@@ -145,9 +147,11 @@ export async function getCursos(institucionId = null) {
       createdAt: curso.createdAt?.toISOString() ?? null,
       updatedAt: curso.updatedAt?.toISOString() ?? null,
     }));
+    
+    return { success: true, data: formattedCursos };
   } catch (error) {
     console.error("Error al obtener cursos:", error);
-    return [];
+    return { success: false, error: "Error al obtener los cursos", data: [] };
   }
 }
 
@@ -283,5 +287,110 @@ export async function updateCurso(data) {
       success: false, 
       errors: [{ field: "general", message: error.message || "Hubo un error al actualizar el curso" }]
     };
+  }
+}
+
+/**
+ * Obtiene los cursos asignados a un profesor específico
+ * @param {string} profesorId - ID del profesor
+ * @returns {Promise<Array>} - Array con los cursos del profesor
+ */
+export async function obtenerCursosPorProfesor(profesorId) {
+  try {
+    if (!profesorId) {
+      return [];
+    }
+
+    const result = await getCursos({ profesorId });
+    
+    if (result.success) {
+      return result.data;
+    } else {
+      console.error("Error al obtener cursos del profesor:", result.error);
+      return [];
+    }
+  } catch (error) {
+    console.error("Error al obtener cursos del profesor:", error);
+    return [];
+  }
+}
+
+/**
+ * Obtiene los cursos en los que está matriculado un estudiante
+ * @param {string} estudianteId - ID del estudiante
+ * @returns {Promise<Array>} - Array con los cursos del estudiante
+ */
+export async function obtenerCursosPorEstudiante(estudianteId) {
+  try {
+    if (!estudianteId) {
+      return [];
+    }
+
+    // Obtener las matrículas del estudiante
+    const matriculas = await db.matricula.findMany({
+      where: {
+        estudianteId: estudianteId,
+        activo: true
+      },
+      include: {
+        curso: {
+          include: {
+            profesor: {
+              select: {
+                id: true,
+                name: true,
+                apellidoPaterno: true,
+                apellidoMaterno: true,
+                titulo: true,
+                especialidad: true,
+              },
+            },
+            areaCurricular: {
+              select: {
+                id: true,
+                nombre: true,
+                codigo: true,
+                color: true,
+                institucion: {
+                  select: {
+                    id: true,
+                    nombreInstitucion: true,
+                  },
+                },
+              },
+            },
+            nivelAcademico: {
+              select: {
+                id: true,
+                nivel: true,
+                grado: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    // Extraer y formatear los cursos de las matrículas
+    const cursos = matriculas.map(matricula => {
+      const curso = matricula.curso;
+      return {
+        ...curso,
+        profesorNombre: curso.profesor
+          ? `${curso.profesor.name} ${curso.profesor.apellidoPaterno ?? ""} ${curso.profesor.apellidoMaterno ?? ""}`.trim()
+          : "Sin asignar",
+        areaCurricularNombre: curso.areaCurricular?.nombre || "Sin área",
+        nivelAcademicoNombre: curso.nivelAcademico?.nivel || "Sin nivel específico",
+        institucionNombre: curso.areaCurricular?.institucion?.nombreInstitucion || "Sin institución",
+        institucionId: curso.areaCurricular?.institucion?.id || null,
+        createdAt: curso.createdAt?.toISOString() ?? null,
+        updatedAt: curso.updatedAt?.toISOString() ?? null,
+      };
+    });
+
+    return cursos;
+  } catch (error) {
+    console.error("Error al obtener cursos del estudiante:", error);
+    return [];
   }
 }

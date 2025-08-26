@@ -39,7 +39,7 @@ export default function NivelAcademicoSection({
             <span className="text-red-500">*</span>
           </Label>
           <Select value={nivelSeleccionado || ""} onValueChange={onNivelChange} disabled={loading}>
-            <SelectTrigger className="h-10 transition-all duration-200 focus:ring-2 focus:ring-purple-500/20">
+            <SelectTrigger className="h-10 w-full transition-all duration-200 focus:ring-2 focus:ring-purple-500/20">
               <SelectValue placeholder="Seleccione nivel" />
             </SelectTrigger>
             <SelectContent>
@@ -84,7 +84,7 @@ export default function NivelAcademicoSection({
                 disabled={!nivelSeleccionado || loading}
               >
                 <FormControl>
-                  <SelectTrigger className="h-10 transition-all duration-200 focus:ring-2 focus:ring-indigo-500/20">
+                  <SelectTrigger className="h-10 w-full transition-all duration-200 focus:ring-2 focus:ring-indigo-500/20">
                     <SelectValue placeholder="Seleccione grado" />
                   </SelectTrigger>
                 </FormControl>
@@ -131,7 +131,7 @@ export default function NivelAcademicoSection({
                 disabled={!gradoSeleccionado || seccionesFiltradas.length === 0}
               >
                 <FormControl>
-                  <SelectTrigger className="h-10 transition-all duration-200 focus:ring-2 focus:ring-green-500/20">
+                  <SelectTrigger className="h-10 w-full transition-all duration-200 focus:ring-2 focus:ring-green-500/20">
                     <SelectValue placeholder="Seleccione sección" />
                   </SelectTrigger>
                 </FormControl>

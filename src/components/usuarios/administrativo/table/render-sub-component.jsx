@@ -84,12 +84,12 @@ export default function RenderSubComponent({ row }) {
       {/* Encabezado con nombre y avatar */}
       <div className="flex items-center gap-3 mb-4">
         <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary capitalize">
-          {getInitials(administrativo.name)}
+          {getInitials(administrativo.fullName)}
         </div>
         <div>
           <div className="flex items-center gap-1">
             <h2 className="text-base font-semibold text-foreground capitalize">
-              {administrativo.name}
+              {administrativo.fullName}
             </h2>
             <CheckCircleIcon
               className={`h-3 w-3 ${administrativo.estado?.toLowerCase() === "activo"

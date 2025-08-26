@@ -38,7 +38,7 @@ export default function ResponsableSection({ form, responsables, loading }) {
             </FormLabel>
             <Select onValueChange={field.onChange} value={field.value} disabled={loading}>
               <FormControl>
-                <SelectTrigger className="h-11 transition-all duration-200 focus:ring-2 focus:ring-green-500/20">
+                <SelectTrigger className="h-10 w-full transition-all duration-200 focus:ring-2 focus:ring-green-500/20">
                   <SelectValue placeholder={loading ? "Cargando responsables..." : "Seleccione responsable"} />
                 </SelectTrigger>
               </FormControl>

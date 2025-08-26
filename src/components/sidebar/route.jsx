@@ -212,15 +212,40 @@ const navigationData = {
       ],
     },
 
-    // Sistema de Pagos - Ruta única
+    // Sistema de Pagos - Ruta única con acceso para padres
     {
       title: "Gestión de Pagos",
-      url: "/pagos",
+      url: "#",
       icon: CreditCard,
       description: "Gestionar pagos y comprobantes",
-      actions: ["register", "edit", "view", "receipt", "remind"],
-      views: ["todos", "pendientes", "vencidos", "pagados"],
-      filters: ["estado", "concepto", "estudiante", "fecha"]
+      items: [
+        {
+          title: "Todos los Pagos",
+          url: "/pagos",
+          description: "Ver todos los pagos",
+          roles: ["admin", "director", "secretaria"],
+          actions: ["register", "edit", "view", "receipt", "remind"],
+          views: ["todos", "pendientes", "vencidos", "pagados"],
+          filters: ["estado", "concepto", "estudiante", "fecha"]
+        },
+        {
+          title: "Pagos de mis Hijos",
+          url: "/pagos/hijo",
+          description: "Ver pagos de mis hijos",
+          roles: ["padre"],
+          actions: ["view", "receipt"],
+          views: ["pendientes", "vencidos", "pagados"],
+          filters: ["estado", "concepto", "fecha"]
+        },
+        {
+          title: "Exportar Datos",
+          url: "/pagos/exportar",
+          description: "Exportar información de pagos",
+          roles: ["admin", "director", "secretaria", "padre"],
+          actions: ["export"],
+          filters: ["estado", "concepto", "estudiante", "fecha"]
+        }
+      ]
     },
 
     // Comunicaciones - Rutas por tipo

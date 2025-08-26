@@ -346,6 +346,9 @@ model User {
   anunciosCreados Anuncio[]
   eventosCreados  Evento[]
 
+  // Asistencias registradas por este usuario
+  asistenciasRegistradas Asistencia[] @relation("RegistrosAsistencia")
+
   // Tokens de recuperación de contraseña
   passwordResetToken PasswordResetToken?
 
@@ -744,8 +747,9 @@ model Asistencia {
   curso        Curso  @relation(fields: [cursoId], references: [id])
   cursoId      String
 
-  // Auditoría
-  registradoPor String? // ID del profesor que registró
+  // Auditoría - Relación con el profesor que registró
+  registradoPor   User?   @relation("RegistrosAsistencia", fields: [registradoPorId], references: [id])
+  registradoPorId String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

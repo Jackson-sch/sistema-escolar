@@ -15,7 +15,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/utils";
 import { Loader2, Search, Shield, RefreshCw, Plus, X, Calendar as CalendarIcon } from "lucide-react";
 
 // Función para obtener el color de la badge según el módulo
@@ -55,7 +55,7 @@ export function PermisosUsuario({ usuario }) {
   // Cargar permisos del usuario
   const loadUserPermisos = async () => {
     if (!usuario?.id) return;
-    
+
     setIsLoading(true);
     try {
       const response = await getPermisosUsuario(usuario.id);
@@ -133,21 +133,21 @@ export function PermisosUsuario({ usuario }) {
   // Manejar asignación de permiso
   const handleAsignarPermiso = async () => {
     if (!selectedPermiso || !usuario?.id) return;
-    
+
     setIsProcessing(true);
     try {
       const options = {
         fechaInicio,
         fechaFin
       };
-      
+
       const response = await asignarPermisoUsuario(usuario.id, selectedPermiso.id, options);
-      
+
       if (response.success) {
         toast.success("Permiso asignado", {
           description: `El permiso "${selectedPermiso.nombre}" ha sido asignado al usuario`,
         });
-        
+
         // Actualizar la lista de permisos del usuario
         loadUserPermisos();
         setIsDialogOpen(false);
@@ -172,15 +172,15 @@ export function PermisosUsuario({ usuario }) {
   // Manejar revocación de permiso
   const handleRevocarPermiso = async (usuarioPermisoId) => {
     if (!usuarioPermisoId) return;
-    
+
     try {
       const response = await revocarPermisoUsuario(usuarioPermisoId);
-      
+
       if (response.success) {
         toast.success("Permiso revocado", {
           description: "El permiso ha sido revocado del usuario",
         });
-        
+
         // Actualizar la lista de permisos del usuario
         loadUserPermisos();
       } else {
@@ -326,7 +326,7 @@ export function PermisosUsuario({ usuario }) {
               Selecciona un permiso para asignar al usuario {usuario?.name}
             </DialogDescription>
           </DialogHeader>
-          
+
           <div className="space-y-4 py-4">
             <div className="relative">
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -338,7 +338,7 @@ export function PermisosUsuario({ usuario }) {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-            
+
             <div className="max-h-[200px] overflow-y-auto border rounded-md">
               {filteredPermisos.length === 0 ? (
                 <div className="text-center py-4 text-muted-foreground">
@@ -386,7 +386,7 @@ export function PermisosUsuario({ usuario }) {
                 </Table>
               )}
             </div>
-            
+
             {selectedPermiso && (
               <div className="space-y-4 border-t pt-4">
                 <div>
@@ -416,7 +416,7 @@ export function PermisosUsuario({ usuario }) {
                     </Popover>
                   </div>
                 </div>
-                
+
                 <div>
                   <Label htmlFor="fechaFin">
                     Fecha de fin <span className="text-muted-foreground">(opcional)</span>
@@ -450,13 +450,13 @@ export function PermisosUsuario({ usuario }) {
               </div>
             )}
           </div>
-          
+
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsDialogOpen(false)}>
               Cancelar
             </Button>
-            <Button 
-              onClick={handleAsignarPermiso} 
+            <Button
+              onClick={handleAsignarPermiso}
               disabled={!selectedPermiso || isProcessing}
             >
               {isProcessing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}

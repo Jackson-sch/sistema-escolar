@@ -7,7 +7,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Check, ChevronDown, Loader2, Search, User, X } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/utils";
 import {
   Command,
   CommandEmpty,
@@ -121,13 +121,19 @@ export default function ComboBox({
     });
   });
 
-  // Estilo para aplicar un ancho fijo al ComboBox
-  const comboBoxStyle = {
-    width: width,
-    maxWidth: width,
-    minWidth: "160px",
-    marginRight: "16px", // Asegurar separación consistente entre ComboBoxes
-  };
+  // Determinar si usar ancho fijo o ancho del trigger
+  const useFixedWidth =
+    width !== "100%" && !width.includes("%") && !width.includes("auto");
+
+  // Estilo para aplicar un ancho fijo al ComboBox solo si no es porcentual
+  const comboBoxStyle = useFixedWidth
+    ? {
+        width: width,
+        maxWidth: width,
+        minWidth: "160px",
+        marginRight: "16px", // Asegurar separación consistente entre ComboBoxes
+      }
+    : {};
 
   return (
     <div className={cn("relative", className)} style={comboBoxStyle}>
@@ -147,9 +153,7 @@ export default function ComboBox({
             <div className="flex items-center gap-2 truncate max-w-[calc(100%-24px)]">
               {icon}
               <div className="truncate">
-                {
-                  selected ? selected[displayField] : placeholder
-                }
+                {selected ? selected[displayField] : placeholder}
                 {secondaryField && selected && (
                   <span className="text-xs text-muted-foreground ml-1 block truncate">
                     {secondaryFieldPrefix}
@@ -172,7 +176,11 @@ export default function ComboBox({
         </PopoverTrigger>
         <PopoverContent
           className="p-0"
-          style={{ width: width }}
+          style={
+            useFixedWidth
+              ? { width: width }
+              : { width: "var(--radix-popover-trigger-width)" }
+          }
           align="start"
           sideOffset={8}
         >

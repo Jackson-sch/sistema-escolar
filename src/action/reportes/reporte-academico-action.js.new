@@ -1,0 +1,517 @@
+"use server";
+
+import { db } from "@/lib/db";
+import { revalidatePath } from "next/cache";
+
+/**
+ * Obtiene las calificaciones de los estudiantes para un curso específico
+ */
+export const getCalificacionesPorCurso = async (cursoId, periodoId = null) => {
+  try {
+    if (!cursoId) {
+      return { error: "ID del curso es requerido" };
+    }
+
+    // Obtener el curso con sus estudiantes
+    const curso = await db.curso.findUnique({
+      where: { id: cursoId },
+      include: {
+        estudiantes: {
+          include: {
+            matricula: true
+          }
+        },
+        evaluaciones: {
+          where: periodoId ? { periodoId } : {},
+          include: {
+            notas: {
+              include: {
+                estudiante: true
+              }
+            }
+          }
+        },
+        profesor: {
+          select: {
+            id: true,
+            name: true,
+            apellidoPaterno: true,
+            apellidoMaterno: true
+          }
+        },
+        grado: true,
+        nivelAcademico: {
+          include: {
+            nivel: true,
+            grado: true
+          }
+        }
+      }
+    });
+
+    if (!curso) {
+      return { error: "Curso no encontrado" };
+    }
+    
+    // Obtener los IDs de los estudiantes matriculados en el curso
+    const estudianteIds = curso.estudiantes.map(e => e.matricula?.estudianteId).filter(Boolean);
+    
+    // Obtener los datos completos de los estudiantes
+    const estudiantes = await db.estudiante.findMany({
+      where: {
+        id: {
+          in: estudianteIds
+        }
+      }
+    });
+
+    // Procesar las calificaciones por estudiante
+    const calificacionesPorEstudiante = estudiantes.map(estudiante => {
+      // Buscar todas las notas del estudiante en las evaluaciones del curso
+      const notasEstudiante = curso.evaluaciones.flatMap(evaluacion => 
+        evaluacion.notas.filter(nota => nota.estudianteId === estudiante.id)
+      );
+
+      // Calcular promedios por tipo de evaluación
+      const parcial1 = calcularPromedioPorTipo(notasEstudiante, "PARCIAL_1");
+      const parcial2 = calcularPromedioPorTipo(notasEstudiante, "PARCIAL_2");
+      const trabajos = calcularPromedioPorTipo(notasEstudiante, "TRABAJO");
+      const examenFinal = calcularPromedioPorTipo(notasEstudiante, "EXAMEN_FINAL");
+
+      // Calcular promedio general
+      const notasValidas = notasEstudiante.filter(nota => nota.valor !== null);
+      const promedio = notasValidas.length > 0 
+        ? notasValidas.reduce((sum, nota) => sum + nota.valor, 0) / notasValidas.length
+        : null;
+
+      return {
+        id: estudiante.id,
+        nombre: `${estudiante.name} ${estudiante.apellidoPaterno || ""} ${estudiante.apellidoMaterno || ""}`.trim(),
+        codigo: estudiante.codigo || `E${estudiante.id.substring(0, 4)}`,
+        calificaciones: {
+          parcial1,
+          parcial2,
+          trabajos,
+          examenFinal,
+          promedio: promedio !== null ? promedio.toFixed(1) : "N/A"
+        }
+      };
+    });
+
+    // Obtener información del nivel y grado
+    const nivelInfo = curso.nivelAcademico?.nivel || null;
+    const gradoInfo = curso.nivelAcademico?.grado || curso.grado || null;
+
+    return {
+      success: true,
+      data: {
+        curso: {
+          id: curso.id,
+          nombre: curso.nombre,
+          codigo: curso.codigo
+        },
+        nivel: nivelInfo ? {
+          id: nivelInfo.id,
+          nombre: nivelInfo.nombre
+        } : null,
+        grado: gradoInfo ? {
+          id: gradoInfo.id,
+          nombre: gradoInfo.nombre
+        } : null,
+        profesor: curso.profesor ? {
+          id: curso.profesor.id,
+          nombre: `${curso.profesor.name} ${curso.profesor.apellidoPaterno || ""} ${curso.profesor.apellidoMaterno || ""}`.trim()
+        } : null,
+        estudiantes: calificacionesPorEstudiante
+      }
+    };
+  } catch (error) {
+    console.error("Error al obtener calificaciones por curso:", error);
+    return { error: "Error al obtener calificaciones" };
+  }
+};
+
+/**
+ * Obtiene las boletas de calificaciones para un estudiante específico o para todos los estudiantes de un grado
+ */
+export const getBoletasCalificaciones = async (gradoId, estudianteId = null, periodoId = null) => {
+  try {
+    if (!gradoId) {
+      return { error: "ID del grado es requerido" };
+    }
+
+    // Construir la consulta base para estudiantes
+    let whereEstudiante = { gradoId };
+    if (estudianteId) {
+      whereEstudiante.id = estudianteId;
+    }
+
+    // Obtener estudiantes con sus matrículas
+    const estudiantes = await db.estudiante.findMany({
+      where: whereEstudiante,
+      include: {
+        matriculas: {
+          include: {
+            curso: {
+              include: {
+                evaluaciones: {
+                  where: periodoId ? { periodoId } : {},
+                  include: {
+                    notas: {
+                      where: estudianteId ? { estudianteId } : {},
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        grado: true
+      }
+    });
+
+    // Obtener información del grado y nivel
+    const gradoInfo = await db.grado.findUnique({
+      where: { id: gradoId },
+      include: {
+        nivel: true
+      }
+    });
+
+    if (!gradoInfo) {
+      return { error: "Grado no encontrado" };
+    }
+
+    // Procesar datos de estudiantes con sus calificaciones por curso
+    const estudiantesConCalificaciones = estudiantes.map(estudiante => {
+      const cursos = estudiante.matriculas.map(matricula => {
+        const curso = matricula.curso;
+        
+        // Calcular promedios por tipo de evaluación para este curso
+        const notasEstudiante = curso.evaluaciones.flatMap(evaluacion => 
+          evaluacion.notas.filter(nota => nota.estudianteId === estudiante.id)
+        );
+
+        const parcial1 = calcularPromedioPorTipo(notasEstudiante, "PARCIAL_1");
+        const parcial2 = calcularPromedioPorTipo(notasEstudiante, "PARCIAL_2");
+        const trabajos = calcularPromedioPorTipo(notasEstudiante, "TRABAJO");
+        const examenFinal = calcularPromedioPorTipo(notasEstudiante, "EXAMEN_FINAL");
+
+        // Calcular promedio general del curso
+        const notasValidas = notasEstudiante.filter(nota => nota.valor !== null);
+        const promedio = notasValidas.length > 0 
+          ? notasValidas.reduce((sum, nota) => sum + nota.valor, 0) / notasValidas.length
+          : null;
+
+        return {
+          id: curso.id,
+          nombre: curso.nombre,
+          codigo: curso.codigo,
+          calificaciones: {
+            parcial1,
+            parcial2,
+            trabajos,
+            examenFinal,
+            promedio: promedio !== null ? promedio.toFixed(1) : "N/A"
+          }
+        };
+      });
+
+      return {
+        id: estudiante.id,
+        nombre: `${estudiante.name} ${estudiante.apellidoPaterno || ""} ${estudiante.apellidoMaterno || ""}`.trim(),
+        codigo: estudiante.codigo || `E${estudiante.id.substring(0, 4)}`,
+        cursos
+      };
+    });
+
+    return {
+      success: true,
+      data: {
+        nivel: {
+          id: gradoInfo.nivel.id,
+          nombre: gradoInfo.nivel.nombre
+        },
+        grado: {
+          id: gradoInfo.id,
+          nombre: gradoInfo.nombre
+        },
+        estudiantes: estudiantesConCalificaciones
+      }
+    };
+  } catch (error) {
+    console.error("Error al obtener boletas de calificaciones:", error);
+    return { error: "Error al obtener boletas de calificaciones" };
+  }
+};
+
+/**
+ * Obtiene los promedios generales de un curso específico
+ */
+export const getPromediosPorCurso = async (cursoId, periodoId = null) => {
+  try {
+    if (!cursoId) {
+      return { error: "ID del curso es requerido" };
+    }
+
+    // Obtener el curso con sus evaluaciones y notas
+    const curso = await db.curso.findUnique({
+      where: { id: cursoId },
+      include: {
+        evaluaciones: {
+          where: periodoId ? { periodoId } : {},
+          include: {
+            notas: true
+          }
+        },
+        grado: true,
+        nivelAcademico: {
+          include: {
+            nivel: true,
+            grado: true
+          }
+        }
+      }
+    });
+
+    if (!curso) {
+      return { error: "Curso no encontrado" };
+    }
+
+    // Obtener todas las notas de todas las evaluaciones
+    const todasLasNotas = curso.evaluaciones.flatMap(e => e.notas);
+
+    // Calcular promedios por tipo de evaluación
+    const parcial1 = calcularPromedioGeneral(todasLasNotas, "PARCIAL_1");
+    const parcial2 = calcularPromedioGeneral(todasLasNotas, "PARCIAL_2");
+    const trabajos = calcularPromedioGeneral(todasLasNotas, "TRABAJO");
+    const examenFinal = calcularPromedioGeneral(todasLasNotas, "EXAMEN_FINAL");
+
+    // Calcular promedio general
+    const notasValidas = todasLasNotas.filter(nota => nota.valor !== null);
+    const promedioGeneral = notasValidas.length > 0 
+      ? notasValidas.reduce((sum, nota) => sum + nota.valor, 0) / notasValidas.length
+      : 0;
+
+    // Contar aprobados y desaprobados
+    // Asumimos que la nota aprobatoria es 11 (puede ajustarse según el sistema de calificación)
+    const notaAprobatoria = 11;
+    
+    // Agrupamos por estudiante y calculamos su promedio
+    const promediosPorEstudiante = new Map();
+    
+    todasLasNotas.forEach(nota => {
+      if (!promediosPorEstudiante.has(nota.estudianteId)) {
+        promediosPorEstudiante.set(nota.estudianteId, {
+          total: 0,
+          count: 0
+        });
+      }
+      
+      const datos = promediosPorEstudiante.get(nota.estudianteId);
+      datos.total += nota.valor || 0;
+      datos.count += nota.valor !== null ? 1 : 0;
+    });
+    
+    let aprobados = 0;
+    let desaprobados = 0;
+    
+    promediosPorEstudiante.forEach(datos => {
+      if (datos.count > 0) {
+        const promedio = datos.total / datos.count;
+        if (promedio >= notaAprobatoria) {
+          aprobados++;
+        } else {
+          desaprobados++;
+        }
+      }
+    });
+
+    // Obtener información del nivel y grado
+    const nivelInfo = curso.nivelAcademico?.nivel || null;
+    const gradoInfo = curso.nivelAcademico?.grado || curso.grado || null;
+
+    return {
+      success: true,
+      data: {
+        curso: {
+          id: curso.id,
+          nombre: curso.nombre,
+          codigo: curso.codigo
+        },
+        nivel: nivelInfo ? {
+          id: nivelInfo.id,
+          nombre: nivelInfo.nombre
+        } : null,
+        grado: gradoInfo ? {
+          id: gradoInfo.id,
+          nombre: gradoInfo.nombre
+        } : null,
+        promedios: {
+          parcial1: parcial1.toFixed(1),
+          parcial2: parcial2.toFixed(1),
+          trabajos: trabajos.toFixed(1),
+          examenFinal: examenFinal.toFixed(1),
+          promedioGeneral: promedioGeneral.toFixed(1),
+          aprobados,
+          desaprobados
+        }
+      }
+    };
+  } catch (error) {
+    console.error("Error al obtener promedios por curso:", error);
+    return { error: "Error al obtener promedios" };
+  }
+};
+
+/**
+ * Obtiene datos de rendimiento académico para un curso específico
+ */
+export const getRendimientoAcademico = async (cursoId, periodoId = null) => {
+  try {
+    if (!cursoId) {
+      return { error: "ID del curso es requerido" };
+    }
+
+    // Obtener el curso con sus evaluaciones y notas
+    const curso = await db.curso.findUnique({
+      where: { id: cursoId },
+      include: {
+        evaluaciones: {
+          where: periodoId ? { periodoId } : {},
+          include: {
+            notas: true
+          }
+        },
+        grado: true,
+        nivelAcademico: {
+          include: {
+            nivel: true,
+            grado: true
+          }
+        }
+      }
+    });
+
+    if (!curso) {
+      return { error: "Curso no encontrado" };
+    }
+
+    // Obtener todas las notas de todas las evaluaciones
+    const todasLasNotas = curso.evaluaciones.flatMap(e => e.notas);
+
+    // Agrupamos por estudiante y calculamos su promedio
+    const promediosPorEstudiante = new Map();
+    
+    todasLasNotas.forEach(nota => {
+      if (!promediosPorEstudiante.has(nota.estudianteId)) {
+        promediosPorEstudiante.set(nota.estudianteId, {
+          total: 0,
+          count: 0
+        });
+      }
+      
+      const datos = promediosPorEstudiante.get(nota.estudianteId);
+      datos.total += nota.valor || 0;
+      datos.count += nota.valor !== null ? 1 : 0;
+    });
+    
+    // Clasificar por rendimiento
+    // Excelente: >= 17
+    // Bueno: >= 14 y < 17
+    // Regular: >= 11 y < 14
+    // Deficiente: < 11
+    let excelente = 0;
+    let bueno = 0;
+    let regular = 0;
+    let deficiente = 0;
+    let sumaPromedios = 0;
+    let cantidadEstudiantes = 0;
+    
+    promediosPorEstudiante.forEach(datos => {
+      if (datos.count > 0) {
+        const promedio = datos.total / datos.count;
+        sumaPromedios += promedio;
+        cantidadEstudiantes++;
+        
+        if (promedio >= 17) {
+          excelente++;
+        } else if (promedio >= 14) {
+          bueno++;
+        } else if (promedio >= 11) {
+          regular++;
+        } else {
+          deficiente++;
+        }
+      }
+    });
+    
+    const promedioGeneral = cantidadEstudiantes > 0 ? sumaPromedios / cantidadEstudiantes : 0;
+
+    // Obtener información del nivel y grado
+    const nivelInfo = curso.nivelAcademico?.nivel || null;
+    const gradoInfo = curso.nivelAcademico?.grado || curso.grado || null;
+
+    return {
+      success: true,
+      data: {
+        curso: {
+          id: curso.id,
+          nombre: curso.nombre,
+          codigo: curso.codigo
+        },
+        nivel: nivelInfo ? {
+          id: nivelInfo.id,
+          nombre: nivelInfo.nombre
+        } : null,
+        grado: gradoInfo ? {
+          id: gradoInfo.id,
+          nombre: gradoInfo.nombre
+        } : null,
+        rendimiento: {
+          excelente,
+          bueno,
+          regular,
+          deficiente,
+          promedioGeneral: promedioGeneral.toFixed(1)
+        }
+      }
+    };
+  } catch (error) {
+    console.error("Error al obtener rendimiento académico:", error);
+    return { error: "Error al obtener rendimiento académico" };
+  }
+};
+
+// Funciones auxiliares
+
+/**
+ * Calcula el promedio de notas por tipo de evaluación para un estudiante
+ */
+const calcularPromedioPorTipo = (notas, tipo) => {
+  // Filtramos las notas por el tipo de evaluación
+  const notasTipo = notas.filter(nota => {
+    // Verificamos si la evaluación asociada a esta nota es del tipo especificado
+    return nota.evaluacion?.tipo === tipo && nota.valor !== null;
+  });
+  
+  if (notasTipo.length === 0) return "N/A";
+  
+  const promedio = notasTipo.reduce((sum, nota) => sum + nota.valor, 0) / notasTipo.length;
+  return promedio.toFixed(1);
+};
+
+/**
+ * Calcula el promedio general de todas las notas por tipo de evaluación
+ */
+const calcularPromedioGeneral = (notas, tipo) => {
+  // Filtramos las notas por el tipo de evaluación
+  const notasTipo = notas.filter(nota => {
+    // Verificamos si la evaluación asociada a esta nota es del tipo especificado
+    return nota.evaluacion?.tipo === tipo && nota.valor !== null;
+  });
+  
+  if (notasTipo.length === 0) return 0;
+  
+  return notasTipo.reduce((sum, nota) => sum + nota.valor, 0) / notasTipo.length;
+};

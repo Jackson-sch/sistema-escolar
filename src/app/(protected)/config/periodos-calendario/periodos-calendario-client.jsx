@@ -3,24 +3,42 @@
 import { useState } from "react";
 import { PeriodoForm } from "@/components/config/periodos/periodo-form";
 import { PeriodoList } from "@/components/config/periodos/periodo-list";
+import { CalendarioEscolar } from "@/components/config/periodos/calendario-escolar";
 import { getPeriodos } from "@/action/config/periodo-action";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { AlertTriangle, CalendarRange, Plus, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 
-export function PeriodosCalendarioClient({ institucion, periodos: initialPeriodos, successPeriodos, errorPeriodos }) {
+export function PeriodosCalendarioClient({
+  institucion,
+  periodos: initialPeriodos,
+  successPeriodos,
+  errorPeriodos,
+}) {
   const [periodos, setPeriodos] = useState(initialPeriodos || []);
   const [isLoading, setIsLoading] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [periodoToEdit, setPeriodoToEdit] = useState(null);
-console.log("institucion", institucion)
+  console.log("institucion", institucion);
   // Función para refrescar la lista de períodos
   const refreshPeriodos = async () => {
     if (!institucion?.id) return;
-    
+
     setIsLoading(true);
     try {
       const response = await getPeriodos(institucion.id);
@@ -28,7 +46,8 @@ console.log("institucion", institucion)
         setPeriodos(response.data);
       } else {
         toast.error("Error", {
-          description: response.error || "No se pudieron cargar los períodos académicos",
+          description:
+            response.error || "No se pudieron cargar los períodos académicos",
         });
       }
     } catch (error) {
@@ -64,14 +83,17 @@ console.log("institucion", institucion)
 
   // Filtrar períodos por año escolar (para la vista de pestañas)
   const getAniosEscolares = () => {
-    const anios = [...new Set(periodos.map(p => p.anioEscolar))];
+    const anios = [...new Set(periodos.map((p) => p.anioEscolar))];
     return anios.sort((a, b) => b - a); // Ordenar de más reciente a más antiguo
   };
 
   const aniosEscolares = getAniosEscolares();
   const anioActual = new Date().getFullYear();
-  const defaultTab = aniosEscolares.includes(anioActual) ? anioActual.toString() : 
-                    aniosEscolares.length > 0 ? aniosEscolares[0].toString() : "todos";
+  const defaultTab = aniosEscolares.includes(anioActual)
+    ? anioActual.toString()
+    : aniosEscolares.length > 0
+    ? aniosEscolares[0].toString()
+    : "todos";
 
   return (
     <>
@@ -89,13 +111,15 @@ console.log("institucion", institucion)
               </CardDescription>
             </div>
             <div className="flex items-center gap-2">
-              <Button 
-                variant="outline" 
-                size="icon" 
-                onClick={refreshPeriodos} 
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={refreshPeriodos}
                 disabled={isLoading}
               >
-                <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
+                <RefreshCw
+                  className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`}
+                />
               </Button>
               <Button onClick={() => setIsDialogOpen(true)}>
                 <Plus className="h-4 w-4 mr-2" />
@@ -125,8 +149,8 @@ console.log("institucion", institucion)
                 </TabsList>
 
                 <TabsContent value="todos">
-                  <PeriodoList 
-                    periodos={periodos} 
+                  <PeriodoList
+                    periodos={periodos}
                     onEdit={handleEdit}
                     onRefresh={refreshPeriodos}
                   />
@@ -134,8 +158,8 @@ console.log("institucion", institucion)
 
                 {aniosEscolares.map((anio) => (
                   <TabsContent key={anio} value={anio.toString()}>
-                    <PeriodoList 
-                      periodos={periodos.filter(p => p.anioEscolar === anio)} 
+                    <PeriodoList
+                      periodos={periodos.filter((p) => p.anioEscolar === anio)}
                       onEdit={handleEdit}
                       onRefresh={refreshPeriodos}
                     />
@@ -144,7 +168,9 @@ console.log("institucion", institucion)
               </Tabs>
             ) : (
               <div className="text-center py-10 border rounded-lg">
-                <p className="text-muted-foreground mb-4">No hay períodos académicos configurados</p>
+                <p className="text-muted-foreground mb-4">
+                  No hay períodos académicos configurados
+                </p>
                 <Button onClick={() => setIsDialogOpen(true)}>
                   <Plus className="h-4 w-4 mr-2" />
                   Crear primer período
@@ -154,7 +180,7 @@ console.log("institucion", institucion)
           </CardContent>
         </Card>
 
-        {/* Sección de calendario escolar (a implementar en el futuro) */}
+        {/* Sección de calendario escolar */}
         <Card>
           <CardHeader>
             <CardTitle className="text-xl">Calendario Escolar</CardTitle>
@@ -163,11 +189,7 @@ console.log("institucion", institucion)
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="text-center py-10 border rounded-lg">
-              <p className="text-muted-foreground">
-                La funcionalidad de calendario escolar estará disponible próximamente
-              </p>
-            </div>
+            <CalendarioEscolar periodos={periodos} />
           </CardContent>
         </Card>
       </div>
@@ -177,18 +199,20 @@ console.log("institucion", institucion)
         <DialogContent className="sm:max-w-[600px]">
           <DialogHeader>
             <DialogTitle>
-              {periodoToEdit ? "Editar período académico" : "Crear período académico"}
+              {periodoToEdit
+                ? "Editar período académico"
+                : "Crear período académico"}
             </DialogTitle>
             <DialogDescription>
-              {periodoToEdit 
-                ? "Modifica los detalles del período académico seleccionado" 
+              {periodoToEdit
+                ? "Modifica los detalles del período académico seleccionado"
                 : "Completa el formulario para crear un nuevo período académico"}
             </DialogDescription>
           </DialogHeader>
-          <PeriodoForm 
+          <PeriodoForm
             institucion={institucion}
-            periodo={periodoToEdit} 
-            onSuccess={handleSuccess} 
+            periodo={periodoToEdit}
+            onSuccess={handleSuccess}
           />
         </DialogContent>
       </Dialog>

@@ -7,13 +7,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Loader2,
-  User,
-  Calendar,
-  UserCheck,
   Save,
-  School,
-  Bookmark,
-  LayoutGrid,
   Info,
 } from "lucide-react";
 
@@ -31,22 +25,7 @@ import { useNiveles } from "@/hooks/entidades/use-niveles";
 import { Button } from "@/components/ui/button";
 import {
   Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import AlertError, { AlertInfo } from "@/components/reutilizables/Alerts";
 import ResponsableSection from "./components/ResponsableSection";
 import ConfiguracionSection from "./components/ConfiguracionSection";
 import NivelAcademicoSection from "./components/NivelAcademicoSection";
@@ -187,18 +166,6 @@ const ErrorDisplay = ({ fieldErrors, error }) => {
     </div>
   );
 };
-
-// Info banner component
-const InfoBanner = () => (
-  <div className="p-4 bg-blue-50 rounded-md border border-blue-100">
-    <p className="text-sm text-blue-700 flex items-center gap-2">
-      <Info className="h-4 w-4 flex-shrink-0" />
-      Al registrar la matrícula, el estudiante será automáticamente
-      inscrito en todos los cursos correspondientes a su nivel y grado
-      seleccionado.
-    </p>
-  </div>
-);
 
 // Main component
 export default function FormularioMatricula({ onSuccess, matriculaData }) {
@@ -509,7 +476,7 @@ export default function FormularioMatricula({ onSuccess, matriculaData }) {
 
 
         {/* Bento Grid Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-2 mb-8">
 
           {/* Estudiante Card - Large */}
           <div className="lg:col-span-8">

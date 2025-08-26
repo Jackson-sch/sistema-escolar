@@ -1,21 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuTrigger 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
   AlertDialog,
@@ -31,7 +31,10 @@ import { toast } from "sonner";
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { Edit, MoreHorizontal, Trash2, Power, PowerOff } from "lucide-react";
-import { eliminarPeriodo, cambiarEstadoPeriodo } from "@/action/config/periodo-action";
+import {
+  eliminarPeriodo,
+  cambiarEstadoPeriodo,
+} from "@/action/config/periodo-action";
 
 export function PeriodoList({ periodos = [], onEdit, onRefresh }) {
   const [periodoToDelete, setPeriodoToDelete] = useState(null);
@@ -44,7 +47,7 @@ export function PeriodoList({ periodos = [], onEdit, onRefresh }) {
       BIMESTRE: "Bimestre",
       TRIMESTRE: "Trimestre",
       SEMESTRE: "Semestre",
-      ANUAL: "Anual"
+      ANUAL: "Anual",
     };
     return tipos[tipo] || tipo;
   };
@@ -52,21 +55,22 @@ export function PeriodoList({ periodos = [], onEdit, onRefresh }) {
   // Función para eliminar un período
   const handleDelete = async () => {
     if (!periodoToDelete) return;
-    
+
     setIsDeleting(true);
     try {
       const response = await eliminarPeriodo(periodoToDelete.id);
-      
+
       if (response.success) {
         toast.success("Período eliminado", {
-          description: "El período académico ha sido eliminado correctamente"
+          description: "El período académico ha sido eliminado correctamente",
         });
-        
+
         // Actualizar la lista
         if (onRefresh) onRefresh();
       } else {
         toast.error("Error", {
-          description: response.error || "No se pudo eliminar el período académico",
+          description:
+            response.error || "No se pudo eliminar el período académico",
         });
       }
     } catch (error) {
@@ -85,17 +89,23 @@ export function PeriodoList({ periodos = [], onEdit, onRefresh }) {
     setIsChangingStatus(true);
     try {
       const response = await cambiarEstadoPeriodo(periodo.id, !periodo.activo);
-      
+
       if (response.success) {
-        toast.success(periodo.activo ? "Período desactivado" : "Período activado", {
-          description: `El período ha sido ${periodo.activo ? "desactivado" : "activado"} correctamente`
-        });
-        
+        toast.success(
+          periodo.activo ? "Período desactivado" : "Período activado",
+          {
+            description: `El período ha sido ${
+              periodo.activo ? "desactivado" : "activado"
+            } correctamente`,
+          }
+        );
+
         // Actualizar la lista
         if (onRefresh) onRefresh();
       } else {
         toast.error("Error", {
-          description: response.error || "No se pudo cambiar el estado del período",
+          description:
+            response.error || "No se pudo cambiar el estado del período",
         });
       }
     } catch (error) {
@@ -112,7 +122,9 @@ export function PeriodoList({ periodos = [], onEdit, onRefresh }) {
   if (periodos.length === 0) {
     return (
       <div className="text-center py-10 border rounded-lg">
-        <p className="text-muted-foreground">No hay períodos académicos configurados</p>
+        <p className="text-muted-foreground">
+          No hay períodos académicos configurados
+        </p>
       </div>
     );
   }
@@ -136,10 +148,20 @@ export function PeriodoList({ periodos = [], onEdit, onRefresh }) {
             {periodos.map((periodo) => (
               <TableRow key={periodo.id}>
                 <TableCell className="font-medium">{periodo.nombre}</TableCell>
-                <TableCell>{formatTipoPeriodo(periodo.tipo)} {periodo.numero}</TableCell>
+                <TableCell>
+                  {formatTipoPeriodo(periodo.tipo)} {periodo.numero}
+                </TableCell>
                 <TableCell>{periodo.anioEscolar}</TableCell>
-                <TableCell>{format(new Date(periodo.fechaInicio), "dd/MM/yyyy", { locale: es })}</TableCell>
-                <TableCell>{format(new Date(periodo.fechaFin), "dd/MM/yyyy", { locale: es })}</TableCell>
+                <TableCell>
+                  {format(new Date(periodo.fechaInicio), "dd/MM/yyyy", {
+                    locale: es,
+                  })}
+                </TableCell>
+                <TableCell>
+                  {format(new Date(periodo.fechaFin), "dd/MM/yyyy", {
+                    locale: es,
+                  })}
+                </TableCell>
                 <TableCell>
                   <Badge variant={periodo.activo ? "default" : "secondary"}>
                     {periodo.activo ? "Activo" : "Inactivo"}
@@ -157,7 +179,7 @@ export function PeriodoList({ periodos = [], onEdit, onRefresh }) {
                         <Edit className="mr-2 h-4 w-4" />
                         Editar
                       </DropdownMenuItem>
-                      <DropdownMenuItem 
+                      <DropdownMenuItem
                         onClick={() => handleChangeStatus(periodo)}
                         disabled={isChangingStatus}
                       >
@@ -173,7 +195,7 @@ export function PeriodoList({ periodos = [], onEdit, onRefresh }) {
                           </>
                         )}
                       </DropdownMenuItem>
-                      <DropdownMenuItem 
+                      <DropdownMenuItem
                         onClick={() => setPeriodoToDelete(periodo)}
                         className="text-destructive focus:text-destructive"
                       >
@@ -190,21 +212,27 @@ export function PeriodoList({ periodos = [], onEdit, onRefresh }) {
       </div>
 
       {/* Diálogo de confirmación para eliminar */}
-      <AlertDialog open={!!periodoToDelete} onOpenChange={(open) => !open && setPeriodoToDelete(null)}>
+      <AlertDialog
+        open={!!periodoToDelete}
+        onOpenChange={(open) => !open && setPeriodoToDelete(null)}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
             <AlertDialogDescription>
-              Esta acción no se puede deshacer. Se eliminará permanentemente el período académico
+              Esta acción no se puede deshacer. Se eliminará permanentemente el
+              período académico
               <span className="font-semibold block mt-2">
                 {periodoToDelete?.nombre}
               </span>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={isDeleting}>Cancelar</AlertDialogCancel>
-            <AlertDialogAction 
-              onClick={handleDelete} 
+            <AlertDialogCancel disabled={isDeleting}>
+              Cancelar
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleDelete}
               disabled={isDeleting}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >

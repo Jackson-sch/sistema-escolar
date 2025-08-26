@@ -229,10 +229,19 @@ export async function updateStudent(data) {
   }
 }
 
-export async function getStudents() {
+export async function getStudents(params = {}) {
+  const { institucionId } = params;
   try {
+    // Construir el objeto where con los filtros
+    const where = { role: STUDENT_ROLE };
+    
+    // Agregar filtro por institucionId si está presente
+    if (institucionId) {
+      where.institucionId = institucionId;
+    }
+    
     const students = await db.user.findMany({
-      where: { role: STUDENT_ROLE },
+      where,
       orderBy: [{ name: "asc" }, { dni: "asc" }],
       select: {
         // Campos básicos de identificación
@@ -340,16 +349,24 @@ export async function getStudents() {
 
     });
 
-    return students.map((student) => ({
+    const formattedStudents = students.map((student) => ({
       ...student,
       padreId: student.padresTutores[0]?.padreTutorId ?? null,
       createdAt: student.createdAt?.toISOString() ?? null,
       updatedAt: student.updatedAt?.toISOString() ?? null,
     }));
+    
+    return {
+      success: true,
+      data: formattedStudents
+    };
 
   } catch (error) {
     console.error("Error al obtener estudiantes:", error);
-    throw new Error("Error al obtener la lista de estudiantes.");
+    return {
+      success: false,
+      error: "Error al obtener la lista de estudiantes."
+    };
   }
 }
 

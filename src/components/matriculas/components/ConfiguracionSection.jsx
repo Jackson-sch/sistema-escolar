@@ -64,7 +64,7 @@ export default function ConfiguracionSection({ form, matriculaData }) {
               </FormLabel>
               <Select onValueChange={field.onChange} value={field.value?.toLowerCase()}>
                 <FormControl>
-                  <SelectTrigger className="h-10 transition-all duration-200 focus:ring-2 focus:ring-green-500/20">
+                  <SelectTrigger className="h-10 w-full transition-all duration-200 focus:ring-2 focus:ring-green-500/20">
                     <SelectValue placeholder="Seleccione estado" />
                   </SelectTrigger>
                 </FormControl>

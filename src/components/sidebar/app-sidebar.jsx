@@ -56,9 +56,17 @@ export function AppSidebar({ user, ...props }) {
 
     // Filtrado para padres
     if (role === "padre") {
-      return navMain.filter(item =>
-        ["Dashboard", "Registro de Notas", "Asistencias", "Pagos", "Documentos", "Comunicaciones"].includes(item.title)
+      // Obtenemos los elementos de navegación básicos para padres
+      const parentNav = navMain.filter(item =>
+        ["Dashboard", "Registro de Notas", "Asistencias", "Gestión de Pagos", "Documentos", "Comunicaciones"].includes(item.title)
       );
+      
+      // Asegurarnos de que los padres tengan acceso a todas las funcionalidades de pagos
+      // incluyendo la exportación de datos
+      console.log("Configurando navegación para padres:", parentNav);
+      console.log("Elementos disponibles:", navMain.map(item => item.title));
+      
+      return parentNav;
     }
 
     // Para invitados o roles no definidos, mostrar solo el dashboard

@@ -9,7 +9,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/utils";
 
 export function PaginationTable({ table }) {
   const currentPage = table.getState().pagination.pageIndex;

@@ -18,7 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import FormDatePicker from "@/components/reutilizables/Datepicker";
 import AlertError from "@/components/reutilizables/Alerts";
-import { handleOnlyNumbers } from "@/lib/utils";
+import { handleOnlyNumbers } from "@/utils/utils";
 import { EstadoAdministrativo } from "@/components/EstadoUsuarios";
 import {
   Select,
@@ -377,10 +377,10 @@ export default function PersonalFormulario({
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* Campo de rol oculto - siempre se usa "administrativo" */}
-              <input 
-                type="hidden" 
-                {...form.register("role")} 
-                value="administrativo" 
+              <input
+                type="hidden"
+                {...form.register("role")}
+                value="administrativo"
               />
               <FormField
                 control={form.control}
@@ -392,10 +392,10 @@ export default function PersonalFormulario({
                       Rol <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Input 
-                        value="Administrativo" 
-                        disabled 
-                        className="bg-gray-100" 
+                      <Input
+                        value="Administrativo"
+                        disabled
+                        className="bg-gray-100"
                       />
                     </FormControl>
                     <FormDescription className="text-xs text-muted-foreground">

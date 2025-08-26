@@ -7,14 +7,13 @@ export default async function AdministrativosPage() {
   const { data: instituciones = [] } = await getInstituciones();
   const institucion = instituciones[0] || {};
   const institucionId = institucion?.id || "";
-  
+
   // Obtener administrativos de la institución
   const administrativos = await getAdministrativos(institucionId);
   console.log("administrativos", administrativos);
-  
+
   return (
-    <div className="container mx-auto py-6">
-      <h1 className="text-2xl font-bold mb-6">Gestión de Personal</h1>
+    <div className="container mx-auto">
       <PersonalTable data={administrativos} institucionId={institucionId} />
     </div>
   );

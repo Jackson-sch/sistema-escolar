@@ -446,27 +446,32 @@ exports.Prisma.AsistenciaScalarFieldEnum = {
   justificacion: 'justificacion',
   estudianteId: 'estudianteId',
   cursoId: 'cursoId',
-  registradoPor: 'registradoPor',
+  registradoPorId: 'registradoPorId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
 exports.Prisma.DocumentoScalarFieldEnum = {
   id: 'id',
-  nombre: 'nombre',
-  tipo: 'tipo',
-  ruta: 'ruta',
-  tamaño: 'tamaño',
-  extension: 'extension',
-  usuarioId: 'usuarioId',
-  fechaSubida: 'fechaSubida',
-  fechaVencimiento: 'fechaVencimiento',
+  titulo: 'titulo',
   descripcion: 'descripcion',
+  contenido: 'contenido',
+  tipo: 'tipo',
+  formato: 'formato',
+  plantilla: 'plantilla',
+  codigo: 'codigo',
+  fechaEmision: 'fechaEmision',
+  fechaExpiracion: 'fechaExpiracion',
+  estado: 'estado',
+  estudianteId: 'estudianteId',
+  emisorId: 'emisorId',
+  archivoUrl: 'archivoUrl',
+  firmado: 'firmado',
   verificado: 'verificado',
-  verificadoPor: 'verificadoPor',
-  fechaVerificacion: 'fechaVerificacion',
-  publico: 'publico',
-  obligatorio: 'obligatorio'
+  codigoVerificacion: 'codigoVerificacion',
+  datosAdicionales: 'datosAdicionales',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.PagoScalarFieldEnum = {
@@ -545,6 +550,11 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -553,6 +563,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.Role = exports.$Enums.Role = {
   estudiante: 'estudiante',
@@ -660,7 +676,8 @@ exports.TipoDocumento = exports.$Enums.TipoDocumento = {
   PARTIDA_NACIMIENTO: 'PARTIDA_NACIMIENTO',
   DNI_COPIA: 'DNI_COPIA',
   FOTO: 'FOTO',
-  FICHA_SOCIOECONOMICA: 'FICHA_SOCIOECONOMICA'
+  FICHA_SOCIOECONOMICA: 'FICHA_SOCIOECONOMICA',
+  EXPEDIENTE: 'EXPEDIENTE'
 };
 
 exports.Prisma.ModelName = {

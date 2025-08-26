@@ -18,28 +18,31 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar"
 import Link from "next/link";
+import React from "react";
 
 export function NavMain({ items }) {
   const pathname = usePathname();
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Función para comprobar si un item o sus sub-items coinciden con la ruta actual
   const isItemActive = (item) => {
-    // Si la URL del item coincide exactamente con la ruta actual
+    if (!mounted) return false;
+    
     if (item.url && pathname === item.url) {
       return true;
     }
     
-    // Si el item tiene sub-items, comprobamos si alguno coincide con la ruta actual
     if (item.items && item.items.length > 0) {
       return item.items.some(subItem => {
-        // Comprobamos si la ruta actual coincide exactamente o comienza con la URL del sub-item
         return pathname === subItem.url || 
                (subItem.url && pathname.startsWith(subItem.url));
       });
     }
     
-    // Si la URL del item no es exactamente igual pero la ruta actual comienza con ella
-    // (por ejemplo, item.url es '/brands' y pathname es '/brands/123')
     if (item.url && pathname.startsWith(item.url) && item.url !== '/') {
       return true;
     }

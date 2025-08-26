@@ -30,7 +30,7 @@ import { Input } from "@/components/ui/input";
 import AlertError, { AlertInfo } from "@/components/reutilizables/Alerts";
 
 import padreSchema from "@/lib/validaciones/schemas/padre-schema";
-import { handleOnlyNumbers } from "@/lib/utils";
+import { handleOnlyNumbers } from "@/utils/utils";
 import { registerPadre, updatePadre } from "@/action/padre/padre";
 
 export function PadreRegistrationForm({ padreData, institucionId, onSuccess }) {

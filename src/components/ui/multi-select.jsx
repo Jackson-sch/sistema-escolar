@@ -4,7 +4,7 @@ import * as React from "react";
 import { X, Check } from "lucide-react";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
 import { Badge } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/utils";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -27,9 +27,9 @@ export function MultiSelect({
   };
 
   // Convertir opciones a un formato estándar si es necesario
-  const normalizedOptions = options.map(option => 
-    typeof option === "string" 
-      ? { label: option, value: option } 
+  const normalizedOptions = options.map(option =>
+    typeof option === "string"
+      ? { label: option, value: option }
       : option
   );
 

@@ -1,11 +1,22 @@
-"use client"
+"use client";
 
-import { User, Users } from "lucide-react"
-import { FormField, FormControl, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { User, Users } from "lucide-react";
+import {
+  FormField,
+  FormControl,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import ComboBox from "@/components/reutilizables/ComboBox";
 
-export default function EstudianteSection({ form, estudiantes, loading, onEstudianteChange }) {
-  const estudianteId = form.watch("estudianteId")
+export default function EstudianteSection({
+  form,
+  estudiantes,
+  loading,
+  onEstudianteChange,
+}) {
+  const estudianteId = form.watch("estudianteId");
 
   return (
     <div className="bg-card p-4 rounded-2xl border border-border shadow-lg hover:shadow-xl transition-all duration-300">
@@ -14,7 +25,9 @@ export default function EstudianteSection({ form, estudiantes, loading, onEstudi
           <User className="h-5 w-5 text-white" />
         </div>
         <div className="flex-1">
-          <h2 className="text-lg font-semibold text-foreground">Selección de Estudiante</h2>
+          <h2 className="text-lg font-semibold text-foreground">
+            Selección de Estudiante
+          </h2>
           <span className="text-xs text-red-500 font-medium">Obligatorio</span>
         </div>
         {estudianteId && (
@@ -36,35 +49,33 @@ export default function EstudianteSection({ form, estudiantes, loading, onEstudi
               Estudiante
               <span className="text-red-500">*</span>
             </FormLabel>
-            <Select
-              onValueChange={(value) => {
-                field.onChange(value)
-                onEstudianteChange(value)
-              }}
-              value={field.value}
-              disabled={loading}
-            >
-              <FormControl>
-                <SelectTrigger className="h-11 transition-all duration-200 focus:ring-2 focus:ring-blue-500/20">
-                  <SelectValue placeholder={loading ? "Cargando estudiantes..." : "Seleccione un estudiante"} />
-                </SelectTrigger>
-              </FormControl>
-              <SelectContent>
-                {estudiantes?.map((estudiante) => (
-                  <SelectItem key={estudiante.id} value={estudiante.id}>
-                    <div className="flex items-center gap-2">
-                      <User className="h-4 w-4 text-blue-600" />
-                      <span>{estudiante.name}</span>
-                    </div>
-                  </SelectItem>
-                ))}
-                {(!estudiantes || estudiantes.length === 0) && !loading && (
-                  <SelectItem value="no-students" disabled>
-                    No hay estudiantes disponibles
-                  </SelectItem>
-                )}
-              </SelectContent>
-            </Select>
+            <FormControl>
+              <ComboBox
+                value={field.value}
+                onChange={(value) => {
+                  field.onChange(value);
+                  onEstudianteChange(value);
+                }}
+                disabled={loading}
+                fetchData={() => Promise.resolve(estudiantes || [])}
+                displayField="name"
+                valueField="id"
+                icon={<User className="h-4 w-4 text-blue-600" />}
+                placeholder={
+                  loading
+                    ? "Cargando estudiantes..."
+                    : "Seleccione un estudiante"
+                }
+                searchPlaceholder="Buscar estudiante..."
+                searchFields={["name"]}
+                emptyMessage="No se encontraron estudiantes"
+                noDataMessage="No hay estudiantes disponibles"
+                loadingMessage="Cargando estudiantes..."
+                allowClear={true}
+                className="h-11"
+                width="100%"
+              />
+            </FormControl>
             <FormMessage className="text-xs" />
 
             {estudianteId && (
@@ -79,5 +90,5 @@ export default function EstudianteSection({ form, estudiantes, loading, onEstudi
         )}
       />
     </div>
-  )
+  );
 }

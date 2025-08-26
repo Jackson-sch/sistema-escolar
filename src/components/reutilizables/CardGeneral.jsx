@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { cn } from "@/lib/utils"; // Asumiendo que utilizas shadcn/ui
+import { cn } from "@/utils/utils"; // Asumiendo que utilizas shadcn/ui
 // Si no tienes cn, puedes importar clsx directamente:
 // import clsx from "clsx";
 

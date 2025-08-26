@@ -260,7 +260,8 @@ export const TipoDocumento: {
   PARTIDA_NACIMIENTO: 'PARTIDA_NACIMIENTO',
   DNI_COPIA: 'DNI_COPIA',
   FOTO: 'FOTO',
-  FICHA_SOCIOECONOMICA: 'FICHA_SOCIOECONOMICA'
+  FICHA_SOCIOECONOMICA: 'FICHA_SOCIOECONOMICA',
+  EXPEDIENTE: 'EXPEDIENTE'
 };
 
 export type TipoDocumento = (typeof TipoDocumento)[keyof typeof TipoDocumento]
@@ -3502,10 +3503,12 @@ export namespace Prisma {
     notas: number
     asistencias: number
     matriculas: number
-    documentos: number
+    documentosEstudiante: number
+    documentosEmitidos: number
     pagos: number
     anunciosCreados: number
     eventosCreados: number
+    asistenciasRegistradas: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3519,10 +3522,12 @@ export namespace Prisma {
     notas?: boolean | UserCountOutputTypeCountNotasArgs
     asistencias?: boolean | UserCountOutputTypeCountAsistenciasArgs
     matriculas?: boolean | UserCountOutputTypeCountMatriculasArgs
-    documentos?: boolean | UserCountOutputTypeCountDocumentosArgs
+    documentosEstudiante?: boolean | UserCountOutputTypeCountDocumentosEstudianteArgs
+    documentosEmitidos?: boolean | UserCountOutputTypeCountDocumentosEmitidosArgs
     pagos?: boolean | UserCountOutputTypeCountPagosArgs
     anunciosCreados?: boolean | UserCountOutputTypeCountAnunciosCreadosArgs
     eventosCreados?: boolean | UserCountOutputTypeCountEventosCreadosArgs
+    asistenciasRegistradas?: boolean | UserCountOutputTypeCountAsistenciasRegistradasArgs
   }
 
   // Custom InputTypes
@@ -3609,7 +3614,14 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
-  export type UserCountOutputTypeCountDocumentosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type UserCountOutputTypeCountDocumentosEstudianteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: DocumentoWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountDocumentosEmitidosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: DocumentoWhereInput
   }
 
@@ -3632,6 +3644,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountEventosCreadosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: EventoWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountAsistenciasRegistradasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AsistenciaWhereInput
   }
 
 
@@ -10583,10 +10602,12 @@ export namespace Prisma {
     notas?: boolean | User$notasArgs<ExtArgs>
     asistencias?: boolean | User$asistenciasArgs<ExtArgs>
     matriculas?: boolean | User$matriculasArgs<ExtArgs>
-    documentos?: boolean | User$documentosArgs<ExtArgs>
+    documentosEstudiante?: boolean | User$documentosEstudianteArgs<ExtArgs>
+    documentosEmitidos?: boolean | User$documentosEmitidosArgs<ExtArgs>
     pagos?: boolean | User$pagosArgs<ExtArgs>
     anunciosCreados?: boolean | User$anunciosCreadosArgs<ExtArgs>
     eventosCreados?: boolean | User$eventosCreadosArgs<ExtArgs>
+    asistenciasRegistradas?: boolean | User$asistenciasRegistradasArgs<ExtArgs>
     passwordResetToken?: boolean | User$passwordResetTokenArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
@@ -10790,10 +10811,12 @@ export namespace Prisma {
     notas?: boolean | User$notasArgs<ExtArgs>
     asistencias?: boolean | User$asistenciasArgs<ExtArgs>
     matriculas?: boolean | User$matriculasArgs<ExtArgs>
-    documentos?: boolean | User$documentosArgs<ExtArgs>
+    documentosEstudiante?: boolean | User$documentosEstudianteArgs<ExtArgs>
+    documentosEmitidos?: boolean | User$documentosEmitidosArgs<ExtArgs>
     pagos?: boolean | User$pagosArgs<ExtArgs>
     anunciosCreados?: boolean | User$anunciosCreadosArgs<ExtArgs>
     eventosCreados?: boolean | User$eventosCreadosArgs<ExtArgs>
+    asistenciasRegistradas?: boolean | User$asistenciasRegistradasArgs<ExtArgs>
     passwordResetToken?: boolean | User$passwordResetTokenArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -10822,10 +10845,12 @@ export namespace Prisma {
       notas: Prisma.$NotaPayload<ExtArgs>[]
       asistencias: Prisma.$AsistenciaPayload<ExtArgs>[]
       matriculas: Prisma.$MatriculaPayload<ExtArgs>[]
-      documentos: Prisma.$DocumentoPayload<ExtArgs>[]
+      documentosEstudiante: Prisma.$DocumentoPayload<ExtArgs>[]
+      documentosEmitidos: Prisma.$DocumentoPayload<ExtArgs>[]
       pagos: Prisma.$PagoPayload<ExtArgs>[]
       anunciosCreados: Prisma.$AnuncioPayload<ExtArgs>[]
       eventosCreados: Prisma.$EventoPayload<ExtArgs>[]
+      asistenciasRegistradas: Prisma.$AsistenciaPayload<ExtArgs>[]
       passwordResetToken: Prisma.$PasswordResetTokenPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -11293,10 +11318,12 @@ export namespace Prisma {
     notas<T extends User$notasArgs<ExtArgs> = {}>(args?: Subset<T, User$notasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     asistencias<T extends User$asistenciasArgs<ExtArgs> = {}>(args?: Subset<T, User$asistenciasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AsistenciaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     matriculas<T extends User$matriculasArgs<ExtArgs> = {}>(args?: Subset<T, User$matriculasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatriculaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    documentos<T extends User$documentosArgs<ExtArgs> = {}>(args?: Subset<T, User$documentosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    documentosEstudiante<T extends User$documentosEstudianteArgs<ExtArgs> = {}>(args?: Subset<T, User$documentosEstudianteArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    documentosEmitidos<T extends User$documentosEmitidosArgs<ExtArgs> = {}>(args?: Subset<T, User$documentosEmitidosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DocumentoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     pagos<T extends User$pagosArgs<ExtArgs> = {}>(args?: Subset<T, User$pagosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PagoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     anunciosCreados<T extends User$anunciosCreadosArgs<ExtArgs> = {}>(args?: Subset<T, User$anunciosCreadosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnuncioPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     eventosCreados<T extends User$eventosCreadosArgs<ExtArgs> = {}>(args?: Subset<T, User$eventosCreadosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EventoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    asistenciasRegistradas<T extends User$asistenciasRegistradasArgs<ExtArgs> = {}>(args?: Subset<T, User$asistenciasRegistradasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AsistenciaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     passwordResetToken<T extends User$passwordResetTokenArgs<ExtArgs> = {}>(args?: Subset<T, User$passwordResetTokenArgs<ExtArgs>>): Prisma__PasswordResetTokenClient<$Result.GetResult<Prisma.$PasswordResetTokenPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -12077,9 +12104,33 @@ export namespace Prisma {
   }
 
   /**
-   * User.documentos
+   * User.documentosEstudiante
    */
-  export type User$documentosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type User$documentosEstudianteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Documento
+     */
+    select?: DocumentoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Documento
+     */
+    omit?: DocumentoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: DocumentoInclude<ExtArgs> | null
+    where?: DocumentoWhereInput
+    orderBy?: DocumentoOrderByWithRelationInput | DocumentoOrderByWithRelationInput[]
+    cursor?: DocumentoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: DocumentoScalarFieldEnum | DocumentoScalarFieldEnum[]
+  }
+
+  /**
+   * User.documentosEmitidos
+   */
+  export type User$documentosEmitidosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Documento
      */
@@ -12170,6 +12221,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: EventoScalarFieldEnum | EventoScalarFieldEnum[]
+  }
+
+  /**
+   * User.asistenciasRegistradas
+   */
+  export type User$asistenciasRegistradasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Asistencia
+     */
+    select?: AsistenciaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Asistencia
+     */
+    omit?: AsistenciaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AsistenciaInclude<ExtArgs> | null
+    where?: AsistenciaWhereInput
+    orderBy?: AsistenciaOrderByWithRelationInput | AsistenciaOrderByWithRelationInput[]
+    cursor?: AsistenciaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AsistenciaScalarFieldEnum | AsistenciaScalarFieldEnum[]
   }
 
   /**
@@ -30317,7 +30392,7 @@ export namespace Prisma {
     justificacion: string | null
     estudianteId: string | null
     cursoId: string | null
-    registradoPor: string | null
+    registradoPorId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -30332,7 +30407,7 @@ export namespace Prisma {
     justificacion: string | null
     estudianteId: string | null
     cursoId: string | null
-    registradoPor: string | null
+    registradoPorId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -30347,7 +30422,7 @@ export namespace Prisma {
     justificacion: number
     estudianteId: number
     cursoId: number
-    registradoPor: number
+    registradoPorId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -30364,7 +30439,7 @@ export namespace Prisma {
     justificacion?: true
     estudianteId?: true
     cursoId?: true
-    registradoPor?: true
+    registradoPorId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -30379,7 +30454,7 @@ export namespace Prisma {
     justificacion?: true
     estudianteId?: true
     cursoId?: true
-    registradoPor?: true
+    registradoPorId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -30394,7 +30469,7 @@ export namespace Prisma {
     justificacion?: true
     estudianteId?: true
     cursoId?: true
-    registradoPor?: true
+    registradoPorId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -30482,7 +30557,7 @@ export namespace Prisma {
     justificacion: string | null
     estudianteId: string
     cursoId: string
-    registradoPor: string | null
+    registradoPorId: string | null
     createdAt: Date
     updatedAt: Date
     _count: AsistenciaCountAggregateOutputType | null
@@ -30514,11 +30589,12 @@ export namespace Prisma {
     justificacion?: boolean
     estudianteId?: boolean
     cursoId?: boolean
-    registradoPor?: boolean
+    registradoPorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     estudiante?: boolean | UserDefaultArgs<ExtArgs>
     curso?: boolean | CursoDefaultArgs<ExtArgs>
+    registradoPor?: boolean | Asistencia$registradoPorArgs<ExtArgs>
   }, ExtArgs["result"]["asistencia"]>
 
   export type AsistenciaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -30531,11 +30607,12 @@ export namespace Prisma {
     justificacion?: boolean
     estudianteId?: boolean
     cursoId?: boolean
-    registradoPor?: boolean
+    registradoPorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     estudiante?: boolean | UserDefaultArgs<ExtArgs>
     curso?: boolean | CursoDefaultArgs<ExtArgs>
+    registradoPor?: boolean | Asistencia$registradoPorArgs<ExtArgs>
   }, ExtArgs["result"]["asistencia"]>
 
   export type AsistenciaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -30548,11 +30625,12 @@ export namespace Prisma {
     justificacion?: boolean
     estudianteId?: boolean
     cursoId?: boolean
-    registradoPor?: boolean
+    registradoPorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     estudiante?: boolean | UserDefaultArgs<ExtArgs>
     curso?: boolean | CursoDefaultArgs<ExtArgs>
+    registradoPor?: boolean | Asistencia$registradoPorArgs<ExtArgs>
   }, ExtArgs["result"]["asistencia"]>
 
   export type AsistenciaSelectScalar = {
@@ -30565,23 +30643,26 @@ export namespace Prisma {
     justificacion?: boolean
     estudianteId?: boolean
     cursoId?: boolean
-    registradoPor?: boolean
+    registradoPorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type AsistenciaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fecha" | "presente" | "tardanza" | "horaLlegada" | "justificada" | "justificacion" | "estudianteId" | "cursoId" | "registradoPor" | "createdAt" | "updatedAt", ExtArgs["result"]["asistencia"]>
+  export type AsistenciaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fecha" | "presente" | "tardanza" | "horaLlegada" | "justificada" | "justificacion" | "estudianteId" | "cursoId" | "registradoPorId" | "createdAt" | "updatedAt", ExtArgs["result"]["asistencia"]>
   export type AsistenciaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     estudiante?: boolean | UserDefaultArgs<ExtArgs>
     curso?: boolean | CursoDefaultArgs<ExtArgs>
+    registradoPor?: boolean | Asistencia$registradoPorArgs<ExtArgs>
   }
   export type AsistenciaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     estudiante?: boolean | UserDefaultArgs<ExtArgs>
     curso?: boolean | CursoDefaultArgs<ExtArgs>
+    registradoPor?: boolean | Asistencia$registradoPorArgs<ExtArgs>
   }
   export type AsistenciaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     estudiante?: boolean | UserDefaultArgs<ExtArgs>
     curso?: boolean | CursoDefaultArgs<ExtArgs>
+    registradoPor?: boolean | Asistencia$registradoPorArgs<ExtArgs>
   }
 
   export type $AsistenciaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -30589,6 +30670,7 @@ export namespace Prisma {
     objects: {
       estudiante: Prisma.$UserPayload<ExtArgs>
       curso: Prisma.$CursoPayload<ExtArgs>
+      registradoPor: Prisma.$UserPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -30600,7 +30682,7 @@ export namespace Prisma {
       justificacion: string | null
       estudianteId: string
       cursoId: string
-      registradoPor: string | null
+      registradoPorId: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["asistencia"]>
@@ -30999,6 +31081,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     estudiante<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     curso<T extends CursoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CursoDefaultArgs<ExtArgs>>): Prisma__CursoClient<$Result.GetResult<Prisma.$CursoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    registradoPor<T extends Asistencia$registradoPorArgs<ExtArgs> = {}>(args?: Subset<T, Asistencia$registradoPorArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -31037,7 +31120,7 @@ export namespace Prisma {
     readonly justificacion: FieldRef<"Asistencia", 'String'>
     readonly estudianteId: FieldRef<"Asistencia", 'String'>
     readonly cursoId: FieldRef<"Asistencia", 'String'>
-    readonly registradoPor: FieldRef<"Asistencia", 'String'>
+    readonly registradoPorId: FieldRef<"Asistencia", 'String'>
     readonly createdAt: FieldRef<"Asistencia", 'DateTime'>
     readonly updatedAt: FieldRef<"Asistencia", 'DateTime'>
   }
@@ -31436,6 +31519,25 @@ export namespace Prisma {
   }
 
   /**
+   * Asistencia.registradoPor
+   */
+  export type Asistencia$registradoPorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
+  }
+
+  /**
    * Asistencia without action
    */
   export type AsistenciaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -31460,136 +31562,144 @@ export namespace Prisma {
 
   export type AggregateDocumento = {
     _count: DocumentoCountAggregateOutputType | null
-    _avg: DocumentoAvgAggregateOutputType | null
-    _sum: DocumentoSumAggregateOutputType | null
     _min: DocumentoMinAggregateOutputType | null
     _max: DocumentoMaxAggregateOutputType | null
   }
 
-  export type DocumentoAvgAggregateOutputType = {
-    tamaño: number | null
-  }
-
-  export type DocumentoSumAggregateOutputType = {
-    tamaño: number | null
-  }
-
   export type DocumentoMinAggregateOutputType = {
     id: string | null
-    nombre: string | null
-    tipo: $Enums.TipoDocumento | null
-    ruta: string | null
-    tamaño: number | null
-    extension: string | null
-    usuarioId: string | null
-    fechaSubida: Date | null
-    fechaVencimiento: Date | null
+    titulo: string | null
     descripcion: string | null
+    contenido: string | null
+    tipo: $Enums.TipoDocumento | null
+    formato: string | null
+    plantilla: string | null
+    codigo: string | null
+    fechaEmision: Date | null
+    fechaExpiracion: Date | null
+    estado: string | null
+    estudianteId: string | null
+    emisorId: string | null
+    archivoUrl: string | null
+    firmado: boolean | null
     verificado: boolean | null
-    verificadoPor: string | null
-    fechaVerificacion: Date | null
-    publico: boolean | null
-    obligatorio: boolean | null
+    codigoVerificacion: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type DocumentoMaxAggregateOutputType = {
     id: string | null
-    nombre: string | null
-    tipo: $Enums.TipoDocumento | null
-    ruta: string | null
-    tamaño: number | null
-    extension: string | null
-    usuarioId: string | null
-    fechaSubida: Date | null
-    fechaVencimiento: Date | null
+    titulo: string | null
     descripcion: string | null
+    contenido: string | null
+    tipo: $Enums.TipoDocumento | null
+    formato: string | null
+    plantilla: string | null
+    codigo: string | null
+    fechaEmision: Date | null
+    fechaExpiracion: Date | null
+    estado: string | null
+    estudianteId: string | null
+    emisorId: string | null
+    archivoUrl: string | null
+    firmado: boolean | null
     verificado: boolean | null
-    verificadoPor: string | null
-    fechaVerificacion: Date | null
-    publico: boolean | null
-    obligatorio: boolean | null
+    codigoVerificacion: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type DocumentoCountAggregateOutputType = {
     id: number
-    nombre: number
-    tipo: number
-    ruta: number
-    tamaño: number
-    extension: number
-    usuarioId: number
-    fechaSubida: number
-    fechaVencimiento: number
+    titulo: number
     descripcion: number
+    contenido: number
+    tipo: number
+    formato: number
+    plantilla: number
+    codigo: number
+    fechaEmision: number
+    fechaExpiracion: number
+    estado: number
+    estudianteId: number
+    emisorId: number
+    archivoUrl: number
+    firmado: number
     verificado: number
-    verificadoPor: number
-    fechaVerificacion: number
-    publico: number
-    obligatorio: number
+    codigoVerificacion: number
+    datosAdicionales: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
 
-  export type DocumentoAvgAggregateInputType = {
-    tamaño?: true
-  }
-
-  export type DocumentoSumAggregateInputType = {
-    tamaño?: true
-  }
-
   export type DocumentoMinAggregateInputType = {
     id?: true
-    nombre?: true
-    tipo?: true
-    ruta?: true
-    tamaño?: true
-    extension?: true
-    usuarioId?: true
-    fechaSubida?: true
-    fechaVencimiento?: true
+    titulo?: true
     descripcion?: true
+    contenido?: true
+    tipo?: true
+    formato?: true
+    plantilla?: true
+    codigo?: true
+    fechaEmision?: true
+    fechaExpiracion?: true
+    estado?: true
+    estudianteId?: true
+    emisorId?: true
+    archivoUrl?: true
+    firmado?: true
     verificado?: true
-    verificadoPor?: true
-    fechaVerificacion?: true
-    publico?: true
-    obligatorio?: true
+    codigoVerificacion?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type DocumentoMaxAggregateInputType = {
     id?: true
-    nombre?: true
-    tipo?: true
-    ruta?: true
-    tamaño?: true
-    extension?: true
-    usuarioId?: true
-    fechaSubida?: true
-    fechaVencimiento?: true
+    titulo?: true
     descripcion?: true
+    contenido?: true
+    tipo?: true
+    formato?: true
+    plantilla?: true
+    codigo?: true
+    fechaEmision?: true
+    fechaExpiracion?: true
+    estado?: true
+    estudianteId?: true
+    emisorId?: true
+    archivoUrl?: true
+    firmado?: true
     verificado?: true
-    verificadoPor?: true
-    fechaVerificacion?: true
-    publico?: true
-    obligatorio?: true
+    codigoVerificacion?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type DocumentoCountAggregateInputType = {
     id?: true
-    nombre?: true
-    tipo?: true
-    ruta?: true
-    tamaño?: true
-    extension?: true
-    usuarioId?: true
-    fechaSubida?: true
-    fechaVencimiento?: true
+    titulo?: true
     descripcion?: true
+    contenido?: true
+    tipo?: true
+    formato?: true
+    plantilla?: true
+    codigo?: true
+    fechaEmision?: true
+    fechaExpiracion?: true
+    estado?: true
+    estudianteId?: true
+    emisorId?: true
+    archivoUrl?: true
+    firmado?: true
     verificado?: true
-    verificadoPor?: true
-    fechaVerificacion?: true
-    publico?: true
-    obligatorio?: true
+    codigoVerificacion?: true
+    datosAdicionales?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -31631,18 +31741,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: DocumentoAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: DocumentoSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: DocumentoMinAggregateInputType
@@ -31673,31 +31771,32 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: DocumentoCountAggregateInputType | true
-    _avg?: DocumentoAvgAggregateInputType
-    _sum?: DocumentoSumAggregateInputType
     _min?: DocumentoMinAggregateInputType
     _max?: DocumentoMaxAggregateInputType
   }
 
   export type DocumentoGroupByOutputType = {
     id: string
-    nombre: string
-    tipo: $Enums.TipoDocumento
-    ruta: string
-    tamaño: number | null
-    extension: string | null
-    usuarioId: string
-    fechaSubida: Date
-    fechaVencimiento: Date | null
+    titulo: string
     descripcion: string | null
+    contenido: string
+    tipo: $Enums.TipoDocumento
+    formato: string
+    plantilla: string | null
+    codigo: string
+    fechaEmision: Date
+    fechaExpiracion: Date | null
+    estado: string
+    estudianteId: string | null
+    emisorId: string
+    archivoUrl: string | null
+    firmado: boolean
     verificado: boolean
-    verificadoPor: string | null
-    fechaVerificacion: Date | null
-    publico: boolean
-    obligatorio: boolean
+    codigoVerificacion: string | null
+    datosAdicionales: JsonValue | null
+    createdAt: Date
+    updatedAt: Date
     _count: DocumentoCountAggregateOutputType | null
-    _avg: DocumentoAvgAggregateOutputType | null
-    _sum: DocumentoSumAggregateOutputType | null
     _min: DocumentoMinAggregateOutputType | null
     _max: DocumentoMaxAggregateOutputType | null
   }
@@ -31718,111 +31817,143 @@ export namespace Prisma {
 
   export type DocumentoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    nombre?: boolean
-    tipo?: boolean
-    ruta?: boolean
-    tamaño?: boolean
-    extension?: boolean
-    usuarioId?: boolean
-    fechaSubida?: boolean
-    fechaVencimiento?: boolean
+    titulo?: boolean
     descripcion?: boolean
+    contenido?: boolean
+    tipo?: boolean
+    formato?: boolean
+    plantilla?: boolean
+    codigo?: boolean
+    fechaEmision?: boolean
+    fechaExpiracion?: boolean
+    estado?: boolean
+    estudianteId?: boolean
+    emisorId?: boolean
+    archivoUrl?: boolean
+    firmado?: boolean
     verificado?: boolean
-    verificadoPor?: boolean
-    fechaVerificacion?: boolean
-    publico?: boolean
-    obligatorio?: boolean
-    usuario?: boolean | UserDefaultArgs<ExtArgs>
+    codigoVerificacion?: boolean
+    datosAdicionales?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    estudiante?: boolean | Documento$estudianteArgs<ExtArgs>
+    emisor?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["documento"]>
 
   export type DocumentoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    nombre?: boolean
-    tipo?: boolean
-    ruta?: boolean
-    tamaño?: boolean
-    extension?: boolean
-    usuarioId?: boolean
-    fechaSubida?: boolean
-    fechaVencimiento?: boolean
+    titulo?: boolean
     descripcion?: boolean
+    contenido?: boolean
+    tipo?: boolean
+    formato?: boolean
+    plantilla?: boolean
+    codigo?: boolean
+    fechaEmision?: boolean
+    fechaExpiracion?: boolean
+    estado?: boolean
+    estudianteId?: boolean
+    emisorId?: boolean
+    archivoUrl?: boolean
+    firmado?: boolean
     verificado?: boolean
-    verificadoPor?: boolean
-    fechaVerificacion?: boolean
-    publico?: boolean
-    obligatorio?: boolean
-    usuario?: boolean | UserDefaultArgs<ExtArgs>
+    codigoVerificacion?: boolean
+    datosAdicionales?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    estudiante?: boolean | Documento$estudianteArgs<ExtArgs>
+    emisor?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["documento"]>
 
   export type DocumentoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    nombre?: boolean
-    tipo?: boolean
-    ruta?: boolean
-    tamaño?: boolean
-    extension?: boolean
-    usuarioId?: boolean
-    fechaSubida?: boolean
-    fechaVencimiento?: boolean
+    titulo?: boolean
     descripcion?: boolean
+    contenido?: boolean
+    tipo?: boolean
+    formato?: boolean
+    plantilla?: boolean
+    codigo?: boolean
+    fechaEmision?: boolean
+    fechaExpiracion?: boolean
+    estado?: boolean
+    estudianteId?: boolean
+    emisorId?: boolean
+    archivoUrl?: boolean
+    firmado?: boolean
     verificado?: boolean
-    verificadoPor?: boolean
-    fechaVerificacion?: boolean
-    publico?: boolean
-    obligatorio?: boolean
-    usuario?: boolean | UserDefaultArgs<ExtArgs>
+    codigoVerificacion?: boolean
+    datosAdicionales?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    estudiante?: boolean | Documento$estudianteArgs<ExtArgs>
+    emisor?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["documento"]>
 
   export type DocumentoSelectScalar = {
     id?: boolean
-    nombre?: boolean
-    tipo?: boolean
-    ruta?: boolean
-    tamaño?: boolean
-    extension?: boolean
-    usuarioId?: boolean
-    fechaSubida?: boolean
-    fechaVencimiento?: boolean
+    titulo?: boolean
     descripcion?: boolean
+    contenido?: boolean
+    tipo?: boolean
+    formato?: boolean
+    plantilla?: boolean
+    codigo?: boolean
+    fechaEmision?: boolean
+    fechaExpiracion?: boolean
+    estado?: boolean
+    estudianteId?: boolean
+    emisorId?: boolean
+    archivoUrl?: boolean
+    firmado?: boolean
     verificado?: boolean
-    verificadoPor?: boolean
-    fechaVerificacion?: boolean
-    publico?: boolean
-    obligatorio?: boolean
+    codigoVerificacion?: boolean
+    datosAdicionales?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type DocumentoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "tipo" | "ruta" | "tamaño" | "extension" | "usuarioId" | "fechaSubida" | "fechaVencimiento" | "descripcion" | "verificado" | "verificadoPor" | "fechaVerificacion" | "publico" | "obligatorio", ExtArgs["result"]["documento"]>
+  export type DocumentoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "titulo" | "descripcion" | "contenido" | "tipo" | "formato" | "plantilla" | "codigo" | "fechaEmision" | "fechaExpiracion" | "estado" | "estudianteId" | "emisorId" | "archivoUrl" | "firmado" | "verificado" | "codigoVerificacion" | "datosAdicionales" | "createdAt" | "updatedAt", ExtArgs["result"]["documento"]>
   export type DocumentoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    usuario?: boolean | UserDefaultArgs<ExtArgs>
+    estudiante?: boolean | Documento$estudianteArgs<ExtArgs>
+    emisor?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type DocumentoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    usuario?: boolean | UserDefaultArgs<ExtArgs>
+    estudiante?: boolean | Documento$estudianteArgs<ExtArgs>
+    emisor?: boolean | UserDefaultArgs<ExtArgs>
   }
   export type DocumentoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    usuario?: boolean | UserDefaultArgs<ExtArgs>
+    estudiante?: boolean | Documento$estudianteArgs<ExtArgs>
+    emisor?: boolean | UserDefaultArgs<ExtArgs>
   }
 
   export type $DocumentoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Documento"
     objects: {
-      usuario: Prisma.$UserPayload<ExtArgs>
+      estudiante: Prisma.$UserPayload<ExtArgs> | null
+      emisor: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      nombre: string
-      tipo: $Enums.TipoDocumento
-      ruta: string
-      tamaño: number | null
-      extension: string | null
-      usuarioId: string
-      fechaSubida: Date
-      fechaVencimiento: Date | null
+      titulo: string
       descripcion: string | null
+      contenido: string
+      tipo: $Enums.TipoDocumento
+      formato: string
+      plantilla: string | null
+      codigo: string
+      fechaEmision: Date
+      fechaExpiracion: Date | null
+      estado: string
+      estudianteId: string | null
+      emisorId: string
+      archivoUrl: string | null
+      firmado: boolean
       verificado: boolean
-      verificadoPor: string | null
-      fechaVerificacion: Date | null
-      publico: boolean
-      obligatorio: boolean
+      codigoVerificacion: string | null
+      datosAdicionales: Prisma.JsonValue | null
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["documento"]>
     composites: {}
   }
@@ -32217,7 +32348,8 @@ export namespace Prisma {
    */
   export interface Prisma__DocumentoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    usuario<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    estudiante<T extends Documento$estudianteArgs<ExtArgs> = {}>(args?: Subset<T, Documento$estudianteArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    emisor<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -32248,20 +32380,25 @@ export namespace Prisma {
    */
   interface DocumentoFieldRefs {
     readonly id: FieldRef<"Documento", 'String'>
-    readonly nombre: FieldRef<"Documento", 'String'>
-    readonly tipo: FieldRef<"Documento", 'TipoDocumento'>
-    readonly ruta: FieldRef<"Documento", 'String'>
-    readonly tamaño: FieldRef<"Documento", 'Int'>
-    readonly extension: FieldRef<"Documento", 'String'>
-    readonly usuarioId: FieldRef<"Documento", 'String'>
-    readonly fechaSubida: FieldRef<"Documento", 'DateTime'>
-    readonly fechaVencimiento: FieldRef<"Documento", 'DateTime'>
+    readonly titulo: FieldRef<"Documento", 'String'>
     readonly descripcion: FieldRef<"Documento", 'String'>
+    readonly contenido: FieldRef<"Documento", 'String'>
+    readonly tipo: FieldRef<"Documento", 'TipoDocumento'>
+    readonly formato: FieldRef<"Documento", 'String'>
+    readonly plantilla: FieldRef<"Documento", 'String'>
+    readonly codigo: FieldRef<"Documento", 'String'>
+    readonly fechaEmision: FieldRef<"Documento", 'DateTime'>
+    readonly fechaExpiracion: FieldRef<"Documento", 'DateTime'>
+    readonly estado: FieldRef<"Documento", 'String'>
+    readonly estudianteId: FieldRef<"Documento", 'String'>
+    readonly emisorId: FieldRef<"Documento", 'String'>
+    readonly archivoUrl: FieldRef<"Documento", 'String'>
+    readonly firmado: FieldRef<"Documento", 'Boolean'>
     readonly verificado: FieldRef<"Documento", 'Boolean'>
-    readonly verificadoPor: FieldRef<"Documento", 'String'>
-    readonly fechaVerificacion: FieldRef<"Documento", 'DateTime'>
-    readonly publico: FieldRef<"Documento", 'Boolean'>
-    readonly obligatorio: FieldRef<"Documento", 'Boolean'>
+    readonly codigoVerificacion: FieldRef<"Documento", 'String'>
+    readonly datosAdicionales: FieldRef<"Documento", 'Json'>
+    readonly createdAt: FieldRef<"Documento", 'DateTime'>
+    readonly updatedAt: FieldRef<"Documento", 'DateTime'>
   }
     
 
@@ -32655,6 +32792,25 @@ export namespace Prisma {
      * Limit how many Documentos to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Documento.estudiante
+   */
+  export type Documento$estudianteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    where?: UserWhereInput
   }
 
   /**
@@ -37090,7 +37246,7 @@ export namespace Prisma {
     justificacion: 'justificacion',
     estudianteId: 'estudianteId',
     cursoId: 'cursoId',
-    registradoPor: 'registradoPor',
+    registradoPorId: 'registradoPorId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -37100,20 +37256,25 @@ export namespace Prisma {
 
   export const DocumentoScalarFieldEnum: {
     id: 'id',
-    nombre: 'nombre',
-    tipo: 'tipo',
-    ruta: 'ruta',
-    tamaño: 'tamaño',
-    extension: 'extension',
-    usuarioId: 'usuarioId',
-    fechaSubida: 'fechaSubida',
-    fechaVencimiento: 'fechaVencimiento',
+    titulo: 'titulo',
     descripcion: 'descripcion',
+    contenido: 'contenido',
+    tipo: 'tipo',
+    formato: 'formato',
+    plantilla: 'plantilla',
+    codigo: 'codigo',
+    fechaEmision: 'fechaEmision',
+    fechaExpiracion: 'fechaExpiracion',
+    estado: 'estado',
+    estudianteId: 'estudianteId',
+    emisorId: 'emisorId',
+    archivoUrl: 'archivoUrl',
+    firmado: 'firmado',
     verificado: 'verificado',
-    verificadoPor: 'verificadoPor',
-    fechaVerificacion: 'fechaVerificacion',
-    publico: 'publico',
-    obligatorio: 'obligatorio'
+    codigoVerificacion: 'codigoVerificacion',
+    datosAdicionales: 'datosAdicionales',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type DocumentoScalarFieldEnum = (typeof DocumentoScalarFieldEnum)[keyof typeof DocumentoScalarFieldEnum]
@@ -37207,6 +37368,14 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
   export const QueryMode: {
     default: 'default',
     insensitive: 'insensitive'
@@ -37221,6 +37390,15 @@ export namespace Prisma {
   };
 
   export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -37442,6 +37620,20 @@ export namespace Prisma {
    * Reference to a field of type 'TipoDocumento[]'
    */
   export type ListEnumTipoDocumentoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TipoDocumento[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
   /**
    * Deep Input Types
@@ -37944,10 +38136,12 @@ export namespace Prisma {
     notas?: NotaListRelationFilter
     asistencias?: AsistenciaListRelationFilter
     matriculas?: MatriculaListRelationFilter
-    documentos?: DocumentoListRelationFilter
+    documentosEstudiante?: DocumentoListRelationFilter
+    documentosEmitidos?: DocumentoListRelationFilter
     pagos?: PagoListRelationFilter
     anunciosCreados?: AnuncioListRelationFilter
     eventosCreados?: EventoListRelationFilter
+    asistenciasRegistradas?: AsistenciaListRelationFilter
     passwordResetToken?: XOR<PasswordResetTokenNullableScalarRelationFilter, PasswordResetTokenWhereInput> | null
   }
 
@@ -38022,10 +38216,12 @@ export namespace Prisma {
     notas?: NotaOrderByRelationAggregateInput
     asistencias?: AsistenciaOrderByRelationAggregateInput
     matriculas?: MatriculaOrderByRelationAggregateInput
-    documentos?: DocumentoOrderByRelationAggregateInput
+    documentosEstudiante?: DocumentoOrderByRelationAggregateInput
+    documentosEmitidos?: DocumentoOrderByRelationAggregateInput
     pagos?: PagoOrderByRelationAggregateInput
     anunciosCreados?: AnuncioOrderByRelationAggregateInput
     eventosCreados?: EventoOrderByRelationAggregateInput
+    asistenciasRegistradas?: AsistenciaOrderByRelationAggregateInput
     passwordResetToken?: PasswordResetTokenOrderByWithRelationInput
   }
 
@@ -38103,10 +38299,12 @@ export namespace Prisma {
     notas?: NotaListRelationFilter
     asistencias?: AsistenciaListRelationFilter
     matriculas?: MatriculaListRelationFilter
-    documentos?: DocumentoListRelationFilter
+    documentosEstudiante?: DocumentoListRelationFilter
+    documentosEmitidos?: DocumentoListRelationFilter
     pagos?: PagoListRelationFilter
     anunciosCreados?: AnuncioListRelationFilter
     eventosCreados?: EventoListRelationFilter
+    asistenciasRegistradas?: AsistenciaListRelationFilter
     passwordResetToken?: XOR<PasswordResetTokenNullableScalarRelationFilter, PasswordResetTokenWhereInput> | null
   }, "id" | "email" | "dni" | "codigoEstudiante" | "codigoSiagie" | "codigoModular">
 
@@ -39595,11 +39793,12 @@ export namespace Prisma {
     justificacion?: StringNullableFilter<"Asistencia"> | string | null
     estudianteId?: StringFilter<"Asistencia"> | string
     cursoId?: StringFilter<"Asistencia"> | string
-    registradoPor?: StringNullableFilter<"Asistencia"> | string | null
+    registradoPorId?: StringNullableFilter<"Asistencia"> | string | null
     createdAt?: DateTimeFilter<"Asistencia"> | Date | string
     updatedAt?: DateTimeFilter<"Asistencia"> | Date | string
     estudiante?: XOR<UserScalarRelationFilter, UserWhereInput>
     curso?: XOR<CursoScalarRelationFilter, CursoWhereInput>
+    registradoPor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
   export type AsistenciaOrderByWithRelationInput = {
@@ -39612,11 +39811,12 @@ export namespace Prisma {
     justificacion?: SortOrderInput | SortOrder
     estudianteId?: SortOrder
     cursoId?: SortOrder
-    registradoPor?: SortOrderInput | SortOrder
+    registradoPorId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     estudiante?: UserOrderByWithRelationInput
     curso?: CursoOrderByWithRelationInput
+    registradoPor?: UserOrderByWithRelationInput
   }
 
   export type AsistenciaWhereUniqueInput = Prisma.AtLeast<{
@@ -39633,11 +39833,12 @@ export namespace Prisma {
     justificacion?: StringNullableFilter<"Asistencia"> | string | null
     estudianteId?: StringFilter<"Asistencia"> | string
     cursoId?: StringFilter<"Asistencia"> | string
-    registradoPor?: StringNullableFilter<"Asistencia"> | string | null
+    registradoPorId?: StringNullableFilter<"Asistencia"> | string | null
     createdAt?: DateTimeFilter<"Asistencia"> | Date | string
     updatedAt?: DateTimeFilter<"Asistencia"> | Date | string
     estudiante?: XOR<UserScalarRelationFilter, UserWhereInput>
     curso?: XOR<CursoScalarRelationFilter, CursoWhereInput>
+    registradoPor?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id" | "estudianteId_cursoId_fecha">
 
   export type AsistenciaOrderByWithAggregationInput = {
@@ -39650,7 +39851,7 @@ export namespace Prisma {
     justificacion?: SortOrderInput | SortOrder
     estudianteId?: SortOrder
     cursoId?: SortOrder
-    registradoPor?: SortOrderInput | SortOrder
+    registradoPorId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: AsistenciaCountOrderByAggregateInput
@@ -39671,7 +39872,7 @@ export namespace Prisma {
     justificacion?: StringNullableWithAggregatesFilter<"Asistencia"> | string | null
     estudianteId?: StringWithAggregatesFilter<"Asistencia"> | string
     cursoId?: StringWithAggregatesFilter<"Asistencia"> | string
-    registradoPor?: StringNullableWithAggregatesFilter<"Asistencia"> | string | null
+    registradoPorId?: StringNullableWithAggregatesFilter<"Asistencia"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Asistencia"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Asistencia"> | Date | string
   }
@@ -39681,85 +39882,106 @@ export namespace Prisma {
     OR?: DocumentoWhereInput[]
     NOT?: DocumentoWhereInput | DocumentoWhereInput[]
     id?: StringFilter<"Documento"> | string
-    nombre?: StringFilter<"Documento"> | string
-    tipo?: EnumTipoDocumentoFilter<"Documento"> | $Enums.TipoDocumento
-    ruta?: StringFilter<"Documento"> | string
-    tamaño?: IntNullableFilter<"Documento"> | number | null
-    extension?: StringNullableFilter<"Documento"> | string | null
-    usuarioId?: StringFilter<"Documento"> | string
-    fechaSubida?: DateTimeFilter<"Documento"> | Date | string
-    fechaVencimiento?: DateTimeNullableFilter<"Documento"> | Date | string | null
+    titulo?: StringFilter<"Documento"> | string
     descripcion?: StringNullableFilter<"Documento"> | string | null
+    contenido?: StringFilter<"Documento"> | string
+    tipo?: EnumTipoDocumentoFilter<"Documento"> | $Enums.TipoDocumento
+    formato?: StringFilter<"Documento"> | string
+    plantilla?: StringNullableFilter<"Documento"> | string | null
+    codigo?: StringFilter<"Documento"> | string
+    fechaEmision?: DateTimeFilter<"Documento"> | Date | string
+    fechaExpiracion?: DateTimeNullableFilter<"Documento"> | Date | string | null
+    estado?: StringFilter<"Documento"> | string
+    estudianteId?: StringNullableFilter<"Documento"> | string | null
+    emisorId?: StringFilter<"Documento"> | string
+    archivoUrl?: StringNullableFilter<"Documento"> | string | null
+    firmado?: BoolFilter<"Documento"> | boolean
     verificado?: BoolFilter<"Documento"> | boolean
-    verificadoPor?: StringNullableFilter<"Documento"> | string | null
-    fechaVerificacion?: DateTimeNullableFilter<"Documento"> | Date | string | null
-    publico?: BoolFilter<"Documento"> | boolean
-    obligatorio?: BoolFilter<"Documento"> | boolean
-    usuario?: XOR<UserScalarRelationFilter, UserWhereInput>
+    codigoVerificacion?: StringNullableFilter<"Documento"> | string | null
+    datosAdicionales?: JsonNullableFilter<"Documento">
+    createdAt?: DateTimeFilter<"Documento"> | Date | string
+    updatedAt?: DateTimeFilter<"Documento"> | Date | string
+    estudiante?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    emisor?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
 
   export type DocumentoOrderByWithRelationInput = {
     id?: SortOrder
-    nombre?: SortOrder
-    tipo?: SortOrder
-    ruta?: SortOrder
-    tamaño?: SortOrderInput | SortOrder
-    extension?: SortOrderInput | SortOrder
-    usuarioId?: SortOrder
-    fechaSubida?: SortOrder
-    fechaVencimiento?: SortOrderInput | SortOrder
+    titulo?: SortOrder
     descripcion?: SortOrderInput | SortOrder
+    contenido?: SortOrder
+    tipo?: SortOrder
+    formato?: SortOrder
+    plantilla?: SortOrderInput | SortOrder
+    codigo?: SortOrder
+    fechaEmision?: SortOrder
+    fechaExpiracion?: SortOrderInput | SortOrder
+    estado?: SortOrder
+    estudianteId?: SortOrderInput | SortOrder
+    emisorId?: SortOrder
+    archivoUrl?: SortOrderInput | SortOrder
+    firmado?: SortOrder
     verificado?: SortOrder
-    verificadoPor?: SortOrderInput | SortOrder
-    fechaVerificacion?: SortOrderInput | SortOrder
-    publico?: SortOrder
-    obligatorio?: SortOrder
-    usuario?: UserOrderByWithRelationInput
+    codigoVerificacion?: SortOrderInput | SortOrder
+    datosAdicionales?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    estudiante?: UserOrderByWithRelationInput
+    emisor?: UserOrderByWithRelationInput
   }
 
   export type DocumentoWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    codigo?: string
+    codigoVerificacion?: string
     AND?: DocumentoWhereInput | DocumentoWhereInput[]
     OR?: DocumentoWhereInput[]
     NOT?: DocumentoWhereInput | DocumentoWhereInput[]
-    nombre?: StringFilter<"Documento"> | string
-    tipo?: EnumTipoDocumentoFilter<"Documento"> | $Enums.TipoDocumento
-    ruta?: StringFilter<"Documento"> | string
-    tamaño?: IntNullableFilter<"Documento"> | number | null
-    extension?: StringNullableFilter<"Documento"> | string | null
-    usuarioId?: StringFilter<"Documento"> | string
-    fechaSubida?: DateTimeFilter<"Documento"> | Date | string
-    fechaVencimiento?: DateTimeNullableFilter<"Documento"> | Date | string | null
+    titulo?: StringFilter<"Documento"> | string
     descripcion?: StringNullableFilter<"Documento"> | string | null
+    contenido?: StringFilter<"Documento"> | string
+    tipo?: EnumTipoDocumentoFilter<"Documento"> | $Enums.TipoDocumento
+    formato?: StringFilter<"Documento"> | string
+    plantilla?: StringNullableFilter<"Documento"> | string | null
+    fechaEmision?: DateTimeFilter<"Documento"> | Date | string
+    fechaExpiracion?: DateTimeNullableFilter<"Documento"> | Date | string | null
+    estado?: StringFilter<"Documento"> | string
+    estudianteId?: StringNullableFilter<"Documento"> | string | null
+    emisorId?: StringFilter<"Documento"> | string
+    archivoUrl?: StringNullableFilter<"Documento"> | string | null
+    firmado?: BoolFilter<"Documento"> | boolean
     verificado?: BoolFilter<"Documento"> | boolean
-    verificadoPor?: StringNullableFilter<"Documento"> | string | null
-    fechaVerificacion?: DateTimeNullableFilter<"Documento"> | Date | string | null
-    publico?: BoolFilter<"Documento"> | boolean
-    obligatorio?: BoolFilter<"Documento"> | boolean
-    usuario?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id">
+    datosAdicionales?: JsonNullableFilter<"Documento">
+    createdAt?: DateTimeFilter<"Documento"> | Date | string
+    updatedAt?: DateTimeFilter<"Documento"> | Date | string
+    estudiante?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
+    emisor?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "codigo" | "codigoVerificacion">
 
   export type DocumentoOrderByWithAggregationInput = {
     id?: SortOrder
-    nombre?: SortOrder
-    tipo?: SortOrder
-    ruta?: SortOrder
-    tamaño?: SortOrderInput | SortOrder
-    extension?: SortOrderInput | SortOrder
-    usuarioId?: SortOrder
-    fechaSubida?: SortOrder
-    fechaVencimiento?: SortOrderInput | SortOrder
+    titulo?: SortOrder
     descripcion?: SortOrderInput | SortOrder
+    contenido?: SortOrder
+    tipo?: SortOrder
+    formato?: SortOrder
+    plantilla?: SortOrderInput | SortOrder
+    codigo?: SortOrder
+    fechaEmision?: SortOrder
+    fechaExpiracion?: SortOrderInput | SortOrder
+    estado?: SortOrder
+    estudianteId?: SortOrderInput | SortOrder
+    emisorId?: SortOrder
+    archivoUrl?: SortOrderInput | SortOrder
+    firmado?: SortOrder
     verificado?: SortOrder
-    verificadoPor?: SortOrderInput | SortOrder
-    fechaVerificacion?: SortOrderInput | SortOrder
-    publico?: SortOrder
-    obligatorio?: SortOrder
+    codigoVerificacion?: SortOrderInput | SortOrder
+    datosAdicionales?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: DocumentoCountOrderByAggregateInput
-    _avg?: DocumentoAvgOrderByAggregateInput
     _max?: DocumentoMaxOrderByAggregateInput
     _min?: DocumentoMinOrderByAggregateInput
-    _sum?: DocumentoSumOrderByAggregateInput
   }
 
   export type DocumentoScalarWhereWithAggregatesInput = {
@@ -39767,20 +39989,25 @@ export namespace Prisma {
     OR?: DocumentoScalarWhereWithAggregatesInput[]
     NOT?: DocumentoScalarWhereWithAggregatesInput | DocumentoScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Documento"> | string
-    nombre?: StringWithAggregatesFilter<"Documento"> | string
-    tipo?: EnumTipoDocumentoWithAggregatesFilter<"Documento"> | $Enums.TipoDocumento
-    ruta?: StringWithAggregatesFilter<"Documento"> | string
-    tamaño?: IntNullableWithAggregatesFilter<"Documento"> | number | null
-    extension?: StringNullableWithAggregatesFilter<"Documento"> | string | null
-    usuarioId?: StringWithAggregatesFilter<"Documento"> | string
-    fechaSubida?: DateTimeWithAggregatesFilter<"Documento"> | Date | string
-    fechaVencimiento?: DateTimeNullableWithAggregatesFilter<"Documento"> | Date | string | null
+    titulo?: StringWithAggregatesFilter<"Documento"> | string
     descripcion?: StringNullableWithAggregatesFilter<"Documento"> | string | null
+    contenido?: StringWithAggregatesFilter<"Documento"> | string
+    tipo?: EnumTipoDocumentoWithAggregatesFilter<"Documento"> | $Enums.TipoDocumento
+    formato?: StringWithAggregatesFilter<"Documento"> | string
+    plantilla?: StringNullableWithAggregatesFilter<"Documento"> | string | null
+    codigo?: StringWithAggregatesFilter<"Documento"> | string
+    fechaEmision?: DateTimeWithAggregatesFilter<"Documento"> | Date | string
+    fechaExpiracion?: DateTimeNullableWithAggregatesFilter<"Documento"> | Date | string | null
+    estado?: StringWithAggregatesFilter<"Documento"> | string
+    estudianteId?: StringNullableWithAggregatesFilter<"Documento"> | string | null
+    emisorId?: StringWithAggregatesFilter<"Documento"> | string
+    archivoUrl?: StringNullableWithAggregatesFilter<"Documento"> | string | null
+    firmado?: BoolWithAggregatesFilter<"Documento"> | boolean
     verificado?: BoolWithAggregatesFilter<"Documento"> | boolean
-    verificadoPor?: StringNullableWithAggregatesFilter<"Documento"> | string | null
-    fechaVerificacion?: DateTimeNullableWithAggregatesFilter<"Documento"> | Date | string | null
-    publico?: BoolWithAggregatesFilter<"Documento"> | boolean
-    obligatorio?: BoolWithAggregatesFilter<"Documento"> | boolean
+    codigoVerificacion?: StringNullableWithAggregatesFilter<"Documento"> | string | null
+    datosAdicionales?: JsonNullableWithAggregatesFilter<"Documento">
+    createdAt?: DateTimeWithAggregatesFilter<"Documento"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Documento"> | Date | string
   }
 
   export type PagoWhereInput = {
@@ -40742,10 +40969,12 @@ export namespace Prisma {
     notas?: NotaCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoCreateNestedManyWithoutEmisorInput
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
@@ -40818,10 +41047,12 @@ export namespace Prisma {
     notas?: NotaUncheckedCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaUncheckedCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoUncheckedCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoUncheckedCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoUncheckedCreateNestedManyWithoutEmisorInput
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaUncheckedCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -40894,10 +41125,12 @@ export namespace Prisma {
     notas?: NotaUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
@@ -40970,10 +41203,12 @@ export namespace Prisma {
     notas?: NotaUncheckedUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUncheckedUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUncheckedUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUncheckedUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUncheckedUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUncheckedUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -42575,11 +42810,11 @@ export namespace Prisma {
     horaLlegada?: string | null
     justificada?: boolean
     justificacion?: string | null
-    registradoPor?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     estudiante: UserCreateNestedOneWithoutAsistenciasInput
     curso: CursoCreateNestedOneWithoutAsistenciasInput
+    registradoPor?: UserCreateNestedOneWithoutAsistenciasRegistradasInput
   }
 
   export type AsistenciaUncheckedCreateInput = {
@@ -42592,7 +42827,7 @@ export namespace Prisma {
     justificacion?: string | null
     estudianteId: string
     cursoId: string
-    registradoPor?: string | null
+    registradoPorId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -42605,11 +42840,11 @@ export namespace Prisma {
     horaLlegada?: NullableStringFieldUpdateOperationsInput | string | null
     justificada?: BoolFieldUpdateOperationsInput | boolean
     justificacion?: NullableStringFieldUpdateOperationsInput | string | null
-    registradoPor?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     estudiante?: UserUpdateOneRequiredWithoutAsistenciasNestedInput
     curso?: CursoUpdateOneRequiredWithoutAsistenciasNestedInput
+    registradoPor?: UserUpdateOneWithoutAsistenciasRegistradasNestedInput
   }
 
   export type AsistenciaUncheckedUpdateInput = {
@@ -42622,7 +42857,7 @@ export namespace Prisma {
     justificacion?: NullableStringFieldUpdateOperationsInput | string | null
     estudianteId?: StringFieldUpdateOperationsInput | string
     cursoId?: StringFieldUpdateOperationsInput | string
-    registradoPor?: NullableStringFieldUpdateOperationsInput | string | null
+    registradoPorId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -42637,7 +42872,7 @@ export namespace Prisma {
     justificacion?: string | null
     estudianteId: string
     cursoId: string
-    registradoPor?: string | null
+    registradoPorId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -42650,7 +42885,6 @@ export namespace Prisma {
     horaLlegada?: NullableStringFieldUpdateOperationsInput | string | null
     justificada?: BoolFieldUpdateOperationsInput | boolean
     justificacion?: NullableStringFieldUpdateOperationsInput | string | null
-    registradoPor?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -42665,134 +42899,168 @@ export namespace Prisma {
     justificacion?: NullableStringFieldUpdateOperationsInput | string | null
     estudianteId?: StringFieldUpdateOperationsInput | string
     cursoId?: StringFieldUpdateOperationsInput | string
-    registradoPor?: NullableStringFieldUpdateOperationsInput | string | null
+    registradoPorId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DocumentoCreateInput = {
     id?: string
-    nombre: string
-    tipo: $Enums.TipoDocumento
-    ruta: string
-    tamaño?: number | null
-    extension?: string | null
-    fechaSubida?: Date | string
-    fechaVencimiento?: Date | string | null
+    titulo: string
     descripcion?: string | null
+    contenido: string
+    tipo: $Enums.TipoDocumento
+    formato?: string
+    plantilla?: string | null
+    codigo: string
+    fechaEmision?: Date | string
+    fechaExpiracion?: Date | string | null
+    estado?: string
+    archivoUrl?: string | null
+    firmado?: boolean
     verificado?: boolean
-    verificadoPor?: string | null
-    fechaVerificacion?: Date | string | null
-    publico?: boolean
-    obligatorio?: boolean
-    usuario: UserCreateNestedOneWithoutDocumentosInput
+    codigoVerificacion?: string | null
+    datosAdicionales?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    estudiante?: UserCreateNestedOneWithoutDocumentosEstudianteInput
+    emisor: UserCreateNestedOneWithoutDocumentosEmitidosInput
   }
 
   export type DocumentoUncheckedCreateInput = {
     id?: string
-    nombre: string
-    tipo: $Enums.TipoDocumento
-    ruta: string
-    tamaño?: number | null
-    extension?: string | null
-    usuarioId: string
-    fechaSubida?: Date | string
-    fechaVencimiento?: Date | string | null
+    titulo: string
     descripcion?: string | null
+    contenido: string
+    tipo: $Enums.TipoDocumento
+    formato?: string
+    plantilla?: string | null
+    codigo: string
+    fechaEmision?: Date | string
+    fechaExpiracion?: Date | string | null
+    estado?: string
+    estudianteId?: string | null
+    emisorId: string
+    archivoUrl?: string | null
+    firmado?: boolean
     verificado?: boolean
-    verificadoPor?: string | null
-    fechaVerificacion?: Date | string | null
-    publico?: boolean
-    obligatorio?: boolean
+    codigoVerificacion?: string | null
+    datosAdicionales?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type DocumentoUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    nombre?: StringFieldUpdateOperationsInput | string
-    tipo?: EnumTipoDocumentoFieldUpdateOperationsInput | $Enums.TipoDocumento
-    ruta?: StringFieldUpdateOperationsInput | string
-    tamaño?: NullableIntFieldUpdateOperationsInput | number | null
-    extension?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaSubida?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaVencimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    titulo?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    contenido?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoDocumentoFieldUpdateOperationsInput | $Enums.TipoDocumento
+    formato?: StringFieldUpdateOperationsInput | string
+    plantilla?: NullableStringFieldUpdateOperationsInput | string | null
+    codigo?: StringFieldUpdateOperationsInput | string
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaExpiracion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    firmado?: BoolFieldUpdateOperationsInput | boolean
     verificado?: BoolFieldUpdateOperationsInput | boolean
-    verificadoPor?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaVerificacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    publico?: BoolFieldUpdateOperationsInput | boolean
-    obligatorio?: BoolFieldUpdateOperationsInput | boolean
-    usuario?: UserUpdateOneRequiredWithoutDocumentosNestedInput
+    codigoVerificacion?: NullableStringFieldUpdateOperationsInput | string | null
+    datosAdicionales?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    estudiante?: UserUpdateOneWithoutDocumentosEstudianteNestedInput
+    emisor?: UserUpdateOneRequiredWithoutDocumentosEmitidosNestedInput
   }
 
   export type DocumentoUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    nombre?: StringFieldUpdateOperationsInput | string
-    tipo?: EnumTipoDocumentoFieldUpdateOperationsInput | $Enums.TipoDocumento
-    ruta?: StringFieldUpdateOperationsInput | string
-    tamaño?: NullableIntFieldUpdateOperationsInput | number | null
-    extension?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioId?: StringFieldUpdateOperationsInput | string
-    fechaSubida?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaVencimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    titulo?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    contenido?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoDocumentoFieldUpdateOperationsInput | $Enums.TipoDocumento
+    formato?: StringFieldUpdateOperationsInput | string
+    plantilla?: NullableStringFieldUpdateOperationsInput | string | null
+    codigo?: StringFieldUpdateOperationsInput | string
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaExpiracion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    estudianteId?: NullableStringFieldUpdateOperationsInput | string | null
+    emisorId?: StringFieldUpdateOperationsInput | string
+    archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    firmado?: BoolFieldUpdateOperationsInput | boolean
     verificado?: BoolFieldUpdateOperationsInput | boolean
-    verificadoPor?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaVerificacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    publico?: BoolFieldUpdateOperationsInput | boolean
-    obligatorio?: BoolFieldUpdateOperationsInput | boolean
+    codigoVerificacion?: NullableStringFieldUpdateOperationsInput | string | null
+    datosAdicionales?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DocumentoCreateManyInput = {
     id?: string
-    nombre: string
-    tipo: $Enums.TipoDocumento
-    ruta: string
-    tamaño?: number | null
-    extension?: string | null
-    usuarioId: string
-    fechaSubida?: Date | string
-    fechaVencimiento?: Date | string | null
+    titulo: string
     descripcion?: string | null
+    contenido: string
+    tipo: $Enums.TipoDocumento
+    formato?: string
+    plantilla?: string | null
+    codigo: string
+    fechaEmision?: Date | string
+    fechaExpiracion?: Date | string | null
+    estado?: string
+    estudianteId?: string | null
+    emisorId: string
+    archivoUrl?: string | null
+    firmado?: boolean
     verificado?: boolean
-    verificadoPor?: string | null
-    fechaVerificacion?: Date | string | null
-    publico?: boolean
-    obligatorio?: boolean
+    codigoVerificacion?: string | null
+    datosAdicionales?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type DocumentoUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    nombre?: StringFieldUpdateOperationsInput | string
-    tipo?: EnumTipoDocumentoFieldUpdateOperationsInput | $Enums.TipoDocumento
-    ruta?: StringFieldUpdateOperationsInput | string
-    tamaño?: NullableIntFieldUpdateOperationsInput | number | null
-    extension?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaSubida?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaVencimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    titulo?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    contenido?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoDocumentoFieldUpdateOperationsInput | $Enums.TipoDocumento
+    formato?: StringFieldUpdateOperationsInput | string
+    plantilla?: NullableStringFieldUpdateOperationsInput | string | null
+    codigo?: StringFieldUpdateOperationsInput | string
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaExpiracion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    firmado?: BoolFieldUpdateOperationsInput | boolean
     verificado?: BoolFieldUpdateOperationsInput | boolean
-    verificadoPor?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaVerificacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    publico?: BoolFieldUpdateOperationsInput | boolean
-    obligatorio?: BoolFieldUpdateOperationsInput | boolean
+    codigoVerificacion?: NullableStringFieldUpdateOperationsInput | string | null
+    datosAdicionales?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type DocumentoUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    nombre?: StringFieldUpdateOperationsInput | string
-    tipo?: EnumTipoDocumentoFieldUpdateOperationsInput | $Enums.TipoDocumento
-    ruta?: StringFieldUpdateOperationsInput | string
-    tamaño?: NullableIntFieldUpdateOperationsInput | number | null
-    extension?: NullableStringFieldUpdateOperationsInput | string | null
-    usuarioId?: StringFieldUpdateOperationsInput | string
-    fechaSubida?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaVencimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    titulo?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    contenido?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoDocumentoFieldUpdateOperationsInput | $Enums.TipoDocumento
+    formato?: StringFieldUpdateOperationsInput | string
+    plantilla?: NullableStringFieldUpdateOperationsInput | string | null
+    codigo?: StringFieldUpdateOperationsInput | string
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaExpiracion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    estudianteId?: NullableStringFieldUpdateOperationsInput | string | null
+    emisorId?: StringFieldUpdateOperationsInput | string
+    archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    firmado?: BoolFieldUpdateOperationsInput | boolean
     verificado?: BoolFieldUpdateOperationsInput | boolean
-    verificadoPor?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaVerificacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    publico?: BoolFieldUpdateOperationsInput | boolean
-    obligatorio?: BoolFieldUpdateOperationsInput | boolean
+    codigoVerificacion?: NullableStringFieldUpdateOperationsInput | string | null
+    datosAdicionales?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PagoCreateInput = {
@@ -45241,7 +45509,7 @@ export namespace Prisma {
     justificacion?: SortOrder
     estudianteId?: SortOrder
     cursoId?: SortOrder
-    registradoPor?: SortOrder
+    registradoPorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -45256,7 +45524,7 @@ export namespace Prisma {
     justificacion?: SortOrder
     estudianteId?: SortOrder
     cursoId?: SortOrder
-    registradoPor?: SortOrder
+    registradoPorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -45271,7 +45539,7 @@ export namespace Prisma {
     justificacion?: SortOrder
     estudianteId?: SortOrder
     cursoId?: SortOrder
-    registradoPor?: SortOrder
+    registradoPorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -45282,67 +45550,95 @@ export namespace Prisma {
     notIn?: $Enums.TipoDocumento[] | ListEnumTipoDocumentoFieldRefInput<$PrismaModel>
     not?: NestedEnumTipoDocumentoFilter<$PrismaModel> | $Enums.TipoDocumento
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type DocumentoCountOrderByAggregateInput = {
     id?: SortOrder
-    nombre?: SortOrder
-    tipo?: SortOrder
-    ruta?: SortOrder
-    tamaño?: SortOrder
-    extension?: SortOrder
-    usuarioId?: SortOrder
-    fechaSubida?: SortOrder
-    fechaVencimiento?: SortOrder
+    titulo?: SortOrder
     descripcion?: SortOrder
+    contenido?: SortOrder
+    tipo?: SortOrder
+    formato?: SortOrder
+    plantilla?: SortOrder
+    codigo?: SortOrder
+    fechaEmision?: SortOrder
+    fechaExpiracion?: SortOrder
+    estado?: SortOrder
+    estudianteId?: SortOrder
+    emisorId?: SortOrder
+    archivoUrl?: SortOrder
+    firmado?: SortOrder
     verificado?: SortOrder
-    verificadoPor?: SortOrder
-    fechaVerificacion?: SortOrder
-    publico?: SortOrder
-    obligatorio?: SortOrder
-  }
-
-  export type DocumentoAvgOrderByAggregateInput = {
-    tamaño?: SortOrder
+    codigoVerificacion?: SortOrder
+    datosAdicionales?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type DocumentoMaxOrderByAggregateInput = {
     id?: SortOrder
-    nombre?: SortOrder
-    tipo?: SortOrder
-    ruta?: SortOrder
-    tamaño?: SortOrder
-    extension?: SortOrder
-    usuarioId?: SortOrder
-    fechaSubida?: SortOrder
-    fechaVencimiento?: SortOrder
+    titulo?: SortOrder
     descripcion?: SortOrder
+    contenido?: SortOrder
+    tipo?: SortOrder
+    formato?: SortOrder
+    plantilla?: SortOrder
+    codigo?: SortOrder
+    fechaEmision?: SortOrder
+    fechaExpiracion?: SortOrder
+    estado?: SortOrder
+    estudianteId?: SortOrder
+    emisorId?: SortOrder
+    archivoUrl?: SortOrder
+    firmado?: SortOrder
     verificado?: SortOrder
-    verificadoPor?: SortOrder
-    fechaVerificacion?: SortOrder
-    publico?: SortOrder
-    obligatorio?: SortOrder
+    codigoVerificacion?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type DocumentoMinOrderByAggregateInput = {
     id?: SortOrder
-    nombre?: SortOrder
-    tipo?: SortOrder
-    ruta?: SortOrder
-    tamaño?: SortOrder
-    extension?: SortOrder
-    usuarioId?: SortOrder
-    fechaSubida?: SortOrder
-    fechaVencimiento?: SortOrder
+    titulo?: SortOrder
     descripcion?: SortOrder
+    contenido?: SortOrder
+    tipo?: SortOrder
+    formato?: SortOrder
+    plantilla?: SortOrder
+    codigo?: SortOrder
+    fechaEmision?: SortOrder
+    fechaExpiracion?: SortOrder
+    estado?: SortOrder
+    estudianteId?: SortOrder
+    emisorId?: SortOrder
+    archivoUrl?: SortOrder
+    firmado?: SortOrder
     verificado?: SortOrder
-    verificadoPor?: SortOrder
-    fechaVerificacion?: SortOrder
-    publico?: SortOrder
-    obligatorio?: SortOrder
-  }
-
-  export type DocumentoSumOrderByAggregateInput = {
-    tamaño?: SortOrder
+    codigoVerificacion?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type EnumTipoDocumentoWithAggregatesFilter<$PrismaModel = never> = {
@@ -45353,6 +45649,32 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTipoDocumentoFilter<$PrismaModel>
     _max?: NestedEnumTipoDocumentoFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type PagoCountOrderByAggregateInput = {
@@ -46174,10 +46496,17 @@ export namespace Prisma {
     connect?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
   }
 
-  export type DocumentoCreateNestedManyWithoutUsuarioInput = {
-    create?: XOR<DocumentoCreateWithoutUsuarioInput, DocumentoUncheckedCreateWithoutUsuarioInput> | DocumentoCreateWithoutUsuarioInput[] | DocumentoUncheckedCreateWithoutUsuarioInput[]
-    connectOrCreate?: DocumentoCreateOrConnectWithoutUsuarioInput | DocumentoCreateOrConnectWithoutUsuarioInput[]
-    createMany?: DocumentoCreateManyUsuarioInputEnvelope
+  export type DocumentoCreateNestedManyWithoutEstudianteInput = {
+    create?: XOR<DocumentoCreateWithoutEstudianteInput, DocumentoUncheckedCreateWithoutEstudianteInput> | DocumentoCreateWithoutEstudianteInput[] | DocumentoUncheckedCreateWithoutEstudianteInput[]
+    connectOrCreate?: DocumentoCreateOrConnectWithoutEstudianteInput | DocumentoCreateOrConnectWithoutEstudianteInput[]
+    createMany?: DocumentoCreateManyEstudianteInputEnvelope
+    connect?: DocumentoWhereUniqueInput | DocumentoWhereUniqueInput[]
+  }
+
+  export type DocumentoCreateNestedManyWithoutEmisorInput = {
+    create?: XOR<DocumentoCreateWithoutEmisorInput, DocumentoUncheckedCreateWithoutEmisorInput> | DocumentoCreateWithoutEmisorInput[] | DocumentoUncheckedCreateWithoutEmisorInput[]
+    connectOrCreate?: DocumentoCreateOrConnectWithoutEmisorInput | DocumentoCreateOrConnectWithoutEmisorInput[]
+    createMany?: DocumentoCreateManyEmisorInputEnvelope
     connect?: DocumentoWhereUniqueInput | DocumentoWhereUniqueInput[]
   }
 
@@ -46200,6 +46529,13 @@ export namespace Prisma {
     connectOrCreate?: EventoCreateOrConnectWithoutOrganizadorInput | EventoCreateOrConnectWithoutOrganizadorInput[]
     createMany?: EventoCreateManyOrganizadorInputEnvelope
     connect?: EventoWhereUniqueInput | EventoWhereUniqueInput[]
+  }
+
+  export type AsistenciaCreateNestedManyWithoutRegistradoPorInput = {
+    create?: XOR<AsistenciaCreateWithoutRegistradoPorInput, AsistenciaUncheckedCreateWithoutRegistradoPorInput> | AsistenciaCreateWithoutRegistradoPorInput[] | AsistenciaUncheckedCreateWithoutRegistradoPorInput[]
+    connectOrCreate?: AsistenciaCreateOrConnectWithoutRegistradoPorInput | AsistenciaCreateOrConnectWithoutRegistradoPorInput[]
+    createMany?: AsistenciaCreateManyRegistradoPorInputEnvelope
+    connect?: AsistenciaWhereUniqueInput | AsistenciaWhereUniqueInput[]
   }
 
   export type PasswordResetTokenCreateNestedOneWithoutUserInput = {
@@ -46284,10 +46620,17 @@ export namespace Prisma {
     connect?: MatriculaWhereUniqueInput | MatriculaWhereUniqueInput[]
   }
 
-  export type DocumentoUncheckedCreateNestedManyWithoutUsuarioInput = {
-    create?: XOR<DocumentoCreateWithoutUsuarioInput, DocumentoUncheckedCreateWithoutUsuarioInput> | DocumentoCreateWithoutUsuarioInput[] | DocumentoUncheckedCreateWithoutUsuarioInput[]
-    connectOrCreate?: DocumentoCreateOrConnectWithoutUsuarioInput | DocumentoCreateOrConnectWithoutUsuarioInput[]
-    createMany?: DocumentoCreateManyUsuarioInputEnvelope
+  export type DocumentoUncheckedCreateNestedManyWithoutEstudianteInput = {
+    create?: XOR<DocumentoCreateWithoutEstudianteInput, DocumentoUncheckedCreateWithoutEstudianteInput> | DocumentoCreateWithoutEstudianteInput[] | DocumentoUncheckedCreateWithoutEstudianteInput[]
+    connectOrCreate?: DocumentoCreateOrConnectWithoutEstudianteInput | DocumentoCreateOrConnectWithoutEstudianteInput[]
+    createMany?: DocumentoCreateManyEstudianteInputEnvelope
+    connect?: DocumentoWhereUniqueInput | DocumentoWhereUniqueInput[]
+  }
+
+  export type DocumentoUncheckedCreateNestedManyWithoutEmisorInput = {
+    create?: XOR<DocumentoCreateWithoutEmisorInput, DocumentoUncheckedCreateWithoutEmisorInput> | DocumentoCreateWithoutEmisorInput[] | DocumentoUncheckedCreateWithoutEmisorInput[]
+    connectOrCreate?: DocumentoCreateOrConnectWithoutEmisorInput | DocumentoCreateOrConnectWithoutEmisorInput[]
+    createMany?: DocumentoCreateManyEmisorInputEnvelope
     connect?: DocumentoWhereUniqueInput | DocumentoWhereUniqueInput[]
   }
 
@@ -46310,6 +46653,13 @@ export namespace Prisma {
     connectOrCreate?: EventoCreateOrConnectWithoutOrganizadorInput | EventoCreateOrConnectWithoutOrganizadorInput[]
     createMany?: EventoCreateManyOrganizadorInputEnvelope
     connect?: EventoWhereUniqueInput | EventoWhereUniqueInput[]
+  }
+
+  export type AsistenciaUncheckedCreateNestedManyWithoutRegistradoPorInput = {
+    create?: XOR<AsistenciaCreateWithoutRegistradoPorInput, AsistenciaUncheckedCreateWithoutRegistradoPorInput> | AsistenciaCreateWithoutRegistradoPorInput[] | AsistenciaUncheckedCreateWithoutRegistradoPorInput[]
+    connectOrCreate?: AsistenciaCreateOrConnectWithoutRegistradoPorInput | AsistenciaCreateOrConnectWithoutRegistradoPorInput[]
+    createMany?: AsistenciaCreateManyRegistradoPorInputEnvelope
+    connect?: AsistenciaWhereUniqueInput | AsistenciaWhereUniqueInput[]
   }
 
   export type PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput = {
@@ -46504,17 +46854,31 @@ export namespace Prisma {
     deleteMany?: MatriculaScalarWhereInput | MatriculaScalarWhereInput[]
   }
 
-  export type DocumentoUpdateManyWithoutUsuarioNestedInput = {
-    create?: XOR<DocumentoCreateWithoutUsuarioInput, DocumentoUncheckedCreateWithoutUsuarioInput> | DocumentoCreateWithoutUsuarioInput[] | DocumentoUncheckedCreateWithoutUsuarioInput[]
-    connectOrCreate?: DocumentoCreateOrConnectWithoutUsuarioInput | DocumentoCreateOrConnectWithoutUsuarioInput[]
-    upsert?: DocumentoUpsertWithWhereUniqueWithoutUsuarioInput | DocumentoUpsertWithWhereUniqueWithoutUsuarioInput[]
-    createMany?: DocumentoCreateManyUsuarioInputEnvelope
+  export type DocumentoUpdateManyWithoutEstudianteNestedInput = {
+    create?: XOR<DocumentoCreateWithoutEstudianteInput, DocumentoUncheckedCreateWithoutEstudianteInput> | DocumentoCreateWithoutEstudianteInput[] | DocumentoUncheckedCreateWithoutEstudianteInput[]
+    connectOrCreate?: DocumentoCreateOrConnectWithoutEstudianteInput | DocumentoCreateOrConnectWithoutEstudianteInput[]
+    upsert?: DocumentoUpsertWithWhereUniqueWithoutEstudianteInput | DocumentoUpsertWithWhereUniqueWithoutEstudianteInput[]
+    createMany?: DocumentoCreateManyEstudianteInputEnvelope
     set?: DocumentoWhereUniqueInput | DocumentoWhereUniqueInput[]
     disconnect?: DocumentoWhereUniqueInput | DocumentoWhereUniqueInput[]
     delete?: DocumentoWhereUniqueInput | DocumentoWhereUniqueInput[]
     connect?: DocumentoWhereUniqueInput | DocumentoWhereUniqueInput[]
-    update?: DocumentoUpdateWithWhereUniqueWithoutUsuarioInput | DocumentoUpdateWithWhereUniqueWithoutUsuarioInput[]
-    updateMany?: DocumentoUpdateManyWithWhereWithoutUsuarioInput | DocumentoUpdateManyWithWhereWithoutUsuarioInput[]
+    update?: DocumentoUpdateWithWhereUniqueWithoutEstudianteInput | DocumentoUpdateWithWhereUniqueWithoutEstudianteInput[]
+    updateMany?: DocumentoUpdateManyWithWhereWithoutEstudianteInput | DocumentoUpdateManyWithWhereWithoutEstudianteInput[]
+    deleteMany?: DocumentoScalarWhereInput | DocumentoScalarWhereInput[]
+  }
+
+  export type DocumentoUpdateManyWithoutEmisorNestedInput = {
+    create?: XOR<DocumentoCreateWithoutEmisorInput, DocumentoUncheckedCreateWithoutEmisorInput> | DocumentoCreateWithoutEmisorInput[] | DocumentoUncheckedCreateWithoutEmisorInput[]
+    connectOrCreate?: DocumentoCreateOrConnectWithoutEmisorInput | DocumentoCreateOrConnectWithoutEmisorInput[]
+    upsert?: DocumentoUpsertWithWhereUniqueWithoutEmisorInput | DocumentoUpsertWithWhereUniqueWithoutEmisorInput[]
+    createMany?: DocumentoCreateManyEmisorInputEnvelope
+    set?: DocumentoWhereUniqueInput | DocumentoWhereUniqueInput[]
+    disconnect?: DocumentoWhereUniqueInput | DocumentoWhereUniqueInput[]
+    delete?: DocumentoWhereUniqueInput | DocumentoWhereUniqueInput[]
+    connect?: DocumentoWhereUniqueInput | DocumentoWhereUniqueInput[]
+    update?: DocumentoUpdateWithWhereUniqueWithoutEmisorInput | DocumentoUpdateWithWhereUniqueWithoutEmisorInput[]
+    updateMany?: DocumentoUpdateManyWithWhereWithoutEmisorInput | DocumentoUpdateManyWithWhereWithoutEmisorInput[]
     deleteMany?: DocumentoScalarWhereInput | DocumentoScalarWhereInput[]
   }
 
@@ -46558,6 +46922,20 @@ export namespace Prisma {
     update?: EventoUpdateWithWhereUniqueWithoutOrganizadorInput | EventoUpdateWithWhereUniqueWithoutOrganizadorInput[]
     updateMany?: EventoUpdateManyWithWhereWithoutOrganizadorInput | EventoUpdateManyWithWhereWithoutOrganizadorInput[]
     deleteMany?: EventoScalarWhereInput | EventoScalarWhereInput[]
+  }
+
+  export type AsistenciaUpdateManyWithoutRegistradoPorNestedInput = {
+    create?: XOR<AsistenciaCreateWithoutRegistradoPorInput, AsistenciaUncheckedCreateWithoutRegistradoPorInput> | AsistenciaCreateWithoutRegistradoPorInput[] | AsistenciaUncheckedCreateWithoutRegistradoPorInput[]
+    connectOrCreate?: AsistenciaCreateOrConnectWithoutRegistradoPorInput | AsistenciaCreateOrConnectWithoutRegistradoPorInput[]
+    upsert?: AsistenciaUpsertWithWhereUniqueWithoutRegistradoPorInput | AsistenciaUpsertWithWhereUniqueWithoutRegistradoPorInput[]
+    createMany?: AsistenciaCreateManyRegistradoPorInputEnvelope
+    set?: AsistenciaWhereUniqueInput | AsistenciaWhereUniqueInput[]
+    disconnect?: AsistenciaWhereUniqueInput | AsistenciaWhereUniqueInput[]
+    delete?: AsistenciaWhereUniqueInput | AsistenciaWhereUniqueInput[]
+    connect?: AsistenciaWhereUniqueInput | AsistenciaWhereUniqueInput[]
+    update?: AsistenciaUpdateWithWhereUniqueWithoutRegistradoPorInput | AsistenciaUpdateWithWhereUniqueWithoutRegistradoPorInput[]
+    updateMany?: AsistenciaUpdateManyWithWhereWithoutRegistradoPorInput | AsistenciaUpdateManyWithWhereWithoutRegistradoPorInput[]
+    deleteMany?: AsistenciaScalarWhereInput | AsistenciaScalarWhereInput[]
   }
 
   export type PasswordResetTokenUpdateOneWithoutUserNestedInput = {
@@ -46720,17 +47098,31 @@ export namespace Prisma {
     deleteMany?: MatriculaScalarWhereInput | MatriculaScalarWhereInput[]
   }
 
-  export type DocumentoUncheckedUpdateManyWithoutUsuarioNestedInput = {
-    create?: XOR<DocumentoCreateWithoutUsuarioInput, DocumentoUncheckedCreateWithoutUsuarioInput> | DocumentoCreateWithoutUsuarioInput[] | DocumentoUncheckedCreateWithoutUsuarioInput[]
-    connectOrCreate?: DocumentoCreateOrConnectWithoutUsuarioInput | DocumentoCreateOrConnectWithoutUsuarioInput[]
-    upsert?: DocumentoUpsertWithWhereUniqueWithoutUsuarioInput | DocumentoUpsertWithWhereUniqueWithoutUsuarioInput[]
-    createMany?: DocumentoCreateManyUsuarioInputEnvelope
+  export type DocumentoUncheckedUpdateManyWithoutEstudianteNestedInput = {
+    create?: XOR<DocumentoCreateWithoutEstudianteInput, DocumentoUncheckedCreateWithoutEstudianteInput> | DocumentoCreateWithoutEstudianteInput[] | DocumentoUncheckedCreateWithoutEstudianteInput[]
+    connectOrCreate?: DocumentoCreateOrConnectWithoutEstudianteInput | DocumentoCreateOrConnectWithoutEstudianteInput[]
+    upsert?: DocumentoUpsertWithWhereUniqueWithoutEstudianteInput | DocumentoUpsertWithWhereUniqueWithoutEstudianteInput[]
+    createMany?: DocumentoCreateManyEstudianteInputEnvelope
     set?: DocumentoWhereUniqueInput | DocumentoWhereUniqueInput[]
     disconnect?: DocumentoWhereUniqueInput | DocumentoWhereUniqueInput[]
     delete?: DocumentoWhereUniqueInput | DocumentoWhereUniqueInput[]
     connect?: DocumentoWhereUniqueInput | DocumentoWhereUniqueInput[]
-    update?: DocumentoUpdateWithWhereUniqueWithoutUsuarioInput | DocumentoUpdateWithWhereUniqueWithoutUsuarioInput[]
-    updateMany?: DocumentoUpdateManyWithWhereWithoutUsuarioInput | DocumentoUpdateManyWithWhereWithoutUsuarioInput[]
+    update?: DocumentoUpdateWithWhereUniqueWithoutEstudianteInput | DocumentoUpdateWithWhereUniqueWithoutEstudianteInput[]
+    updateMany?: DocumentoUpdateManyWithWhereWithoutEstudianteInput | DocumentoUpdateManyWithWhereWithoutEstudianteInput[]
+    deleteMany?: DocumentoScalarWhereInput | DocumentoScalarWhereInput[]
+  }
+
+  export type DocumentoUncheckedUpdateManyWithoutEmisorNestedInput = {
+    create?: XOR<DocumentoCreateWithoutEmisorInput, DocumentoUncheckedCreateWithoutEmisorInput> | DocumentoCreateWithoutEmisorInput[] | DocumentoUncheckedCreateWithoutEmisorInput[]
+    connectOrCreate?: DocumentoCreateOrConnectWithoutEmisorInput | DocumentoCreateOrConnectWithoutEmisorInput[]
+    upsert?: DocumentoUpsertWithWhereUniqueWithoutEmisorInput | DocumentoUpsertWithWhereUniqueWithoutEmisorInput[]
+    createMany?: DocumentoCreateManyEmisorInputEnvelope
+    set?: DocumentoWhereUniqueInput | DocumentoWhereUniqueInput[]
+    disconnect?: DocumentoWhereUniqueInput | DocumentoWhereUniqueInput[]
+    delete?: DocumentoWhereUniqueInput | DocumentoWhereUniqueInput[]
+    connect?: DocumentoWhereUniqueInput | DocumentoWhereUniqueInput[]
+    update?: DocumentoUpdateWithWhereUniqueWithoutEmisorInput | DocumentoUpdateWithWhereUniqueWithoutEmisorInput[]
+    updateMany?: DocumentoUpdateManyWithWhereWithoutEmisorInput | DocumentoUpdateManyWithWhereWithoutEmisorInput[]
     deleteMany?: DocumentoScalarWhereInput | DocumentoScalarWhereInput[]
   }
 
@@ -46774,6 +47166,20 @@ export namespace Prisma {
     update?: EventoUpdateWithWhereUniqueWithoutOrganizadorInput | EventoUpdateWithWhereUniqueWithoutOrganizadorInput[]
     updateMany?: EventoUpdateManyWithWhereWithoutOrganizadorInput | EventoUpdateManyWithWhereWithoutOrganizadorInput[]
     deleteMany?: EventoScalarWhereInput | EventoScalarWhereInput[]
+  }
+
+  export type AsistenciaUncheckedUpdateManyWithoutRegistradoPorNestedInput = {
+    create?: XOR<AsistenciaCreateWithoutRegistradoPorInput, AsistenciaUncheckedCreateWithoutRegistradoPorInput> | AsistenciaCreateWithoutRegistradoPorInput[] | AsistenciaUncheckedCreateWithoutRegistradoPorInput[]
+    connectOrCreate?: AsistenciaCreateOrConnectWithoutRegistradoPorInput | AsistenciaCreateOrConnectWithoutRegistradoPorInput[]
+    upsert?: AsistenciaUpsertWithWhereUniqueWithoutRegistradoPorInput | AsistenciaUpsertWithWhereUniqueWithoutRegistradoPorInput[]
+    createMany?: AsistenciaCreateManyRegistradoPorInputEnvelope
+    set?: AsistenciaWhereUniqueInput | AsistenciaWhereUniqueInput[]
+    disconnect?: AsistenciaWhereUniqueInput | AsistenciaWhereUniqueInput[]
+    delete?: AsistenciaWhereUniqueInput | AsistenciaWhereUniqueInput[]
+    connect?: AsistenciaWhereUniqueInput | AsistenciaWhereUniqueInput[]
+    update?: AsistenciaUpdateWithWhereUniqueWithoutRegistradoPorInput | AsistenciaUpdateWithWhereUniqueWithoutRegistradoPorInput[]
+    updateMany?: AsistenciaUpdateManyWithWhereWithoutRegistradoPorInput | AsistenciaUpdateManyWithWhereWithoutRegistradoPorInput[]
+    deleteMany?: AsistenciaScalarWhereInput | AsistenciaScalarWhereInput[]
   }
 
   export type PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput = {
@@ -48240,6 +48646,12 @@ export namespace Prisma {
     connect?: CursoWhereUniqueInput
   }
 
+  export type UserCreateNestedOneWithoutAsistenciasRegistradasInput = {
+    create?: XOR<UserCreateWithoutAsistenciasRegistradasInput, UserUncheckedCreateWithoutAsistenciasRegistradasInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAsistenciasRegistradasInput
+    connect?: UserWhereUniqueInput
+  }
+
   export type UserUpdateOneRequiredWithoutAsistenciasNestedInput = {
     create?: XOR<UserCreateWithoutAsistenciasInput, UserUncheckedCreateWithoutAsistenciasInput>
     connectOrCreate?: UserCreateOrConnectWithoutAsistenciasInput
@@ -48256,9 +48668,25 @@ export namespace Prisma {
     update?: XOR<XOR<CursoUpdateToOneWithWhereWithoutAsistenciasInput, CursoUpdateWithoutAsistenciasInput>, CursoUncheckedUpdateWithoutAsistenciasInput>
   }
 
-  export type UserCreateNestedOneWithoutDocumentosInput = {
-    create?: XOR<UserCreateWithoutDocumentosInput, UserUncheckedCreateWithoutDocumentosInput>
-    connectOrCreate?: UserCreateOrConnectWithoutDocumentosInput
+  export type UserUpdateOneWithoutAsistenciasRegistradasNestedInput = {
+    create?: XOR<UserCreateWithoutAsistenciasRegistradasInput, UserUncheckedCreateWithoutAsistenciasRegistradasInput>
+    connectOrCreate?: UserCreateOrConnectWithoutAsistenciasRegistradasInput
+    upsert?: UserUpsertWithoutAsistenciasRegistradasInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAsistenciasRegistradasInput, UserUpdateWithoutAsistenciasRegistradasInput>, UserUncheckedUpdateWithoutAsistenciasRegistradasInput>
+  }
+
+  export type UserCreateNestedOneWithoutDocumentosEstudianteInput = {
+    create?: XOR<UserCreateWithoutDocumentosEstudianteInput, UserUncheckedCreateWithoutDocumentosEstudianteInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDocumentosEstudianteInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutDocumentosEmitidosInput = {
+    create?: XOR<UserCreateWithoutDocumentosEmitidosInput, UserUncheckedCreateWithoutDocumentosEmitidosInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDocumentosEmitidosInput
     connect?: UserWhereUniqueInput
   }
 
@@ -48266,12 +48694,22 @@ export namespace Prisma {
     set?: $Enums.TipoDocumento
   }
 
-  export type UserUpdateOneRequiredWithoutDocumentosNestedInput = {
-    create?: XOR<UserCreateWithoutDocumentosInput, UserUncheckedCreateWithoutDocumentosInput>
-    connectOrCreate?: UserCreateOrConnectWithoutDocumentosInput
-    upsert?: UserUpsertWithoutDocumentosInput
+  export type UserUpdateOneWithoutDocumentosEstudianteNestedInput = {
+    create?: XOR<UserCreateWithoutDocumentosEstudianteInput, UserUncheckedCreateWithoutDocumentosEstudianteInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDocumentosEstudianteInput
+    upsert?: UserUpsertWithoutDocumentosEstudianteInput
+    disconnect?: UserWhereInput | boolean
+    delete?: UserWhereInput | boolean
     connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDocumentosInput, UserUpdateWithoutDocumentosInput>, UserUncheckedUpdateWithoutDocumentosInput>
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDocumentosEstudianteInput, UserUpdateWithoutDocumentosEstudianteInput>, UserUncheckedUpdateWithoutDocumentosEstudianteInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutDocumentosEmitidosNestedInput = {
+    create?: XOR<UserCreateWithoutDocumentosEmitidosInput, UserUncheckedCreateWithoutDocumentosEmitidosInput>
+    connectOrCreate?: UserCreateOrConnectWithoutDocumentosEmitidosInput
+    upsert?: UserUpsertWithoutDocumentosEmitidosInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutDocumentosEmitidosInput, UserUpdateWithoutDocumentosEmitidosInput>, UserUncheckedUpdateWithoutDocumentosEmitidosInput>
   }
 
   export type UserCreateNestedOneWithoutPagosInput = {
@@ -48917,6 +49355,29 @@ export namespace Prisma {
     _min?: NestedEnumTipoDocumentoFilter<$PrismaModel>
     _max?: NestedEnumTipoDocumentoFilter<$PrismaModel>
   }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type RolPermisoCreateWithoutPermisoInput = {
     id?: string
@@ -49204,10 +49665,12 @@ export namespace Prisma {
     notas?: NotaCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoCreateNestedManyWithoutEmisorInput
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
@@ -49279,10 +49742,12 @@ export namespace Prisma {
     notas?: NotaUncheckedCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaUncheckedCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoUncheckedCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoUncheckedCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoUncheckedCreateNestedManyWithoutEmisorInput
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaUncheckedCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -49401,10 +49866,12 @@ export namespace Prisma {
     notas?: NotaUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
@@ -49476,10 +49943,12 @@ export namespace Prisma {
     notas?: NotaUncheckedUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUncheckedUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUncheckedUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUncheckedUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUncheckedUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUncheckedUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -49656,10 +50125,12 @@ export namespace Prisma {
     notas?: NotaCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoCreateNestedManyWithoutEmisorInput
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
@@ -49731,10 +50202,12 @@ export namespace Prisma {
     notas?: NotaUncheckedCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaUncheckedCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoUncheckedCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoUncheckedCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoUncheckedCreateNestedManyWithoutEmisorInput
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaUncheckedCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -49811,10 +50284,12 @@ export namespace Prisma {
     notas?: NotaCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoCreateNestedManyWithoutEmisorInput
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
@@ -49886,10 +50361,12 @@ export namespace Prisma {
     notas?: NotaUncheckedCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaUncheckedCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoUncheckedCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoUncheckedCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoUncheckedCreateNestedManyWithoutEmisorInput
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaUncheckedCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -50206,10 +50683,12 @@ export namespace Prisma {
     notas?: NotaUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
@@ -50281,10 +50760,12 @@ export namespace Prisma {
     notas?: NotaUncheckedUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUncheckedUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUncheckedUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUncheckedUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUncheckedUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUncheckedUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -51034,10 +51515,10 @@ export namespace Prisma {
     horaLlegada?: string | null
     justificada?: boolean
     justificacion?: string | null
-    registradoPor?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     curso: CursoCreateNestedOneWithoutAsistenciasInput
+    registradoPor?: UserCreateNestedOneWithoutAsistenciasRegistradasInput
   }
 
   export type AsistenciaUncheckedCreateWithoutEstudianteInput = {
@@ -51049,7 +51530,7 @@ export namespace Prisma {
     justificada?: boolean
     justificacion?: string | null
     cursoId: string
-    registradoPor?: string | null
+    registradoPorId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -51102,47 +51583,111 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type DocumentoCreateWithoutUsuarioInput = {
+  export type DocumentoCreateWithoutEstudianteInput = {
     id?: string
-    nombre: string
-    tipo: $Enums.TipoDocumento
-    ruta: string
-    tamaño?: number | null
-    extension?: string | null
-    fechaSubida?: Date | string
-    fechaVencimiento?: Date | string | null
+    titulo: string
     descripcion?: string | null
+    contenido: string
+    tipo: $Enums.TipoDocumento
+    formato?: string
+    plantilla?: string | null
+    codigo: string
+    fechaEmision?: Date | string
+    fechaExpiracion?: Date | string | null
+    estado?: string
+    archivoUrl?: string | null
+    firmado?: boolean
     verificado?: boolean
-    verificadoPor?: string | null
-    fechaVerificacion?: Date | string | null
-    publico?: boolean
-    obligatorio?: boolean
+    codigoVerificacion?: string | null
+    datosAdicionales?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    emisor: UserCreateNestedOneWithoutDocumentosEmitidosInput
   }
 
-  export type DocumentoUncheckedCreateWithoutUsuarioInput = {
+  export type DocumentoUncheckedCreateWithoutEstudianteInput = {
     id?: string
-    nombre: string
-    tipo: $Enums.TipoDocumento
-    ruta: string
-    tamaño?: number | null
-    extension?: string | null
-    fechaSubida?: Date | string
-    fechaVencimiento?: Date | string | null
+    titulo: string
     descripcion?: string | null
+    contenido: string
+    tipo: $Enums.TipoDocumento
+    formato?: string
+    plantilla?: string | null
+    codigo: string
+    fechaEmision?: Date | string
+    fechaExpiracion?: Date | string | null
+    estado?: string
+    emisorId: string
+    archivoUrl?: string | null
+    firmado?: boolean
     verificado?: boolean
-    verificadoPor?: string | null
-    fechaVerificacion?: Date | string | null
-    publico?: boolean
-    obligatorio?: boolean
+    codigoVerificacion?: string | null
+    datosAdicionales?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
-  export type DocumentoCreateOrConnectWithoutUsuarioInput = {
+  export type DocumentoCreateOrConnectWithoutEstudianteInput = {
     where: DocumentoWhereUniqueInput
-    create: XOR<DocumentoCreateWithoutUsuarioInput, DocumentoUncheckedCreateWithoutUsuarioInput>
+    create: XOR<DocumentoCreateWithoutEstudianteInput, DocumentoUncheckedCreateWithoutEstudianteInput>
   }
 
-  export type DocumentoCreateManyUsuarioInputEnvelope = {
-    data: DocumentoCreateManyUsuarioInput | DocumentoCreateManyUsuarioInput[]
+  export type DocumentoCreateManyEstudianteInputEnvelope = {
+    data: DocumentoCreateManyEstudianteInput | DocumentoCreateManyEstudianteInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type DocumentoCreateWithoutEmisorInput = {
+    id?: string
+    titulo: string
+    descripcion?: string | null
+    contenido: string
+    tipo: $Enums.TipoDocumento
+    formato?: string
+    plantilla?: string | null
+    codigo: string
+    fechaEmision?: Date | string
+    fechaExpiracion?: Date | string | null
+    estado?: string
+    archivoUrl?: string | null
+    firmado?: boolean
+    verificado?: boolean
+    codigoVerificacion?: string | null
+    datosAdicionales?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    estudiante?: UserCreateNestedOneWithoutDocumentosEstudianteInput
+  }
+
+  export type DocumentoUncheckedCreateWithoutEmisorInput = {
+    id?: string
+    titulo: string
+    descripcion?: string | null
+    contenido: string
+    tipo: $Enums.TipoDocumento
+    formato?: string
+    plantilla?: string | null
+    codigo: string
+    fechaEmision?: Date | string
+    fechaExpiracion?: Date | string | null
+    estado?: string
+    estudianteId?: string | null
+    archivoUrl?: string | null
+    firmado?: boolean
+    verificado?: boolean
+    codigoVerificacion?: string | null
+    datosAdicionales?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DocumentoCreateOrConnectWithoutEmisorInput = {
+    where: DocumentoWhereUniqueInput
+    create: XOR<DocumentoCreateWithoutEmisorInput, DocumentoUncheckedCreateWithoutEmisorInput>
+  }
+
+  export type DocumentoCreateManyEmisorInputEnvelope = {
+    data: DocumentoCreateManyEmisorInput | DocumentoCreateManyEmisorInput[]
     skipDuplicates?: boolean
   }
 
@@ -51317,6 +51862,44 @@ export namespace Prisma {
 
   export type EventoCreateManyOrganizadorInputEnvelope = {
     data: EventoCreateManyOrganizadorInput | EventoCreateManyOrganizadorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type AsistenciaCreateWithoutRegistradoPorInput = {
+    id?: string
+    fecha: Date | string
+    presente: boolean
+    tardanza?: boolean
+    horaLlegada?: string | null
+    justificada?: boolean
+    justificacion?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    estudiante: UserCreateNestedOneWithoutAsistenciasInput
+    curso: CursoCreateNestedOneWithoutAsistenciasInput
+  }
+
+  export type AsistenciaUncheckedCreateWithoutRegistradoPorInput = {
+    id?: string
+    fecha: Date | string
+    presente: boolean
+    tardanza?: boolean
+    horaLlegada?: string | null
+    justificada?: boolean
+    justificacion?: string | null
+    estudianteId: string
+    cursoId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AsistenciaCreateOrConnectWithoutRegistradoPorInput = {
+    where: AsistenciaWhereUniqueInput
+    create: XOR<AsistenciaCreateWithoutRegistradoPorInput, AsistenciaUncheckedCreateWithoutRegistradoPorInput>
+  }
+
+  export type AsistenciaCreateManyRegistradoPorInputEnvelope = {
+    data: AsistenciaCreateManyRegistradoPorInput | AsistenciaCreateManyRegistradoPorInput[]
     skipDuplicates?: boolean
   }
 
@@ -51768,7 +52351,7 @@ export namespace Prisma {
     justificacion?: StringNullableFilter<"Asistencia"> | string | null
     estudianteId?: StringFilter<"Asistencia"> | string
     cursoId?: StringFilter<"Asistencia"> | string
-    registradoPor?: StringNullableFilter<"Asistencia"> | string | null
+    registradoPorId?: StringNullableFilter<"Asistencia"> | string | null
     createdAt?: DateTimeFilter<"Asistencia"> | Date | string
     updatedAt?: DateTimeFilter<"Asistencia"> | Date | string
   }
@@ -51806,20 +52389,20 @@ export namespace Prisma {
     observaciones?: StringNullableFilter<"Matricula"> | string | null
   }
 
-  export type DocumentoUpsertWithWhereUniqueWithoutUsuarioInput = {
+  export type DocumentoUpsertWithWhereUniqueWithoutEstudianteInput = {
     where: DocumentoWhereUniqueInput
-    update: XOR<DocumentoUpdateWithoutUsuarioInput, DocumentoUncheckedUpdateWithoutUsuarioInput>
-    create: XOR<DocumentoCreateWithoutUsuarioInput, DocumentoUncheckedCreateWithoutUsuarioInput>
+    update: XOR<DocumentoUpdateWithoutEstudianteInput, DocumentoUncheckedUpdateWithoutEstudianteInput>
+    create: XOR<DocumentoCreateWithoutEstudianteInput, DocumentoUncheckedCreateWithoutEstudianteInput>
   }
 
-  export type DocumentoUpdateWithWhereUniqueWithoutUsuarioInput = {
+  export type DocumentoUpdateWithWhereUniqueWithoutEstudianteInput = {
     where: DocumentoWhereUniqueInput
-    data: XOR<DocumentoUpdateWithoutUsuarioInput, DocumentoUncheckedUpdateWithoutUsuarioInput>
+    data: XOR<DocumentoUpdateWithoutEstudianteInput, DocumentoUncheckedUpdateWithoutEstudianteInput>
   }
 
-  export type DocumentoUpdateManyWithWhereWithoutUsuarioInput = {
+  export type DocumentoUpdateManyWithWhereWithoutEstudianteInput = {
     where: DocumentoScalarWhereInput
-    data: XOR<DocumentoUpdateManyMutationInput, DocumentoUncheckedUpdateManyWithoutUsuarioInput>
+    data: XOR<DocumentoUpdateManyMutationInput, DocumentoUncheckedUpdateManyWithoutEstudianteInput>
   }
 
   export type DocumentoScalarWhereInput = {
@@ -51827,20 +52410,41 @@ export namespace Prisma {
     OR?: DocumentoScalarWhereInput[]
     NOT?: DocumentoScalarWhereInput | DocumentoScalarWhereInput[]
     id?: StringFilter<"Documento"> | string
-    nombre?: StringFilter<"Documento"> | string
-    tipo?: EnumTipoDocumentoFilter<"Documento"> | $Enums.TipoDocumento
-    ruta?: StringFilter<"Documento"> | string
-    tamaño?: IntNullableFilter<"Documento"> | number | null
-    extension?: StringNullableFilter<"Documento"> | string | null
-    usuarioId?: StringFilter<"Documento"> | string
-    fechaSubida?: DateTimeFilter<"Documento"> | Date | string
-    fechaVencimiento?: DateTimeNullableFilter<"Documento"> | Date | string | null
+    titulo?: StringFilter<"Documento"> | string
     descripcion?: StringNullableFilter<"Documento"> | string | null
+    contenido?: StringFilter<"Documento"> | string
+    tipo?: EnumTipoDocumentoFilter<"Documento"> | $Enums.TipoDocumento
+    formato?: StringFilter<"Documento"> | string
+    plantilla?: StringNullableFilter<"Documento"> | string | null
+    codigo?: StringFilter<"Documento"> | string
+    fechaEmision?: DateTimeFilter<"Documento"> | Date | string
+    fechaExpiracion?: DateTimeNullableFilter<"Documento"> | Date | string | null
+    estado?: StringFilter<"Documento"> | string
+    estudianteId?: StringNullableFilter<"Documento"> | string | null
+    emisorId?: StringFilter<"Documento"> | string
+    archivoUrl?: StringNullableFilter<"Documento"> | string | null
+    firmado?: BoolFilter<"Documento"> | boolean
     verificado?: BoolFilter<"Documento"> | boolean
-    verificadoPor?: StringNullableFilter<"Documento"> | string | null
-    fechaVerificacion?: DateTimeNullableFilter<"Documento"> | Date | string | null
-    publico?: BoolFilter<"Documento"> | boolean
-    obligatorio?: BoolFilter<"Documento"> | boolean
+    codigoVerificacion?: StringNullableFilter<"Documento"> | string | null
+    datosAdicionales?: JsonNullableFilter<"Documento">
+    createdAt?: DateTimeFilter<"Documento"> | Date | string
+    updatedAt?: DateTimeFilter<"Documento"> | Date | string
+  }
+
+  export type DocumentoUpsertWithWhereUniqueWithoutEmisorInput = {
+    where: DocumentoWhereUniqueInput
+    update: XOR<DocumentoUpdateWithoutEmisorInput, DocumentoUncheckedUpdateWithoutEmisorInput>
+    create: XOR<DocumentoCreateWithoutEmisorInput, DocumentoUncheckedCreateWithoutEmisorInput>
+  }
+
+  export type DocumentoUpdateWithWhereUniqueWithoutEmisorInput = {
+    where: DocumentoWhereUniqueInput
+    data: XOR<DocumentoUpdateWithoutEmisorInput, DocumentoUncheckedUpdateWithoutEmisorInput>
+  }
+
+  export type DocumentoUpdateManyWithWhereWithoutEmisorInput = {
+    where: DocumentoScalarWhereInput
+    data: XOR<DocumentoUpdateManyMutationInput, DocumentoUncheckedUpdateManyWithoutEmisorInput>
   }
 
   export type PagoUpsertWithWhereUniqueWithoutEstudianteInput = {
@@ -51971,6 +52575,22 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Evento"> | Date | string
   }
 
+  export type AsistenciaUpsertWithWhereUniqueWithoutRegistradoPorInput = {
+    where: AsistenciaWhereUniqueInput
+    update: XOR<AsistenciaUpdateWithoutRegistradoPorInput, AsistenciaUncheckedUpdateWithoutRegistradoPorInput>
+    create: XOR<AsistenciaCreateWithoutRegistradoPorInput, AsistenciaUncheckedCreateWithoutRegistradoPorInput>
+  }
+
+  export type AsistenciaUpdateWithWhereUniqueWithoutRegistradoPorInput = {
+    where: AsistenciaWhereUniqueInput
+    data: XOR<AsistenciaUpdateWithoutRegistradoPorInput, AsistenciaUncheckedUpdateWithoutRegistradoPorInput>
+  }
+
+  export type AsistenciaUpdateManyWithWhereWithoutRegistradoPorInput = {
+    where: AsistenciaScalarWhereInput
+    data: XOR<AsistenciaUpdateManyMutationInput, AsistenciaUncheckedUpdateManyWithoutRegistradoPorInput>
+  }
+
   export type PasswordResetTokenUpsertWithoutUserInput = {
     update: XOR<PasswordResetTokenUpdateWithoutUserInput, PasswordResetTokenUncheckedUpdateWithoutUserInput>
     create: XOR<PasswordResetTokenCreateWithoutUserInput, PasswordResetTokenUncheckedCreateWithoutUserInput>
@@ -52064,10 +52684,12 @@ export namespace Prisma {
     notas?: NotaCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoCreateNestedManyWithoutEmisorInput
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
@@ -52139,10 +52761,12 @@ export namespace Prisma {
     notas?: NotaUncheckedCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaUncheckedCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoUncheckedCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoUncheckedCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoUncheckedCreateNestedManyWithoutEmisorInput
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaUncheckedCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -52219,10 +52843,12 @@ export namespace Prisma {
     notas?: NotaCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoCreateNestedManyWithoutEmisorInput
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
@@ -52294,10 +52920,12 @@ export namespace Prisma {
     notas?: NotaUncheckedCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaUncheckedCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoUncheckedCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoUncheckedCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoUncheckedCreateNestedManyWithoutEmisorInput
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaUncheckedCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -52385,10 +53013,12 @@ export namespace Prisma {
     notas?: NotaUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
@@ -52460,10 +53090,12 @@ export namespace Prisma {
     notas?: NotaUncheckedUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUncheckedUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUncheckedUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUncheckedUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUncheckedUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUncheckedUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -52546,10 +53178,12 @@ export namespace Prisma {
     notas?: NotaUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
@@ -52621,10 +53255,12 @@ export namespace Prisma {
     notas?: NotaUncheckedUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUncheckedUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUncheckedUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUncheckedUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUncheckedUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUncheckedUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -52696,10 +53332,12 @@ export namespace Prisma {
     notas?: NotaCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoCreateNestedManyWithoutEmisorInput
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
@@ -52771,10 +53409,12 @@ export namespace Prisma {
     notas?: NotaUncheckedCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaUncheckedCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoUncheckedCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoUncheckedCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoUncheckedCreateNestedManyWithoutEmisorInput
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaUncheckedCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -52862,10 +53502,12 @@ export namespace Prisma {
     notas?: NotaUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
@@ -52937,10 +53579,12 @@ export namespace Prisma {
     notas?: NotaUncheckedUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUncheckedUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUncheckedUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUncheckedUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUncheckedUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUncheckedUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -53013,10 +53657,12 @@ export namespace Prisma {
     notas?: NotaCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoCreateNestedManyWithoutEmisorInput
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaCreateNestedManyWithoutRegistradoPorInput
   }
 
   export type UserUncheckedCreateWithoutPasswordResetTokenInput = {
@@ -53088,10 +53734,12 @@ export namespace Prisma {
     notas?: NotaUncheckedCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaUncheckedCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoUncheckedCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoUncheckedCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoUncheckedCreateNestedManyWithoutEmisorInput
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaUncheckedCreateNestedManyWithoutRegistradoPorInput
   }
 
   export type UserCreateOrConnectWithoutPasswordResetTokenInput = {
@@ -53179,10 +53827,12 @@ export namespace Prisma {
     notas?: NotaUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUpdateManyWithoutRegistradoPorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPasswordResetTokenInput = {
@@ -53254,10 +53904,12 @@ export namespace Prisma {
     notas?: NotaUncheckedUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUncheckedUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUncheckedUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUncheckedUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUncheckedUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUncheckedUpdateManyWithoutRegistradoPorNestedInput
   }
 
   export type GradoCreateWithoutNivelInput = {
@@ -54311,10 +54963,12 @@ export namespace Prisma {
     notas?: NotaCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoCreateNestedManyWithoutEmisorInput
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
@@ -54386,10 +55040,12 @@ export namespace Prisma {
     notas?: NotaUncheckedCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaUncheckedCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoUncheckedCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoUncheckedCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoUncheckedCreateNestedManyWithoutEmisorInput
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaUncheckedCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -54539,10 +55195,12 @@ export namespace Prisma {
     notas?: NotaCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoCreateNestedManyWithoutEmisorInput
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
@@ -54614,10 +55272,12 @@ export namespace Prisma {
     notas?: NotaUncheckedCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaUncheckedCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoUncheckedCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoUncheckedCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoUncheckedCreateNestedManyWithoutEmisorInput
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaUncheckedCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -54888,10 +55548,12 @@ export namespace Prisma {
     notas?: NotaUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
@@ -54963,10 +55625,12 @@ export namespace Prisma {
     notas?: NotaUncheckedUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUncheckedUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUncheckedUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUncheckedUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUncheckedUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUncheckedUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -56065,10 +56729,12 @@ export namespace Prisma {
     notas?: NotaCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoCreateNestedManyWithoutEmisorInput
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
@@ -56140,10 +56806,12 @@ export namespace Prisma {
     notas?: NotaUncheckedCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaUncheckedCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoUncheckedCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoUncheckedCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoUncheckedCreateNestedManyWithoutEmisorInput
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaUncheckedCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -56272,10 +56940,10 @@ export namespace Prisma {
     horaLlegada?: string | null
     justificada?: boolean
     justificacion?: string | null
-    registradoPor?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     estudiante: UserCreateNestedOneWithoutAsistenciasInput
+    registradoPor?: UserCreateNestedOneWithoutAsistenciasRegistradasInput
   }
 
   export type AsistenciaUncheckedCreateWithoutCursoInput = {
@@ -56287,7 +56955,7 @@ export namespace Prisma {
     justificada?: boolean
     justificacion?: string | null
     estudianteId: string
-    registradoPor?: string | null
+    registradoPorId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -56662,10 +57330,12 @@ export namespace Prisma {
     notas?: NotaUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
@@ -56737,10 +57407,12 @@ export namespace Prisma {
     notas?: NotaUncheckedUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUncheckedUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUncheckedUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUncheckedUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUncheckedUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUncheckedUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -57016,10 +57688,12 @@ export namespace Prisma {
     cursosInscritos?: MatriculaCursoCreateNestedManyWithoutUserInput
     notas?: NotaCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoCreateNestedManyWithoutEmisorInput
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
@@ -57091,10 +57765,12 @@ export namespace Prisma {
     cursosInscritos?: MatriculaCursoUncheckedCreateNestedManyWithoutUserInput
     notas?: NotaUncheckedCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaUncheckedCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoUncheckedCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoUncheckedCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoUncheckedCreateNestedManyWithoutEmisorInput
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaUncheckedCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -57253,10 +57929,12 @@ export namespace Prisma {
     cursosInscritos?: MatriculaCursoUpdateManyWithoutUserNestedInput
     notas?: NotaUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
@@ -57328,10 +58006,12 @@ export namespace Prisma {
     cursosInscritos?: MatriculaCursoUncheckedUpdateManyWithoutUserNestedInput
     notas?: NotaUncheckedUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUncheckedUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUncheckedUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUncheckedUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUncheckedUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUncheckedUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -57556,10 +58236,12 @@ export namespace Prisma {
     notas?: NotaCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoCreateNestedManyWithoutEmisorInput
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
@@ -57631,10 +58313,12 @@ export namespace Prisma {
     notas?: NotaUncheckedCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaUncheckedCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoUncheckedCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoUncheckedCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoUncheckedCreateNestedManyWithoutEmisorInput
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaUncheckedCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -57820,10 +58504,12 @@ export namespace Prisma {
     notas?: NotaUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
@@ -57895,10 +58581,12 @@ export namespace Prisma {
     notas?: NotaUncheckedUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUncheckedUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUncheckedUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUncheckedUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUncheckedUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUncheckedUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -58202,10 +58890,12 @@ export namespace Prisma {
     cursosInscritos?: MatriculaCursoCreateNestedManyWithoutUserInput
     asistencias?: AsistenciaCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoCreateNestedManyWithoutEmisorInput
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
@@ -58277,10 +58967,12 @@ export namespace Prisma {
     cursosInscritos?: MatriculaCursoUncheckedCreateNestedManyWithoutUserInput
     asistencias?: AsistenciaUncheckedCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoUncheckedCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoUncheckedCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoUncheckedCreateNestedManyWithoutEmisorInput
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaUncheckedCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -58462,10 +59154,12 @@ export namespace Prisma {
     cursosInscritos?: MatriculaCursoUpdateManyWithoutUserNestedInput
     asistencias?: AsistenciaUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
@@ -58537,10 +59231,12 @@ export namespace Prisma {
     cursosInscritos?: MatriculaCursoUncheckedUpdateManyWithoutUserNestedInput
     asistencias?: AsistenciaUncheckedUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUncheckedUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUncheckedUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUncheckedUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUncheckedUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -58718,10 +59414,12 @@ export namespace Prisma {
     cursosInscritos?: MatriculaCursoCreateNestedManyWithoutUserInput
     notas?: NotaCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoCreateNestedManyWithoutEmisorInput
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
@@ -58793,10 +59491,12 @@ export namespace Prisma {
     cursosInscritos?: MatriculaCursoUncheckedCreateNestedManyWithoutUserInput
     notas?: NotaUncheckedCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoUncheckedCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoUncheckedCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoUncheckedCreateNestedManyWithoutEmisorInput
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaUncheckedCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -58856,6 +59556,165 @@ export namespace Prisma {
   export type CursoCreateOrConnectWithoutAsistenciasInput = {
     where: CursoWhereUniqueInput
     create: XOR<CursoCreateWithoutAsistenciasInput, CursoUncheckedCreateWithoutAsistenciasInput>
+  }
+
+  export type UserCreateWithoutAsistenciasRegistradasInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    password?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    role?: $Enums.Role
+    apellidoPaterno?: string | null
+    apellidoMaterno?: string | null
+    dni?: string | null
+    fechaNacimiento?: Date | string | null
+    sexo?: string | null
+    estadoCivil?: string | null
+    nacionalidad?: string | null
+    direccion?: string | null
+    ubigeo?: string | null
+    distrito?: string | null
+    provincia?: string | null
+    departamento?: string | null
+    telefono?: string | null
+    telefonoEmergencia?: string | null
+    codigoEstudiante?: string | null
+    codigoSiagie?: string | null
+    codigoModular?: string | null
+    numeroExpediente?: string | null
+    tipoSangre?: string | null
+    alergias?: string | null
+    condicionesMedicas?: string | null
+    contactoEmergencia?: string | null
+    cargo?: $Enums.Cargo | null
+    area?: string | null
+    fechaIngreso?: Date | string | null
+    fechaSalida?: Date | string | null
+    numeroContrato?: string | null
+    turno?: $Enums.Turno | null
+    viveConPadres?: boolean | null
+    tipoVivienda?: string | null
+    serviciosBasicos?: string | null
+    transporteEscolar?: boolean | null
+    becario?: boolean | null
+    tipoBeca?: string | null
+    programaSocial?: string | null
+    especialidad?: string | null
+    titulo?: string | null
+    colegioProfesor?: string | null
+    fechaContratacion?: Date | string | null
+    tipoContrato?: string | null
+    escalaMagisterial?: string | null
+    ocupacion?: string | null
+    lugarTrabajo?: string | null
+    ingresoFamiliar?: string | null
+    gradoInstruccion?: string | null
+    estado?: $Enums.EstadoUsuario
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuarioPermisos?: UsuarioPermisoCreateNestedManyWithoutUsuarioInput
+    nivelAcademico?: NivelAcademicoCreateNestedOneWithoutStudentsInput
+    tutorDe?: NivelAcademicoCreateNestedManyWithoutTutorInput
+    hijosDeTutor?: RelacionFamiliarCreateNestedManyWithoutPadreTutorInput
+    padresTutores?: RelacionFamiliarCreateNestedManyWithoutHijoInput
+    institucion?: InstitucionEducativaCreateNestedOneWithoutUsersInput
+    institucionDirector?: InstitucionEducativaCreateNestedOneWithoutDirectorInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    cursosImpartidos?: CursoCreateNestedManyWithoutProfesorInput
+    cursosInscritos?: MatriculaCursoCreateNestedManyWithoutUserInput
+    notas?: NotaCreateNestedManyWithoutEstudianteInput
+    asistencias?: AsistenciaCreateNestedManyWithoutEstudianteInput
+    matriculas?: MatriculaCreateNestedManyWithoutEstudianteInput
+    documentosEstudiante?: DocumentoCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoCreateNestedManyWithoutEmisorInput
+    pagos?: PagoCreateNestedManyWithoutEstudianteInput
+    anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
+    eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutAsistenciasRegistradasInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    password?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    role?: $Enums.Role
+    apellidoPaterno?: string | null
+    apellidoMaterno?: string | null
+    dni?: string | null
+    fechaNacimiento?: Date | string | null
+    sexo?: string | null
+    estadoCivil?: string | null
+    nacionalidad?: string | null
+    direccion?: string | null
+    ubigeo?: string | null
+    distrito?: string | null
+    provincia?: string | null
+    departamento?: string | null
+    telefono?: string | null
+    telefonoEmergencia?: string | null
+    codigoEstudiante?: string | null
+    codigoSiagie?: string | null
+    codigoModular?: string | null
+    numeroExpediente?: string | null
+    tipoSangre?: string | null
+    alergias?: string | null
+    condicionesMedicas?: string | null
+    contactoEmergencia?: string | null
+    cargo?: $Enums.Cargo | null
+    area?: string | null
+    fechaIngreso?: Date | string | null
+    fechaSalida?: Date | string | null
+    numeroContrato?: string | null
+    nivelAcademicoId?: string | null
+    turno?: $Enums.Turno | null
+    viveConPadres?: boolean | null
+    tipoVivienda?: string | null
+    serviciosBasicos?: string | null
+    transporteEscolar?: boolean | null
+    becario?: boolean | null
+    tipoBeca?: string | null
+    programaSocial?: string | null
+    especialidad?: string | null
+    titulo?: string | null
+    colegioProfesor?: string | null
+    fechaContratacion?: Date | string | null
+    tipoContrato?: string | null
+    escalaMagisterial?: string | null
+    ocupacion?: string | null
+    lugarTrabajo?: string | null
+    ingresoFamiliar?: string | null
+    gradoInstruccion?: string | null
+    institucionId?: string | null
+    estado?: $Enums.EstadoUsuario
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuarioPermisos?: UsuarioPermisoUncheckedCreateNestedManyWithoutUsuarioInput
+    tutorDe?: NivelAcademicoUncheckedCreateNestedManyWithoutTutorInput
+    hijosDeTutor?: RelacionFamiliarUncheckedCreateNestedManyWithoutPadreTutorInput
+    padresTutores?: RelacionFamiliarUncheckedCreateNestedManyWithoutHijoInput
+    institucionDirector?: InstitucionEducativaUncheckedCreateNestedOneWithoutDirectorInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    cursosImpartidos?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    cursosInscritos?: MatriculaCursoUncheckedCreateNestedManyWithoutUserInput
+    notas?: NotaUncheckedCreateNestedManyWithoutEstudianteInput
+    asistencias?: AsistenciaUncheckedCreateNestedManyWithoutEstudianteInput
+    matriculas?: MatriculaUncheckedCreateNestedManyWithoutEstudianteInput
+    documentosEstudiante?: DocumentoUncheckedCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoUncheckedCreateNestedManyWithoutEmisorInput
+    pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
+    anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
+    eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutAsistenciasRegistradasInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutAsistenciasRegistradasInput, UserUncheckedCreateWithoutAsistenciasRegistradasInput>
   }
 
   export type UserUpsertWithoutAsistenciasInput = {
@@ -58937,10 +59796,12 @@ export namespace Prisma {
     cursosInscritos?: MatriculaCursoUpdateManyWithoutUserNestedInput
     notas?: NotaUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
@@ -59012,10 +59873,12 @@ export namespace Prisma {
     cursosInscritos?: MatriculaCursoUncheckedUpdateManyWithoutUserNestedInput
     notas?: NotaUncheckedUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUncheckedUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUncheckedUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUncheckedUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUncheckedUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -59078,173 +59941,18 @@ export namespace Prisma {
     horarios?: HorarioUncheckedUpdateManyWithoutCursoNestedInput
   }
 
-  export type UserCreateWithoutDocumentosInput = {
-    id?: string
-    name?: string | null
-    email?: string | null
-    password?: string | null
-    emailVerified?: Date | string | null
-    image?: string | null
-    role?: $Enums.Role
-    apellidoPaterno?: string | null
-    apellidoMaterno?: string | null
-    dni?: string | null
-    fechaNacimiento?: Date | string | null
-    sexo?: string | null
-    estadoCivil?: string | null
-    nacionalidad?: string | null
-    direccion?: string | null
-    ubigeo?: string | null
-    distrito?: string | null
-    provincia?: string | null
-    departamento?: string | null
-    telefono?: string | null
-    telefonoEmergencia?: string | null
-    codigoEstudiante?: string | null
-    codigoSiagie?: string | null
-    codigoModular?: string | null
-    numeroExpediente?: string | null
-    tipoSangre?: string | null
-    alergias?: string | null
-    condicionesMedicas?: string | null
-    contactoEmergencia?: string | null
-    cargo?: $Enums.Cargo | null
-    area?: string | null
-    fechaIngreso?: Date | string | null
-    fechaSalida?: Date | string | null
-    numeroContrato?: string | null
-    turno?: $Enums.Turno | null
-    viveConPadres?: boolean | null
-    tipoVivienda?: string | null
-    serviciosBasicos?: string | null
-    transporteEscolar?: boolean | null
-    becario?: boolean | null
-    tipoBeca?: string | null
-    programaSocial?: string | null
-    especialidad?: string | null
-    titulo?: string | null
-    colegioProfesor?: string | null
-    fechaContratacion?: Date | string | null
-    tipoContrato?: string | null
-    escalaMagisterial?: string | null
-    ocupacion?: string | null
-    lugarTrabajo?: string | null
-    ingresoFamiliar?: string | null
-    gradoInstruccion?: string | null
-    estado?: $Enums.EstadoUsuario
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    usuarioPermisos?: UsuarioPermisoCreateNestedManyWithoutUsuarioInput
-    nivelAcademico?: NivelAcademicoCreateNestedOneWithoutStudentsInput
-    tutorDe?: NivelAcademicoCreateNestedManyWithoutTutorInput
-    hijosDeTutor?: RelacionFamiliarCreateNestedManyWithoutPadreTutorInput
-    padresTutores?: RelacionFamiliarCreateNestedManyWithoutHijoInput
-    institucion?: InstitucionEducativaCreateNestedOneWithoutUsersInput
-    institucionDirector?: InstitucionEducativaCreateNestedOneWithoutDirectorInput
-    accounts?: AccountCreateNestedManyWithoutUserInput
-    cursosImpartidos?: CursoCreateNestedManyWithoutProfesorInput
-    cursosInscritos?: MatriculaCursoCreateNestedManyWithoutUserInput
-    notas?: NotaCreateNestedManyWithoutEstudianteInput
-    asistencias?: AsistenciaCreateNestedManyWithoutEstudianteInput
-    matriculas?: MatriculaCreateNestedManyWithoutEstudianteInput
-    pagos?: PagoCreateNestedManyWithoutEstudianteInput
-    anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
-    eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
-    passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutDocumentosInput = {
-    id?: string
-    name?: string | null
-    email?: string | null
-    password?: string | null
-    emailVerified?: Date | string | null
-    image?: string | null
-    role?: $Enums.Role
-    apellidoPaterno?: string | null
-    apellidoMaterno?: string | null
-    dni?: string | null
-    fechaNacimiento?: Date | string | null
-    sexo?: string | null
-    estadoCivil?: string | null
-    nacionalidad?: string | null
-    direccion?: string | null
-    ubigeo?: string | null
-    distrito?: string | null
-    provincia?: string | null
-    departamento?: string | null
-    telefono?: string | null
-    telefonoEmergencia?: string | null
-    codigoEstudiante?: string | null
-    codigoSiagie?: string | null
-    codigoModular?: string | null
-    numeroExpediente?: string | null
-    tipoSangre?: string | null
-    alergias?: string | null
-    condicionesMedicas?: string | null
-    contactoEmergencia?: string | null
-    cargo?: $Enums.Cargo | null
-    area?: string | null
-    fechaIngreso?: Date | string | null
-    fechaSalida?: Date | string | null
-    numeroContrato?: string | null
-    nivelAcademicoId?: string | null
-    turno?: $Enums.Turno | null
-    viveConPadres?: boolean | null
-    tipoVivienda?: string | null
-    serviciosBasicos?: string | null
-    transporteEscolar?: boolean | null
-    becario?: boolean | null
-    tipoBeca?: string | null
-    programaSocial?: string | null
-    especialidad?: string | null
-    titulo?: string | null
-    colegioProfesor?: string | null
-    fechaContratacion?: Date | string | null
-    tipoContrato?: string | null
-    escalaMagisterial?: string | null
-    ocupacion?: string | null
-    lugarTrabajo?: string | null
-    ingresoFamiliar?: string | null
-    gradoInstruccion?: string | null
-    institucionId?: string | null
-    estado?: $Enums.EstadoUsuario
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    usuarioPermisos?: UsuarioPermisoUncheckedCreateNestedManyWithoutUsuarioInput
-    tutorDe?: NivelAcademicoUncheckedCreateNestedManyWithoutTutorInput
-    hijosDeTutor?: RelacionFamiliarUncheckedCreateNestedManyWithoutPadreTutorInput
-    padresTutores?: RelacionFamiliarUncheckedCreateNestedManyWithoutHijoInput
-    institucionDirector?: InstitucionEducativaUncheckedCreateNestedOneWithoutDirectorInput
-    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
-    cursosImpartidos?: CursoUncheckedCreateNestedManyWithoutProfesorInput
-    cursosInscritos?: MatriculaCursoUncheckedCreateNestedManyWithoutUserInput
-    notas?: NotaUncheckedCreateNestedManyWithoutEstudianteInput
-    asistencias?: AsistenciaUncheckedCreateNestedManyWithoutEstudianteInput
-    matriculas?: MatriculaUncheckedCreateNestedManyWithoutEstudianteInput
-    pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
-    anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
-    eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
-    passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutDocumentosInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutDocumentosInput, UserUncheckedCreateWithoutDocumentosInput>
-  }
-
-  export type UserUpsertWithoutDocumentosInput = {
-    update: XOR<UserUpdateWithoutDocumentosInput, UserUncheckedUpdateWithoutDocumentosInput>
-    create: XOR<UserCreateWithoutDocumentosInput, UserUncheckedCreateWithoutDocumentosInput>
+  export type UserUpsertWithoutAsistenciasRegistradasInput = {
+    update: XOR<UserUpdateWithoutAsistenciasRegistradasInput, UserUncheckedUpdateWithoutAsistenciasRegistradasInput>
+    create: XOR<UserCreateWithoutAsistenciasRegistradasInput, UserUncheckedCreateWithoutAsistenciasRegistradasInput>
     where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutDocumentosInput = {
+  export type UserUpdateToOneWithWhereWithoutAsistenciasRegistradasInput = {
     where?: UserWhereInput
-    data: XOR<UserUpdateWithoutDocumentosInput, UserUncheckedUpdateWithoutDocumentosInput>
+    data: XOR<UserUpdateWithoutAsistenciasRegistradasInput, UserUncheckedUpdateWithoutAsistenciasRegistradasInput>
   }
 
-  export type UserUpdateWithoutDocumentosInput = {
+  export type UserUpdateWithoutAsistenciasRegistradasInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -59313,13 +60021,15 @@ export namespace Prisma {
     notas?: NotaUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUpdateManyWithoutEstudianteNestedInput
+    documentosEstudiante?: DocumentoUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
     passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
-  export type UserUncheckedUpdateWithoutDocumentosInput = {
+  export type UserUncheckedUpdateWithoutAsistenciasRegistradasInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -59388,9 +60098,659 @@ export namespace Prisma {
     notas?: NotaUncheckedUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUncheckedUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutEstudianteNestedInput
+    documentosEstudiante?: DocumentoUncheckedUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUncheckedUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutDocumentosEstudianteInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    password?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    role?: $Enums.Role
+    apellidoPaterno?: string | null
+    apellidoMaterno?: string | null
+    dni?: string | null
+    fechaNacimiento?: Date | string | null
+    sexo?: string | null
+    estadoCivil?: string | null
+    nacionalidad?: string | null
+    direccion?: string | null
+    ubigeo?: string | null
+    distrito?: string | null
+    provincia?: string | null
+    departamento?: string | null
+    telefono?: string | null
+    telefonoEmergencia?: string | null
+    codigoEstudiante?: string | null
+    codigoSiagie?: string | null
+    codigoModular?: string | null
+    numeroExpediente?: string | null
+    tipoSangre?: string | null
+    alergias?: string | null
+    condicionesMedicas?: string | null
+    contactoEmergencia?: string | null
+    cargo?: $Enums.Cargo | null
+    area?: string | null
+    fechaIngreso?: Date | string | null
+    fechaSalida?: Date | string | null
+    numeroContrato?: string | null
+    turno?: $Enums.Turno | null
+    viveConPadres?: boolean | null
+    tipoVivienda?: string | null
+    serviciosBasicos?: string | null
+    transporteEscolar?: boolean | null
+    becario?: boolean | null
+    tipoBeca?: string | null
+    programaSocial?: string | null
+    especialidad?: string | null
+    titulo?: string | null
+    colegioProfesor?: string | null
+    fechaContratacion?: Date | string | null
+    tipoContrato?: string | null
+    escalaMagisterial?: string | null
+    ocupacion?: string | null
+    lugarTrabajo?: string | null
+    ingresoFamiliar?: string | null
+    gradoInstruccion?: string | null
+    estado?: $Enums.EstadoUsuario
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuarioPermisos?: UsuarioPermisoCreateNestedManyWithoutUsuarioInput
+    nivelAcademico?: NivelAcademicoCreateNestedOneWithoutStudentsInput
+    tutorDe?: NivelAcademicoCreateNestedManyWithoutTutorInput
+    hijosDeTutor?: RelacionFamiliarCreateNestedManyWithoutPadreTutorInput
+    padresTutores?: RelacionFamiliarCreateNestedManyWithoutHijoInput
+    institucion?: InstitucionEducativaCreateNestedOneWithoutUsersInput
+    institucionDirector?: InstitucionEducativaCreateNestedOneWithoutDirectorInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    cursosImpartidos?: CursoCreateNestedManyWithoutProfesorInput
+    cursosInscritos?: MatriculaCursoCreateNestedManyWithoutUserInput
+    notas?: NotaCreateNestedManyWithoutEstudianteInput
+    asistencias?: AsistenciaCreateNestedManyWithoutEstudianteInput
+    matriculas?: MatriculaCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoCreateNestedManyWithoutEmisorInput
+    pagos?: PagoCreateNestedManyWithoutEstudianteInput
+    anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
+    eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaCreateNestedManyWithoutRegistradoPorInput
+    passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutDocumentosEstudianteInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    password?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    role?: $Enums.Role
+    apellidoPaterno?: string | null
+    apellidoMaterno?: string | null
+    dni?: string | null
+    fechaNacimiento?: Date | string | null
+    sexo?: string | null
+    estadoCivil?: string | null
+    nacionalidad?: string | null
+    direccion?: string | null
+    ubigeo?: string | null
+    distrito?: string | null
+    provincia?: string | null
+    departamento?: string | null
+    telefono?: string | null
+    telefonoEmergencia?: string | null
+    codigoEstudiante?: string | null
+    codigoSiagie?: string | null
+    codigoModular?: string | null
+    numeroExpediente?: string | null
+    tipoSangre?: string | null
+    alergias?: string | null
+    condicionesMedicas?: string | null
+    contactoEmergencia?: string | null
+    cargo?: $Enums.Cargo | null
+    area?: string | null
+    fechaIngreso?: Date | string | null
+    fechaSalida?: Date | string | null
+    numeroContrato?: string | null
+    nivelAcademicoId?: string | null
+    turno?: $Enums.Turno | null
+    viveConPadres?: boolean | null
+    tipoVivienda?: string | null
+    serviciosBasicos?: string | null
+    transporteEscolar?: boolean | null
+    becario?: boolean | null
+    tipoBeca?: string | null
+    programaSocial?: string | null
+    especialidad?: string | null
+    titulo?: string | null
+    colegioProfesor?: string | null
+    fechaContratacion?: Date | string | null
+    tipoContrato?: string | null
+    escalaMagisterial?: string | null
+    ocupacion?: string | null
+    lugarTrabajo?: string | null
+    ingresoFamiliar?: string | null
+    gradoInstruccion?: string | null
+    institucionId?: string | null
+    estado?: $Enums.EstadoUsuario
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuarioPermisos?: UsuarioPermisoUncheckedCreateNestedManyWithoutUsuarioInput
+    tutorDe?: NivelAcademicoUncheckedCreateNestedManyWithoutTutorInput
+    hijosDeTutor?: RelacionFamiliarUncheckedCreateNestedManyWithoutPadreTutorInput
+    padresTutores?: RelacionFamiliarUncheckedCreateNestedManyWithoutHijoInput
+    institucionDirector?: InstitucionEducativaUncheckedCreateNestedOneWithoutDirectorInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    cursosImpartidos?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    cursosInscritos?: MatriculaCursoUncheckedCreateNestedManyWithoutUserInput
+    notas?: NotaUncheckedCreateNestedManyWithoutEstudianteInput
+    asistencias?: AsistenciaUncheckedCreateNestedManyWithoutEstudianteInput
+    matriculas?: MatriculaUncheckedCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoUncheckedCreateNestedManyWithoutEmisorInput
+    pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
+    anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
+    eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaUncheckedCreateNestedManyWithoutRegistradoPorInput
+    passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutDocumentosEstudianteInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDocumentosEstudianteInput, UserUncheckedCreateWithoutDocumentosEstudianteInput>
+  }
+
+  export type UserCreateWithoutDocumentosEmitidosInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    password?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    role?: $Enums.Role
+    apellidoPaterno?: string | null
+    apellidoMaterno?: string | null
+    dni?: string | null
+    fechaNacimiento?: Date | string | null
+    sexo?: string | null
+    estadoCivil?: string | null
+    nacionalidad?: string | null
+    direccion?: string | null
+    ubigeo?: string | null
+    distrito?: string | null
+    provincia?: string | null
+    departamento?: string | null
+    telefono?: string | null
+    telefonoEmergencia?: string | null
+    codigoEstudiante?: string | null
+    codigoSiagie?: string | null
+    codigoModular?: string | null
+    numeroExpediente?: string | null
+    tipoSangre?: string | null
+    alergias?: string | null
+    condicionesMedicas?: string | null
+    contactoEmergencia?: string | null
+    cargo?: $Enums.Cargo | null
+    area?: string | null
+    fechaIngreso?: Date | string | null
+    fechaSalida?: Date | string | null
+    numeroContrato?: string | null
+    turno?: $Enums.Turno | null
+    viveConPadres?: boolean | null
+    tipoVivienda?: string | null
+    serviciosBasicos?: string | null
+    transporteEscolar?: boolean | null
+    becario?: boolean | null
+    tipoBeca?: string | null
+    programaSocial?: string | null
+    especialidad?: string | null
+    titulo?: string | null
+    colegioProfesor?: string | null
+    fechaContratacion?: Date | string | null
+    tipoContrato?: string | null
+    escalaMagisterial?: string | null
+    ocupacion?: string | null
+    lugarTrabajo?: string | null
+    ingresoFamiliar?: string | null
+    gradoInstruccion?: string | null
+    estado?: $Enums.EstadoUsuario
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuarioPermisos?: UsuarioPermisoCreateNestedManyWithoutUsuarioInput
+    nivelAcademico?: NivelAcademicoCreateNestedOneWithoutStudentsInput
+    tutorDe?: NivelAcademicoCreateNestedManyWithoutTutorInput
+    hijosDeTutor?: RelacionFamiliarCreateNestedManyWithoutPadreTutorInput
+    padresTutores?: RelacionFamiliarCreateNestedManyWithoutHijoInput
+    institucion?: InstitucionEducativaCreateNestedOneWithoutUsersInput
+    institucionDirector?: InstitucionEducativaCreateNestedOneWithoutDirectorInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    cursosImpartidos?: CursoCreateNestedManyWithoutProfesorInput
+    cursosInscritos?: MatriculaCursoCreateNestedManyWithoutUserInput
+    notas?: NotaCreateNestedManyWithoutEstudianteInput
+    asistencias?: AsistenciaCreateNestedManyWithoutEstudianteInput
+    matriculas?: MatriculaCreateNestedManyWithoutEstudianteInput
+    documentosEstudiante?: DocumentoCreateNestedManyWithoutEstudianteInput
+    pagos?: PagoCreateNestedManyWithoutEstudianteInput
+    anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
+    eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaCreateNestedManyWithoutRegistradoPorInput
+    passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutDocumentosEmitidosInput = {
+    id?: string
+    name?: string | null
+    email?: string | null
+    password?: string | null
+    emailVerified?: Date | string | null
+    image?: string | null
+    role?: $Enums.Role
+    apellidoPaterno?: string | null
+    apellidoMaterno?: string | null
+    dni?: string | null
+    fechaNacimiento?: Date | string | null
+    sexo?: string | null
+    estadoCivil?: string | null
+    nacionalidad?: string | null
+    direccion?: string | null
+    ubigeo?: string | null
+    distrito?: string | null
+    provincia?: string | null
+    departamento?: string | null
+    telefono?: string | null
+    telefonoEmergencia?: string | null
+    codigoEstudiante?: string | null
+    codigoSiagie?: string | null
+    codigoModular?: string | null
+    numeroExpediente?: string | null
+    tipoSangre?: string | null
+    alergias?: string | null
+    condicionesMedicas?: string | null
+    contactoEmergencia?: string | null
+    cargo?: $Enums.Cargo | null
+    area?: string | null
+    fechaIngreso?: Date | string | null
+    fechaSalida?: Date | string | null
+    numeroContrato?: string | null
+    nivelAcademicoId?: string | null
+    turno?: $Enums.Turno | null
+    viveConPadres?: boolean | null
+    tipoVivienda?: string | null
+    serviciosBasicos?: string | null
+    transporteEscolar?: boolean | null
+    becario?: boolean | null
+    tipoBeca?: string | null
+    programaSocial?: string | null
+    especialidad?: string | null
+    titulo?: string | null
+    colegioProfesor?: string | null
+    fechaContratacion?: Date | string | null
+    tipoContrato?: string | null
+    escalaMagisterial?: string | null
+    ocupacion?: string | null
+    lugarTrabajo?: string | null
+    ingresoFamiliar?: string | null
+    gradoInstruccion?: string | null
+    institucionId?: string | null
+    estado?: $Enums.EstadoUsuario
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    usuarioPermisos?: UsuarioPermisoUncheckedCreateNestedManyWithoutUsuarioInput
+    tutorDe?: NivelAcademicoUncheckedCreateNestedManyWithoutTutorInput
+    hijosDeTutor?: RelacionFamiliarUncheckedCreateNestedManyWithoutPadreTutorInput
+    padresTutores?: RelacionFamiliarUncheckedCreateNestedManyWithoutHijoInput
+    institucionDirector?: InstitucionEducativaUncheckedCreateNestedOneWithoutDirectorInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    cursosImpartidos?: CursoUncheckedCreateNestedManyWithoutProfesorInput
+    cursosInscritos?: MatriculaCursoUncheckedCreateNestedManyWithoutUserInput
+    notas?: NotaUncheckedCreateNestedManyWithoutEstudianteInput
+    asistencias?: AsistenciaUncheckedCreateNestedManyWithoutEstudianteInput
+    matriculas?: MatriculaUncheckedCreateNestedManyWithoutEstudianteInput
+    documentosEstudiante?: DocumentoUncheckedCreateNestedManyWithoutEstudianteInput
+    pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
+    anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
+    eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaUncheckedCreateNestedManyWithoutRegistradoPorInput
+    passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutDocumentosEmitidosInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutDocumentosEmitidosInput, UserUncheckedCreateWithoutDocumentosEmitidosInput>
+  }
+
+  export type UserUpsertWithoutDocumentosEstudianteInput = {
+    update: XOR<UserUpdateWithoutDocumentosEstudianteInput, UserUncheckedUpdateWithoutDocumentosEstudianteInput>
+    create: XOR<UserCreateWithoutDocumentosEstudianteInput, UserUncheckedCreateWithoutDocumentosEstudianteInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDocumentosEstudianteInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDocumentosEstudianteInput, UserUncheckedUpdateWithoutDocumentosEstudianteInput>
+  }
+
+  export type UserUpdateWithoutDocumentosEstudianteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    apellidoPaterno?: NullableStringFieldUpdateOperationsInput | string | null
+    apellidoMaterno?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sexo?: NullableStringFieldUpdateOperationsInput | string | null
+    estadoCivil?: NullableStringFieldUpdateOperationsInput | string | null
+    nacionalidad?: NullableStringFieldUpdateOperationsInput | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    ubigeo?: NullableStringFieldUpdateOperationsInput | string | null
+    distrito?: NullableStringFieldUpdateOperationsInput | string | null
+    provincia?: NullableStringFieldUpdateOperationsInput | string | null
+    departamento?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoEmergencia?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoEstudiante?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoSiagie?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoModular?: NullableStringFieldUpdateOperationsInput | string | null
+    numeroExpediente?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoSangre?: NullableStringFieldUpdateOperationsInput | string | null
+    alergias?: NullableStringFieldUpdateOperationsInput | string | null
+    condicionesMedicas?: NullableStringFieldUpdateOperationsInput | string | null
+    contactoEmergencia?: NullableStringFieldUpdateOperationsInput | string | null
+    cargo?: NullableEnumCargoFieldUpdateOperationsInput | $Enums.Cargo | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaIngreso?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaSalida?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numeroContrato?: NullableStringFieldUpdateOperationsInput | string | null
+    turno?: NullableEnumTurnoFieldUpdateOperationsInput | $Enums.Turno | null
+    viveConPadres?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tipoVivienda?: NullableStringFieldUpdateOperationsInput | string | null
+    serviciosBasicos?: NullableStringFieldUpdateOperationsInput | string | null
+    transporteEscolar?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    becario?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tipoBeca?: NullableStringFieldUpdateOperationsInput | string | null
+    programaSocial?: NullableStringFieldUpdateOperationsInput | string | null
+    especialidad?: NullableStringFieldUpdateOperationsInput | string | null
+    titulo?: NullableStringFieldUpdateOperationsInput | string | null
+    colegioProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaContratacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tipoContrato?: NullableStringFieldUpdateOperationsInput | string | null
+    escalaMagisterial?: NullableStringFieldUpdateOperationsInput | string | null
+    ocupacion?: NullableStringFieldUpdateOperationsInput | string | null
+    lugarTrabajo?: NullableStringFieldUpdateOperationsInput | string | null
+    ingresoFamiliar?: NullableStringFieldUpdateOperationsInput | string | null
+    gradoInstruccion?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: EnumEstadoUsuarioFieldUpdateOperationsInput | $Enums.EstadoUsuario
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioPermisos?: UsuarioPermisoUpdateManyWithoutUsuarioNestedInput
+    nivelAcademico?: NivelAcademicoUpdateOneWithoutStudentsNestedInput
+    tutorDe?: NivelAcademicoUpdateManyWithoutTutorNestedInput
+    hijosDeTutor?: RelacionFamiliarUpdateManyWithoutPadreTutorNestedInput
+    padresTutores?: RelacionFamiliarUpdateManyWithoutHijoNestedInput
+    institucion?: InstitucionEducativaUpdateOneWithoutUsersNestedInput
+    institucionDirector?: InstitucionEducativaUpdateOneWithoutDirectorNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    cursosImpartidos?: CursoUpdateManyWithoutProfesorNestedInput
+    cursosInscritos?: MatriculaCursoUpdateManyWithoutUserNestedInput
+    notas?: NotaUpdateManyWithoutEstudianteNestedInput
+    asistencias?: AsistenciaUpdateManyWithoutEstudianteNestedInput
+    matriculas?: MatriculaUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUpdateManyWithoutEmisorNestedInput
+    pagos?: PagoUpdateManyWithoutEstudianteNestedInput
+    anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
+    eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUpdateManyWithoutRegistradoPorNestedInput
+    passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDocumentosEstudianteInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    apellidoPaterno?: NullableStringFieldUpdateOperationsInput | string | null
+    apellidoMaterno?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sexo?: NullableStringFieldUpdateOperationsInput | string | null
+    estadoCivil?: NullableStringFieldUpdateOperationsInput | string | null
+    nacionalidad?: NullableStringFieldUpdateOperationsInput | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    ubigeo?: NullableStringFieldUpdateOperationsInput | string | null
+    distrito?: NullableStringFieldUpdateOperationsInput | string | null
+    provincia?: NullableStringFieldUpdateOperationsInput | string | null
+    departamento?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoEmergencia?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoEstudiante?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoSiagie?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoModular?: NullableStringFieldUpdateOperationsInput | string | null
+    numeroExpediente?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoSangre?: NullableStringFieldUpdateOperationsInput | string | null
+    alergias?: NullableStringFieldUpdateOperationsInput | string | null
+    condicionesMedicas?: NullableStringFieldUpdateOperationsInput | string | null
+    contactoEmergencia?: NullableStringFieldUpdateOperationsInput | string | null
+    cargo?: NullableEnumCargoFieldUpdateOperationsInput | $Enums.Cargo | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaIngreso?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaSalida?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numeroContrato?: NullableStringFieldUpdateOperationsInput | string | null
+    nivelAcademicoId?: NullableStringFieldUpdateOperationsInput | string | null
+    turno?: NullableEnumTurnoFieldUpdateOperationsInput | $Enums.Turno | null
+    viveConPadres?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tipoVivienda?: NullableStringFieldUpdateOperationsInput | string | null
+    serviciosBasicos?: NullableStringFieldUpdateOperationsInput | string | null
+    transporteEscolar?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    becario?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tipoBeca?: NullableStringFieldUpdateOperationsInput | string | null
+    programaSocial?: NullableStringFieldUpdateOperationsInput | string | null
+    especialidad?: NullableStringFieldUpdateOperationsInput | string | null
+    titulo?: NullableStringFieldUpdateOperationsInput | string | null
+    colegioProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaContratacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tipoContrato?: NullableStringFieldUpdateOperationsInput | string | null
+    escalaMagisterial?: NullableStringFieldUpdateOperationsInput | string | null
+    ocupacion?: NullableStringFieldUpdateOperationsInput | string | null
+    lugarTrabajo?: NullableStringFieldUpdateOperationsInput | string | null
+    ingresoFamiliar?: NullableStringFieldUpdateOperationsInput | string | null
+    gradoInstruccion?: NullableStringFieldUpdateOperationsInput | string | null
+    institucionId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: EnumEstadoUsuarioFieldUpdateOperationsInput | $Enums.EstadoUsuario
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioPermisos?: UsuarioPermisoUncheckedUpdateManyWithoutUsuarioNestedInput
+    tutorDe?: NivelAcademicoUncheckedUpdateManyWithoutTutorNestedInput
+    hijosDeTutor?: RelacionFamiliarUncheckedUpdateManyWithoutPadreTutorNestedInput
+    padresTutores?: RelacionFamiliarUncheckedUpdateManyWithoutHijoNestedInput
+    institucionDirector?: InstitucionEducativaUncheckedUpdateOneWithoutDirectorNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    cursosImpartidos?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    cursosInscritos?: MatriculaCursoUncheckedUpdateManyWithoutUserNestedInput
+    notas?: NotaUncheckedUpdateManyWithoutEstudianteNestedInput
+    asistencias?: AsistenciaUncheckedUpdateManyWithoutEstudianteNestedInput
+    matriculas?: MatriculaUncheckedUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUncheckedUpdateManyWithoutEmisorNestedInput
+    pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
+    anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
+    eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUncheckedUpdateManyWithoutRegistradoPorNestedInput
+    passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUpsertWithoutDocumentosEmitidosInput = {
+    update: XOR<UserUpdateWithoutDocumentosEmitidosInput, UserUncheckedUpdateWithoutDocumentosEmitidosInput>
+    create: XOR<UserCreateWithoutDocumentosEmitidosInput, UserUncheckedCreateWithoutDocumentosEmitidosInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutDocumentosEmitidosInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutDocumentosEmitidosInput, UserUncheckedUpdateWithoutDocumentosEmitidosInput>
+  }
+
+  export type UserUpdateWithoutDocumentosEmitidosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    apellidoPaterno?: NullableStringFieldUpdateOperationsInput | string | null
+    apellidoMaterno?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sexo?: NullableStringFieldUpdateOperationsInput | string | null
+    estadoCivil?: NullableStringFieldUpdateOperationsInput | string | null
+    nacionalidad?: NullableStringFieldUpdateOperationsInput | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    ubigeo?: NullableStringFieldUpdateOperationsInput | string | null
+    distrito?: NullableStringFieldUpdateOperationsInput | string | null
+    provincia?: NullableStringFieldUpdateOperationsInput | string | null
+    departamento?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoEmergencia?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoEstudiante?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoSiagie?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoModular?: NullableStringFieldUpdateOperationsInput | string | null
+    numeroExpediente?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoSangre?: NullableStringFieldUpdateOperationsInput | string | null
+    alergias?: NullableStringFieldUpdateOperationsInput | string | null
+    condicionesMedicas?: NullableStringFieldUpdateOperationsInput | string | null
+    contactoEmergencia?: NullableStringFieldUpdateOperationsInput | string | null
+    cargo?: NullableEnumCargoFieldUpdateOperationsInput | $Enums.Cargo | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaIngreso?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaSalida?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numeroContrato?: NullableStringFieldUpdateOperationsInput | string | null
+    turno?: NullableEnumTurnoFieldUpdateOperationsInput | $Enums.Turno | null
+    viveConPadres?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tipoVivienda?: NullableStringFieldUpdateOperationsInput | string | null
+    serviciosBasicos?: NullableStringFieldUpdateOperationsInput | string | null
+    transporteEscolar?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    becario?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tipoBeca?: NullableStringFieldUpdateOperationsInput | string | null
+    programaSocial?: NullableStringFieldUpdateOperationsInput | string | null
+    especialidad?: NullableStringFieldUpdateOperationsInput | string | null
+    titulo?: NullableStringFieldUpdateOperationsInput | string | null
+    colegioProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaContratacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tipoContrato?: NullableStringFieldUpdateOperationsInput | string | null
+    escalaMagisterial?: NullableStringFieldUpdateOperationsInput | string | null
+    ocupacion?: NullableStringFieldUpdateOperationsInput | string | null
+    lugarTrabajo?: NullableStringFieldUpdateOperationsInput | string | null
+    ingresoFamiliar?: NullableStringFieldUpdateOperationsInput | string | null
+    gradoInstruccion?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: EnumEstadoUsuarioFieldUpdateOperationsInput | $Enums.EstadoUsuario
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioPermisos?: UsuarioPermisoUpdateManyWithoutUsuarioNestedInput
+    nivelAcademico?: NivelAcademicoUpdateOneWithoutStudentsNestedInput
+    tutorDe?: NivelAcademicoUpdateManyWithoutTutorNestedInput
+    hijosDeTutor?: RelacionFamiliarUpdateManyWithoutPadreTutorNestedInput
+    padresTutores?: RelacionFamiliarUpdateManyWithoutHijoNestedInput
+    institucion?: InstitucionEducativaUpdateOneWithoutUsersNestedInput
+    institucionDirector?: InstitucionEducativaUpdateOneWithoutDirectorNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    cursosImpartidos?: CursoUpdateManyWithoutProfesorNestedInput
+    cursosInscritos?: MatriculaCursoUpdateManyWithoutUserNestedInput
+    notas?: NotaUpdateManyWithoutEstudianteNestedInput
+    asistencias?: AsistenciaUpdateManyWithoutEstudianteNestedInput
+    matriculas?: MatriculaUpdateManyWithoutEstudianteNestedInput
+    documentosEstudiante?: DocumentoUpdateManyWithoutEstudianteNestedInput
+    pagos?: PagoUpdateManyWithoutEstudianteNestedInput
+    anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
+    eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUpdateManyWithoutRegistradoPorNestedInput
+    passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutDocumentosEmitidosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    apellidoPaterno?: NullableStringFieldUpdateOperationsInput | string | null
+    apellidoMaterno?: NullableStringFieldUpdateOperationsInput | string | null
+    dni?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaNacimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sexo?: NullableStringFieldUpdateOperationsInput | string | null
+    estadoCivil?: NullableStringFieldUpdateOperationsInput | string | null
+    nacionalidad?: NullableStringFieldUpdateOperationsInput | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    ubigeo?: NullableStringFieldUpdateOperationsInput | string | null
+    distrito?: NullableStringFieldUpdateOperationsInput | string | null
+    provincia?: NullableStringFieldUpdateOperationsInput | string | null
+    departamento?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    telefonoEmergencia?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoEstudiante?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoSiagie?: NullableStringFieldUpdateOperationsInput | string | null
+    codigoModular?: NullableStringFieldUpdateOperationsInput | string | null
+    numeroExpediente?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoSangre?: NullableStringFieldUpdateOperationsInput | string | null
+    alergias?: NullableStringFieldUpdateOperationsInput | string | null
+    condicionesMedicas?: NullableStringFieldUpdateOperationsInput | string | null
+    contactoEmergencia?: NullableStringFieldUpdateOperationsInput | string | null
+    cargo?: NullableEnumCargoFieldUpdateOperationsInput | $Enums.Cargo | null
+    area?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaIngreso?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaSalida?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    numeroContrato?: NullableStringFieldUpdateOperationsInput | string | null
+    nivelAcademicoId?: NullableStringFieldUpdateOperationsInput | string | null
+    turno?: NullableEnumTurnoFieldUpdateOperationsInput | $Enums.Turno | null
+    viveConPadres?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tipoVivienda?: NullableStringFieldUpdateOperationsInput | string | null
+    serviciosBasicos?: NullableStringFieldUpdateOperationsInput | string | null
+    transporteEscolar?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    becario?: NullableBoolFieldUpdateOperationsInput | boolean | null
+    tipoBeca?: NullableStringFieldUpdateOperationsInput | string | null
+    programaSocial?: NullableStringFieldUpdateOperationsInput | string | null
+    especialidad?: NullableStringFieldUpdateOperationsInput | string | null
+    titulo?: NullableStringFieldUpdateOperationsInput | string | null
+    colegioProfesor?: NullableStringFieldUpdateOperationsInput | string | null
+    fechaContratacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    tipoContrato?: NullableStringFieldUpdateOperationsInput | string | null
+    escalaMagisterial?: NullableStringFieldUpdateOperationsInput | string | null
+    ocupacion?: NullableStringFieldUpdateOperationsInput | string | null
+    lugarTrabajo?: NullableStringFieldUpdateOperationsInput | string | null
+    ingresoFamiliar?: NullableStringFieldUpdateOperationsInput | string | null
+    gradoInstruccion?: NullableStringFieldUpdateOperationsInput | string | null
+    institucionId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: EnumEstadoUsuarioFieldUpdateOperationsInput | $Enums.EstadoUsuario
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    usuarioPermisos?: UsuarioPermisoUncheckedUpdateManyWithoutUsuarioNestedInput
+    tutorDe?: NivelAcademicoUncheckedUpdateManyWithoutTutorNestedInput
+    hijosDeTutor?: RelacionFamiliarUncheckedUpdateManyWithoutPadreTutorNestedInput
+    padresTutores?: RelacionFamiliarUncheckedUpdateManyWithoutHijoNestedInput
+    institucionDirector?: InstitucionEducativaUncheckedUpdateOneWithoutDirectorNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    cursosImpartidos?: CursoUncheckedUpdateManyWithoutProfesorNestedInput
+    cursosInscritos?: MatriculaCursoUncheckedUpdateManyWithoutUserNestedInput
+    notas?: NotaUncheckedUpdateManyWithoutEstudianteNestedInput
+    asistencias?: AsistenciaUncheckedUpdateManyWithoutEstudianteNestedInput
+    matriculas?: MatriculaUncheckedUpdateManyWithoutEstudianteNestedInput
+    documentosEstudiante?: DocumentoUncheckedUpdateManyWithoutEstudianteNestedInput
+    pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
+    anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
+    eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUncheckedUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -59463,9 +60823,11 @@ export namespace Prisma {
     notas?: NotaCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoCreateNestedManyWithoutEmisorInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
@@ -59538,9 +60900,11 @@ export namespace Prisma {
     notas?: NotaUncheckedCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaUncheckedCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoUncheckedCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoUncheckedCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoUncheckedCreateNestedManyWithoutEmisorInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaUncheckedCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -59629,9 +60993,11 @@ export namespace Prisma {
     notas?: NotaUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUpdateManyWithoutEmisorNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
@@ -59704,9 +61070,11 @@ export namespace Prisma {
     notas?: NotaUncheckedUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUncheckedUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUncheckedUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUncheckedUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUncheckedUpdateManyWithoutEmisorNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUncheckedUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -59849,9 +61217,11 @@ export namespace Prisma {
     notas?: NotaCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoCreateNestedManyWithoutEmisorInput
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     eventosCreados?: EventoCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
@@ -59924,9 +61294,11 @@ export namespace Prisma {
     notas?: NotaUncheckedCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaUncheckedCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoUncheckedCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoUncheckedCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoUncheckedCreateNestedManyWithoutEmisorInput
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     eventosCreados?: EventoUncheckedCreateNestedManyWithoutOrganizadorInput
+    asistenciasRegistradas?: AsistenciaUncheckedCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -60047,9 +61419,11 @@ export namespace Prisma {
     notas?: NotaUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
@@ -60122,9 +61496,11 @@ export namespace Prisma {
     notas?: NotaUncheckedUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUncheckedUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUncheckedUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUncheckedUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUncheckedUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUncheckedUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -60267,9 +61643,11 @@ export namespace Prisma {
     notas?: NotaCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoCreateNestedManyWithoutEmisorInput
     pagos?: PagoCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioCreateNestedManyWithoutAutorInput
+    asistenciasRegistradas?: AsistenciaCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenCreateNestedOneWithoutUserInput
   }
 
@@ -60342,9 +61720,11 @@ export namespace Prisma {
     notas?: NotaUncheckedCreateNestedManyWithoutEstudianteInput
     asistencias?: AsistenciaUncheckedCreateNestedManyWithoutEstudianteInput
     matriculas?: MatriculaUncheckedCreateNestedManyWithoutEstudianteInput
-    documentos?: DocumentoUncheckedCreateNestedManyWithoutUsuarioInput
+    documentosEstudiante?: DocumentoUncheckedCreateNestedManyWithoutEstudianteInput
+    documentosEmitidos?: DocumentoUncheckedCreateNestedManyWithoutEmisorInput
     pagos?: PagoUncheckedCreateNestedManyWithoutEstudianteInput
     anunciosCreados?: AnuncioUncheckedCreateNestedManyWithoutAutorInput
+    asistenciasRegistradas?: AsistenciaUncheckedCreateNestedManyWithoutRegistradoPorInput
     passwordResetToken?: PasswordResetTokenUncheckedCreateNestedOneWithoutUserInput
   }
 
@@ -60465,9 +61845,11 @@ export namespace Prisma {
     notas?: NotaUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
+    asistenciasRegistradas?: AsistenciaUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
@@ -60540,9 +61922,11 @@ export namespace Prisma {
     notas?: NotaUncheckedUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUncheckedUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUncheckedUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUncheckedUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUncheckedUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
+    asistenciasRegistradas?: AsistenciaUncheckedUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -60823,10 +62207,12 @@ export namespace Prisma {
     notas?: NotaUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
@@ -60898,10 +62284,12 @@ export namespace Prisma {
     notas?: NotaUncheckedUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUncheckedUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUncheckedUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUncheckedUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUncheckedUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUncheckedUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -61318,7 +62706,7 @@ export namespace Prisma {
     justificada?: boolean
     justificacion?: string | null
     cursoId: string
-    registradoPor?: string | null
+    registradoPorId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -61336,21 +62724,48 @@ export namespace Prisma {
     observaciones?: string | null
   }
 
-  export type DocumentoCreateManyUsuarioInput = {
+  export type DocumentoCreateManyEstudianteInput = {
     id?: string
-    nombre: string
-    tipo: $Enums.TipoDocumento
-    ruta: string
-    tamaño?: number | null
-    extension?: string | null
-    fechaSubida?: Date | string
-    fechaVencimiento?: Date | string | null
+    titulo: string
     descripcion?: string | null
+    contenido: string
+    tipo: $Enums.TipoDocumento
+    formato?: string
+    plantilla?: string | null
+    codigo: string
+    fechaEmision?: Date | string
+    fechaExpiracion?: Date | string | null
+    estado?: string
+    emisorId: string
+    archivoUrl?: string | null
+    firmado?: boolean
     verificado?: boolean
-    verificadoPor?: string | null
-    fechaVerificacion?: Date | string | null
-    publico?: boolean
-    obligatorio?: boolean
+    codigoVerificacion?: string | null
+    datosAdicionales?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type DocumentoCreateManyEmisorInput = {
+    id?: string
+    titulo: string
+    descripcion?: string | null
+    contenido: string
+    tipo: $Enums.TipoDocumento
+    formato?: string
+    plantilla?: string | null
+    codigo: string
+    fechaEmision?: Date | string
+    fechaExpiracion?: Date | string | null
+    estado?: string
+    estudianteId?: string | null
+    archivoUrl?: string | null
+    firmado?: boolean
+    verificado?: boolean
+    codigoVerificacion?: string | null
+    datosAdicionales?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type PagoCreateManyEstudianteInput = {
@@ -61417,6 +62832,20 @@ export namespace Prisma {
     capacidadMaxima?: number | null
     requiereInscripcion?: boolean
     estado?: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type AsistenciaCreateManyRegistradoPorInput = {
+    id?: string
+    fecha: Date | string
+    presente: boolean
+    tardanza?: boolean
+    horaLlegada?: string | null
+    justificada?: boolean
+    justificacion?: string | null
+    estudianteId: string
+    cursoId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -61748,10 +63177,10 @@ export namespace Prisma {
     horaLlegada?: NullableStringFieldUpdateOperationsInput | string | null
     justificada?: BoolFieldUpdateOperationsInput | boolean
     justificacion?: NullableStringFieldUpdateOperationsInput | string | null
-    registradoPor?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     curso?: CursoUpdateOneRequiredWithoutAsistenciasNestedInput
+    registradoPor?: UserUpdateOneWithoutAsistenciasRegistradasNestedInput
   }
 
   export type AsistenciaUncheckedUpdateWithoutEstudianteInput = {
@@ -61763,7 +63192,7 @@ export namespace Prisma {
     justificada?: BoolFieldUpdateOperationsInput | boolean
     justificacion?: NullableStringFieldUpdateOperationsInput | string | null
     cursoId?: StringFieldUpdateOperationsInput | string
-    registradoPor?: NullableStringFieldUpdateOperationsInput | string | null
+    registradoPorId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -61777,7 +63206,7 @@ export namespace Prisma {
     justificada?: BoolFieldUpdateOperationsInput | boolean
     justificacion?: NullableStringFieldUpdateOperationsInput | string | null
     cursoId?: StringFieldUpdateOperationsInput | string
-    registradoPor?: NullableStringFieldUpdateOperationsInput | string | null
+    registradoPorId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -61823,55 +63252,136 @@ export namespace Prisma {
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type DocumentoUpdateWithoutUsuarioInput = {
+  export type DocumentoUpdateWithoutEstudianteInput = {
     id?: StringFieldUpdateOperationsInput | string
-    nombre?: StringFieldUpdateOperationsInput | string
-    tipo?: EnumTipoDocumentoFieldUpdateOperationsInput | $Enums.TipoDocumento
-    ruta?: StringFieldUpdateOperationsInput | string
-    tamaño?: NullableIntFieldUpdateOperationsInput | number | null
-    extension?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaSubida?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaVencimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    titulo?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    contenido?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoDocumentoFieldUpdateOperationsInput | $Enums.TipoDocumento
+    formato?: StringFieldUpdateOperationsInput | string
+    plantilla?: NullableStringFieldUpdateOperationsInput | string | null
+    codigo?: StringFieldUpdateOperationsInput | string
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaExpiracion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    firmado?: BoolFieldUpdateOperationsInput | boolean
     verificado?: BoolFieldUpdateOperationsInput | boolean
-    verificadoPor?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaVerificacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    publico?: BoolFieldUpdateOperationsInput | boolean
-    obligatorio?: BoolFieldUpdateOperationsInput | boolean
+    codigoVerificacion?: NullableStringFieldUpdateOperationsInput | string | null
+    datosAdicionales?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    emisor?: UserUpdateOneRequiredWithoutDocumentosEmitidosNestedInput
   }
 
-  export type DocumentoUncheckedUpdateWithoutUsuarioInput = {
+  export type DocumentoUncheckedUpdateWithoutEstudianteInput = {
     id?: StringFieldUpdateOperationsInput | string
-    nombre?: StringFieldUpdateOperationsInput | string
-    tipo?: EnumTipoDocumentoFieldUpdateOperationsInput | $Enums.TipoDocumento
-    ruta?: StringFieldUpdateOperationsInput | string
-    tamaño?: NullableIntFieldUpdateOperationsInput | number | null
-    extension?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaSubida?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaVencimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    titulo?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    contenido?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoDocumentoFieldUpdateOperationsInput | $Enums.TipoDocumento
+    formato?: StringFieldUpdateOperationsInput | string
+    plantilla?: NullableStringFieldUpdateOperationsInput | string | null
+    codigo?: StringFieldUpdateOperationsInput | string
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaExpiracion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    emisorId?: StringFieldUpdateOperationsInput | string
+    archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    firmado?: BoolFieldUpdateOperationsInput | boolean
     verificado?: BoolFieldUpdateOperationsInput | boolean
-    verificadoPor?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaVerificacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    publico?: BoolFieldUpdateOperationsInput | boolean
-    obligatorio?: BoolFieldUpdateOperationsInput | boolean
+    codigoVerificacion?: NullableStringFieldUpdateOperationsInput | string | null
+    datosAdicionales?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type DocumentoUncheckedUpdateManyWithoutUsuarioInput = {
+  export type DocumentoUncheckedUpdateManyWithoutEstudianteInput = {
     id?: StringFieldUpdateOperationsInput | string
-    nombre?: StringFieldUpdateOperationsInput | string
-    tipo?: EnumTipoDocumentoFieldUpdateOperationsInput | $Enums.TipoDocumento
-    ruta?: StringFieldUpdateOperationsInput | string
-    tamaño?: NullableIntFieldUpdateOperationsInput | number | null
-    extension?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaSubida?: DateTimeFieldUpdateOperationsInput | Date | string
-    fechaVencimiento?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    titulo?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    contenido?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoDocumentoFieldUpdateOperationsInput | $Enums.TipoDocumento
+    formato?: StringFieldUpdateOperationsInput | string
+    plantilla?: NullableStringFieldUpdateOperationsInput | string | null
+    codigo?: StringFieldUpdateOperationsInput | string
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaExpiracion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    emisorId?: StringFieldUpdateOperationsInput | string
+    archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    firmado?: BoolFieldUpdateOperationsInput | boolean
     verificado?: BoolFieldUpdateOperationsInput | boolean
-    verificadoPor?: NullableStringFieldUpdateOperationsInput | string | null
-    fechaVerificacion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    publico?: BoolFieldUpdateOperationsInput | boolean
-    obligatorio?: BoolFieldUpdateOperationsInput | boolean
+    codigoVerificacion?: NullableStringFieldUpdateOperationsInput | string | null
+    datosAdicionales?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentoUpdateWithoutEmisorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    contenido?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoDocumentoFieldUpdateOperationsInput | $Enums.TipoDocumento
+    formato?: StringFieldUpdateOperationsInput | string
+    plantilla?: NullableStringFieldUpdateOperationsInput | string | null
+    codigo?: StringFieldUpdateOperationsInput | string
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaExpiracion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    firmado?: BoolFieldUpdateOperationsInput | boolean
+    verificado?: BoolFieldUpdateOperationsInput | boolean
+    codigoVerificacion?: NullableStringFieldUpdateOperationsInput | string | null
+    datosAdicionales?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    estudiante?: UserUpdateOneWithoutDocumentosEstudianteNestedInput
+  }
+
+  export type DocumentoUncheckedUpdateWithoutEmisorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    contenido?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoDocumentoFieldUpdateOperationsInput | $Enums.TipoDocumento
+    formato?: StringFieldUpdateOperationsInput | string
+    plantilla?: NullableStringFieldUpdateOperationsInput | string | null
+    codigo?: StringFieldUpdateOperationsInput | string
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaExpiracion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    estudianteId?: NullableStringFieldUpdateOperationsInput | string | null
+    archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    firmado?: BoolFieldUpdateOperationsInput | boolean
+    verificado?: BoolFieldUpdateOperationsInput | boolean
+    codigoVerificacion?: NullableStringFieldUpdateOperationsInput | string | null
+    datosAdicionales?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type DocumentoUncheckedUpdateManyWithoutEmisorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    titulo?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    contenido?: StringFieldUpdateOperationsInput | string
+    tipo?: EnumTipoDocumentoFieldUpdateOperationsInput | $Enums.TipoDocumento
+    formato?: StringFieldUpdateOperationsInput | string
+    plantilla?: NullableStringFieldUpdateOperationsInput | string | null
+    codigo?: StringFieldUpdateOperationsInput | string
+    fechaEmision?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaExpiracion?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estado?: StringFieldUpdateOperationsInput | string
+    estudianteId?: NullableStringFieldUpdateOperationsInput | string | null
+    archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    firmado?: BoolFieldUpdateOperationsInput | boolean
+    verificado?: BoolFieldUpdateOperationsInput | boolean
+    codigoVerificacion?: NullableStringFieldUpdateOperationsInput | string | null
+    datosAdicionales?: NullableJsonNullValueInput | InputJsonValue
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PagoUpdateWithoutEstudianteInput = {
@@ -62082,6 +63592,48 @@ export namespace Prisma {
     capacidadMaxima?: NullableIntFieldUpdateOperationsInput | number | null
     requiereInscripcion?: BoolFieldUpdateOperationsInput | boolean
     estado?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AsistenciaUpdateWithoutRegistradoPorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    presente?: BoolFieldUpdateOperationsInput | boolean
+    tardanza?: BoolFieldUpdateOperationsInput | boolean
+    horaLlegada?: NullableStringFieldUpdateOperationsInput | string | null
+    justificada?: BoolFieldUpdateOperationsInput | boolean
+    justificacion?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    estudiante?: UserUpdateOneRequiredWithoutAsistenciasNestedInput
+    curso?: CursoUpdateOneRequiredWithoutAsistenciasNestedInput
+  }
+
+  export type AsistenciaUncheckedUpdateWithoutRegistradoPorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    presente?: BoolFieldUpdateOperationsInput | boolean
+    tardanza?: BoolFieldUpdateOperationsInput | boolean
+    horaLlegada?: NullableStringFieldUpdateOperationsInput | string | null
+    justificada?: BoolFieldUpdateOperationsInput | boolean
+    justificacion?: NullableStringFieldUpdateOperationsInput | string | null
+    estudianteId?: StringFieldUpdateOperationsInput | string
+    cursoId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AsistenciaUncheckedUpdateManyWithoutRegistradoPorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    presente?: BoolFieldUpdateOperationsInput | boolean
+    tardanza?: BoolFieldUpdateOperationsInput | boolean
+    horaLlegada?: NullableStringFieldUpdateOperationsInput | string | null
+    justificada?: BoolFieldUpdateOperationsInput | boolean
+    justificacion?: NullableStringFieldUpdateOperationsInput | string | null
+    estudianteId?: StringFieldUpdateOperationsInput | string
+    cursoId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -62961,10 +64513,12 @@ export namespace Prisma {
     notas?: NotaUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUpdateOneWithoutUserNestedInput
   }
 
@@ -63036,10 +64590,12 @@ export namespace Prisma {
     notas?: NotaUncheckedUpdateManyWithoutEstudianteNestedInput
     asistencias?: AsistenciaUncheckedUpdateManyWithoutEstudianteNestedInput
     matriculas?: MatriculaUncheckedUpdateManyWithoutEstudianteNestedInput
-    documentos?: DocumentoUncheckedUpdateManyWithoutUsuarioNestedInput
+    documentosEstudiante?: DocumentoUncheckedUpdateManyWithoutEstudianteNestedInput
+    documentosEmitidos?: DocumentoUncheckedUpdateManyWithoutEmisorNestedInput
     pagos?: PagoUncheckedUpdateManyWithoutEstudianteNestedInput
     anunciosCreados?: AnuncioUncheckedUpdateManyWithoutAutorNestedInput
     eventosCreados?: EventoUncheckedUpdateManyWithoutOrganizadorNestedInput
+    asistenciasRegistradas?: AsistenciaUncheckedUpdateManyWithoutRegistradoPorNestedInput
     passwordResetToken?: PasswordResetTokenUncheckedUpdateOneWithoutUserNestedInput
   }
 
@@ -63475,7 +65031,7 @@ export namespace Prisma {
     justificada?: boolean
     justificacion?: string | null
     estudianteId: string
-    registradoPor?: string | null
+    registradoPorId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -63618,10 +65174,10 @@ export namespace Prisma {
     horaLlegada?: NullableStringFieldUpdateOperationsInput | string | null
     justificada?: BoolFieldUpdateOperationsInput | boolean
     justificacion?: NullableStringFieldUpdateOperationsInput | string | null
-    registradoPor?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     estudiante?: UserUpdateOneRequiredWithoutAsistenciasNestedInput
+    registradoPor?: UserUpdateOneWithoutAsistenciasRegistradasNestedInput
   }
 
   export type AsistenciaUncheckedUpdateWithoutCursoInput = {
@@ -63633,7 +65189,7 @@ export namespace Prisma {
     justificada?: BoolFieldUpdateOperationsInput | boolean
     justificacion?: NullableStringFieldUpdateOperationsInput | string | null
     estudianteId?: StringFieldUpdateOperationsInput | string
-    registradoPor?: NullableStringFieldUpdateOperationsInput | string | null
+    registradoPorId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -63647,7 +65203,7 @@ export namespace Prisma {
     justificada?: BoolFieldUpdateOperationsInput | boolean
     justificacion?: NullableStringFieldUpdateOperationsInput | string | null
     estudianteId?: StringFieldUpdateOperationsInput | string
-    registradoPor?: NullableStringFieldUpdateOperationsInput | string | null
+    registradoPorId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

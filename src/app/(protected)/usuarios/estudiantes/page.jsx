@@ -4,7 +4,7 @@ import { getStudents } from "@/action/estudiante/estudiante";
 import EstudianteTable from "@/components/usuarios/estudiante/table/estudiante-table";
 
 export default async function EstudiantePage() {
-  const estudiantes = await getStudents();
+  const { data: estudiantes } = await getStudents();
   const { data: niveles } = await getNivelesAcademicos();
   
   const { data: instituciones = [] } = await getInstituciones();
